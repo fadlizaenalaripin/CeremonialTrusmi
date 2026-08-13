@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ceremonial Dashboard - Executive Overview 2026</title>
+  <meta name="description" content="Dashboard Ceremonial Interaktif - Sales, KPI, OKR, Complain, & Milestone Tracking">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="dark-theme">
+  <!-- Background Glow & Animated Particles Container -->
+  <div class="bg-glow bg-glow-1"></div>
+  <div class="bg-glow bg-glow-2"></div>
+  <div class="bg-glow bg-glow-3"></div>
+
+  <div class="app-layout">
+    <!-- Top Navigation Header -->
+    <header class="top-header">
+      <div class="header-brand">
+        <div class="brand-logo">
+          <i data-lucide="crown" class="logo-icon"></i>
+        </div>
+        <div class="brand-titles">
+          <h1>CEREMONIAL DASHBOARD</h1>
+          <span class="brand-subtitle">Executive Performance & Milestone Portal 2026</span>
+        </div>
+      </div>
+
+      <div class="header-controls">
+        <div class="time-display" id="liveClock">
+          <i data-lucide="clock" class="icon-sm"></i>
+          <span id="clockTime">--:--:--</span>
+        </div>
+
+        <div class="period-selector">
+          <i data-lucide="calendar" class="icon-sm"></i>
+          <select id="periodSelect">
+            <option value="ytd2026">YTD 2026</option>
+            <option value="q3_2026" selected>Q3 2026</option>
+            <option value="q2_2026">Q2 2026</option>
+            <option value="q1_2026">Q1 2026</option>
+          </select>
+        </div>
+
+        <button class="btn-ceremony" id="btnCelebrate" title="Rayakan Pencapaian!">
+          <i data-lucide="sparkles" class="icon-sparkle"></i>
+          <span>Selebrasi!</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Container with Sidebar Navigation + Content Area -->
+    <div class="main-body">
+      <!-- Left Navigation Menu -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">KATEGORI UTAMA</div>
+
+        <ul class="nav-list">
+          <!-- 1. Sales YTD -->
+          <li class="nav-item">
+            <button class="nav-link active" data-category="sales-ytd" id="nav-sales-ytd">
+              <div class="nav-icon-wrapper sales-theme">
+                <i data-lucide="trending-up"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">Sales YTD</span>
+                <span class="nav-badge direct">Direct View</span>
+              </div>
+            </button>
+          </li>
+
+          <!-- 2. KPI Performance (with Subcategories) -->
+          <li class="nav-item has-sub">
+            <button class="nav-link nav-parent" data-category="kpi-performance" id="nav-kpi-performance">
+              <div class="nav-icon-wrapper kpi-theme">
+                <i data-lucide="award"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">KPI Performance</span>
+                <span class="nav-badge count">2 Sub</span>
+              </div>
+              <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </button>
+            <ul class="sub-nav-list" id="subnav-kpi">
+              <li>
+                <button class="sub-link" data-category="kpi-performance" data-sub="kpi-bt" id="nav-kpi-bt">
+                  <span class="dot-indicator"></span>
+                  <span>KPI BT</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="kpi-performance" data-sub="kpi-tkb" id="nav-kpi-tkb">
+                  <span class="dot-indicator"></span>
+                  <span>KPI TKB</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 3. Head to Head (Direct View) -->
+          <li class="nav-item">
+            <button class="nav-link" data-category="head-to-head" id="nav-head-to-head">
+              <div class="nav-icon-wrapper h2h-theme">
+                <i data-lucide="swords"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">Head to Head</span>
+                <span class="nav-badge direct">Direct View</span>
+              </div>
+            </button>
+          </li>
+
+          <!-- 4. OKR (with Subcategories) -->
+          <li class="nav-item has-sub">
+            <button class="nav-link nav-parent" data-category="okr" id="nav-okr">
+              <div class="nav-icon-wrapper okr-theme">
+                <i data-lucide="target"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">OKR</span>
+                <span class="nav-badge count">4 Sub</span>
+              </div>
+              <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </button>
+            <ul class="sub-nav-list" id="subnav-okr">
+              <li>
+                <button class="sub-link" data-category="okr" data-sub="okr-bt" id="nav-okr-bt">
+                  <span class="dot-indicator"></span>
+                  <span>OKR BT</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="okr" data-sub="okr-tkb" id="nav-okr-tkb">
+                  <span class="dot-indicator"></span>
+                  <span>OKR TKB</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="okr" data-sub="okr-prodev" id="nav-okr-prodev">
+                  <span class="dot-indicator"></span>
+                  <span>OKR PRODEV</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="okr" data-sub="okr-produksi" id="nav-okr-produksi">
+                  <span class="dot-indicator"></span>
+                  <span>OKR PRODUKSI</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 5. Complain (with Subcategories) -->
+          <li class="nav-item has-sub">
+            <button class="nav-link nav-parent" data-category="complain" id="nav-complain">
+              <div class="nav-icon-wrapper complain-theme">
+                <i data-lucide="message-square-warning"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">Complain</span>
+                <span class="nav-badge count">2 Sub</span>
+              </div>
+              <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </button>
+            <ul class="sub-nav-list" id="subnav-complain">
+              <li>
+                <button class="sub-link" data-category="complain" data-sub="complain-bt" id="nav-complain-bt">
+                  <span class="dot-indicator"></span>
+                  <span>Complain BT</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="complain" data-sub="complain-tkb" id="nav-complain-tkb">
+                  <span class="dot-indicator"></span>
+                  <span>Complain TKB</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+
+          <!-- 6. Milestone (with Subcategories) -->
+          <li class="nav-item has-sub">
+            <button class="nav-link nav-parent" data-category="milestone" id="nav-milestone">
+              <div class="nav-icon-wrapper milestone-theme">
+                <i data-lucide="milestone"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title">Milestone</span>
+                <span class="nav-badge count">2 Sub</span>
+              </div>
+              <i data-lucide="chevron-down" class="chevron-icon"></i>
+            </button>
+            <ul class="sub-nav-list" id="subnav-milestone">
+              <li>
+                <button class="sub-link" data-category="milestone" data-sub="milestone-bt" id="nav-milestone-bt">
+                  <span class="dot-indicator"></span>
+                  <span>Milestone BT</span>
+                </button>
+              </li>
+              <li>
+                <button class="sub-link" data-category="milestone" data-sub="milestone-tkb" id="nav-milestone-tkb">
+                  <span class="dot-indicator"></span>
+                  <span>Milestone TKB</span>
+                </button>
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <!-- Sidebar Summary Widget -->
+        <div class="sidebar-summary-card">
+          <div class="summary-card-header">
+            <i data-lucide="shield-check" class="summary-icon"></i>
+            <span>Health Index</span>
+          </div>
+          <div class="summary-score">96.4%</div>
+          <div class="summary-progress-bar">
+            <div class="bar-fill" style="width: 96.4%"></div>
+          </div>
+          <div class="summary-footer">Performa Operasional Prima</div>
+        </div>
+      </nav>
+
+      <!-- Main Content Viewport -->
+      <main class="content-viewport" id="contentViewport">
+        <!-- Content headers and sub-tabs are dynamically updated -->
+        <div class="content-header-bar">
+          <div class="header-path">
+            <span class="path-root" id="currentCategoryTitle">Sales YTD</span>
+            <i data-lucide="chevron-right" class="path-divider" id="pathDivider"></i>
+            <span class="path-sub" id="currentSubTitle" style="display:none;"></span>
+          </div>
+
+          <!-- Dynamic Subcategory Pills Header (visible when a category has subcategories) -->
+          <div class="sub-pills-bar" id="subPillsBar" style="display:none;">
+            <!-- Rendered by JS -->
+          </div>
+
+          <div class="content-actions">
+            <div class="search-box">
+              <i data-lucide="search"></i>
+              <input type="text" id="searchInput" placeholder="Cari metric, OKR, ticket, milestone...">
+            </div>
+            <button class="btn-refresh" id="btnRefreshData" title="Refresh Data">
+              <i data-lucide="rotate-cw"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Dynamic Page Render Target -->
+        <div class="dynamic-container" id="dynamicContent">
+          <!-- Views will be injected via app.js -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal">
+    <div class="modal-card">
+      <button class="modal-close" id="modalCloseBtn">
+        <i data-lucide="x"></i>
+      </button>
+      <div class="modal-header" id="modalHeader">
+        <!-- Injected -->
+      </div>
+      <div class="modal-body" id="modalBody">
+        <!-- Injected -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="modalActionClose">Tutup</button>
+        <button class="btn-primary" id="modalActionCelebrate">
+          <i data-lucide="sparkles"></i> Celebrate Achievement
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+
+</html>

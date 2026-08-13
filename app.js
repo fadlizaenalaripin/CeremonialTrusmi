@@ -758,10 +758,61 @@ document.addEventListener('DOMContentLoaded', () => {
   initClock();
   initLucide();
   bindNavigationEvents();
+  bindMobileNavEvents();
   bindHeaderControls();
   bindModalEvents();
   renderCurrentView();
 });
+
+function bindMobileNavEvents() {
+  const toggleBtn = document.getElementById('mobileNavToggle');
+  const sidebar = document.querySelector('.sidebar-nav');
+  const overlay = document.getElementById('sidebarOverlay');
+  const icon = document.getElementById('hamburgerIcon');
+
+  function closeMobileNav() {
+    if (sidebar) sidebar.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+    if (icon) {
+      icon.setAttribute('data-lucide', 'menu');
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+
+  function openMobileNav() {
+    if (sidebar) sidebar.classList.add('active');
+    if (overlay) overlay.classList.add('active');
+    if (icon) {
+      icon.setAttribute('data-lucide', 'x');
+      if (window.lucide) window.lucide.createIcons();
+    }
+  }
+
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = sidebar && sidebar.classList.contains('active');
+      if (isOpen) {
+        closeMobileNav();
+      } else {
+        openMobileNav();
+      }
+    });
+  }
+
+  if (overlay) {
+    overlay.addEventListener('click', closeMobileNav);
+  }
+
+  document.querySelectorAll('.nav-link, .sub-link').forEach(el => {
+    el.addEventListener('click', () => {
+      const parentItem = el.closest('.nav-item');
+      if (!parentItem || !parentItem.classList.contains('has-sub') || el.classList.contains('sub-link')) {
+        closeMobileNav();
+      }
+    });
+  });
+}
 
 function initLucide() {
   if (window.lucide) {
@@ -1054,23 +1105,21 @@ function renderSalesYTD() {
         <span>Scorecard Sales YTD Per Divisi / Channel (Growth % Pada Circular Ring Chart)</span>
       </div>
 
-      <div style="display:flex; flex-wrap:wrap; gap:14px;">
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
         ${branchesWithShare.map(b => {
           const isSelected = selectedBranchId === b.id;
           const isPositive = b.growth2026 >= 0;
           const growthColor = isPositive ? '#10B981' : '#EF4444';
           const growthText = (isPositive ? '+' : '') + b.growth2026 + '%';
           const absGrowth = Math.min(Math.abs(b.growth2026), 100);
-          const strokeOffset = (163.36 * (1 - Math.max(absGrowth, 15) / 100)).toFixed(2);
           const jul2026Val = realSalesData.sales2026[b.id] ? realSalesData.sales2026[b.id][6] : 0;
 
           return `
             <div onclick="window.updateBranchChartFilter('${b.id}')"
-                 style="flex: 1 1 calc(25% - 14px); min-width: 270px;
-                        background:${isSelected ? 'rgba(245, 158, 11, 0.14)' : 'var(--bg-card)'};
+                 style="background:${isSelected ? 'rgba(245, 158, 11, 0.14)' : 'var(--bg-card)'};
                         border: 2px solid ${isSelected ? 'var(--accent-gold)' : b.color + '60'};
                         box-shadow: ${isSelected ? '0 0 16px rgba(245, 158, 11, 0.3)' : 'none'};
-                        border-radius: var(--radius-md); padding: 16px 20px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
+                        border-radius: var(--radius-md); padding: 14px 16px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
                  title="Klik untuk filter grafik divisi ${b.name}">
               
               <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: ${b.color};"></div>
@@ -1145,9 +1194,12 @@ function renderSalesYTD() {
           </select>
         </div>
       </div>
-      <div class="chart-wrapper" style="height: 380px;">
-        <canvas id="realSalesTrendChart"></canvas>
+      <div class="chart-scroll-wrapper">
+        <div class="chart-wrapper" style="height: 350px; position: relative;">
+          <canvas id="realSalesTrendChart"></canvas>
+        </div>
       </div>
+
     </div>
 
     <!-- Real Sales Matrix Table per Branch (2026 vs 2025) -->
@@ -1406,6 +1458,7 @@ function initSalesCharts() {
       id: 'barValueLabels',
       afterDatasetsDraw(chart) {
         const { ctx } = chart;
+        const isSmallScreen = chart.width < 500 || window.innerWidth < 600;
         chart.data.datasets.forEach((dataset, datasetIndex) => {
           if (dataset.type === 'bar') {
             const meta = chart.getDatasetMeta(datasetIndex);
@@ -1416,11 +1469,11 @@ function initSalesCharts() {
               
               let formattedNominal = '';
               if (rawVal >= 1000000000) {
-                formattedNominal = 'Rp ' + (rawVal / 1000000000).toFixed(2).replace('.', ',') + ' M';
+                formattedNominal = (isSmallScreen ? '' : 'Rp ') + (rawVal / 1000000000).toFixed(1).replace('.', ',') + 'M';
               } else if (rawVal >= 1000000) {
-                formattedNominal = 'Rp ' + (rawVal / 1000000).toFixed(2).replace('.', ',') + ' Jt';
+                formattedNominal = (isSmallScreen ? '' : 'Rp ') + (rawVal / 1000000).toFixed(0).replace('.', ',') + 'Jt';
               } else {
-                formattedNominal = 'Rp ' + rawVal;
+                formattedNominal = '' + rawVal;
               }
 
               let growthStr = '';
@@ -1434,19 +1487,21 @@ function initSalesCharts() {
               ctx.textBaseline = 'middle';
               
               const barHeight = Math.abs(bar.base - bar.y);
-              const centerY = barHeight > 45 ? (bar.y + bar.base) / 2 : bar.y - 18;
+              const centerY = barHeight > 45 ? (bar.y + bar.base) / 2 : bar.y - 16;
+              const fontSize = isSmallScreen ? 9 : 11;
+              const subFontSize = isSmallScreen ? 8 : 10;
 
               // Draw nominal text inside/above bar
               ctx.fillStyle = '#FFFFFF';
-              ctx.font = 'bold 11px "Plus Jakarta Sans", sans-serif';
-              ctx.fillText(formattedNominal, bar.x, centerY - 6);
+              ctx.font = `bold ${fontSize}px "Plus Jakarta Sans", sans-serif`;
+              ctx.fillText(formattedNominal, bar.x, centerY - (growthStr ? 5 : 0));
 
               // Draw growth % text inside/above bar
               if (growthStr) {
                 const isPositive = growthStr.startsWith('+');
                 ctx.fillStyle = isPositive ? '#A7F3D0' : '#FCA5A5';
-                ctx.font = 'bold 10px "Plus Jakarta Sans", sans-serif';
-                ctx.fillText(growthStr, bar.x, centerY + 8);
+                ctx.font = `bold ${subFontSize}px "Plus Jakarta Sans", sans-serif`;
+                ctx.fillText(growthStr, bar.x, centerY + (isSmallScreen ? 6 : 8));
               }
               
               ctx.restore();
@@ -1580,9 +1635,15 @@ window.showBranchSalesModal = function(branchId) {
   );
 };
 
-// --------------------------------------------------------------------------
-// VIEW 2: KPI PERFORMANCE
-// --------------------------------------------------------------------------
+// Helper function to render Unit Logo (Batik Trusmi or The Keranjang Bali)
+function getUnitLogoHtml(subId, height = 30) {
+  const isTkb = subId && (subId.toLowerCase().includes('tkb'));
+  if (isTkb) {
+    return `<img src="asset/keranjang bali.png" alt="The Keranjang Bali" style="height:${height}px; width:auto; object-fit:contain; vertical-align:middle; filter:drop-shadow(0 0 6px rgba(6,182,212,0.4));" />`;
+  }
+  return `<img src="asset/bt trusmi logo.webp" alt="BT Batik Trusmi" style="height:${height}px; width:auto; object-fit:contain; vertical-align:middle; filter:drop-shadow(0 0 6px rgba(245,158,11,0.4));" />`;
+}
+
 function getAcvPillHtml(acvVal) {
   const num = parseFloat(acvVal);
   if (isNaN(num)) return `<span class="status-pill status-at-risk">-</span>`;
@@ -1655,8 +1716,8 @@ function renderKPIPerformance() {
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
         <div>
           <h2 style="font-size:1.25rem; font-weight:800; color:#FFF; display:flex; align-items:center; gap:10px; margin:0;">
-            <i data-lucide="crown" style="color:var(--accent-gold);"></i>
-            Header Scorecard KPI Juli 2026 — ${unitData.unitName}
+            ${getUnitLogoHtml(subId, 32)}
+            <span>Header Scorecard KPI Juli 2026 — ${unitData.unitName}</span>
           </h2>
           <p style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
             Skor Terbobot Konsolidasi Overall: <strong style="color:var(--accent-gold); font-size:1.05rem;">${unitData.overallScore}%</strong>
@@ -1679,7 +1740,7 @@ function renderKPIPerformance() {
       </div>
 
       <!-- 7 Kartu Ringkas Header Scorecard (Klik Kartu untuk Filter Langsung) -->
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:10px;">
+      <div class="kpi-scorecard-grid">
         ${unitData.scorecard.map((c) => {
           const isSelected = selectedDeptFilter === c.id;
           return `
@@ -1687,7 +1748,7 @@ function renderKPIPerformance() {
                  style="background:${isSelected ? 'rgba(245, 158, 11, 0.18)' : 'var(--bg-card)'}; 
                         border:2px solid ${isSelected ? 'var(--accent-gold)' : c.color + '50'}; 
                         box-shadow: ${isSelected ? '0 0 12px rgba(245, 158, 11, 0.4)' : 'none'};
-                        border-radius:var(--radius-md); padding:12px; cursor:pointer; transition:all 0.2s ease; position:relative; overflow:hidden;"
+                        border-radius:var(--radius-md); padding:10px 12px; cursor:pointer; transition:all 0.2s ease; position:relative; overflow:hidden;"
                  title="Klik untuk filter departemen ${c.name}">
               <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:${c.color};"></div>
               <div style="font-size:0.72rem; color:${isSelected ? 'var(--accent-gold)' : 'var(--text-secondary)'}; font-weight:700; margin-bottom:6px; line-height:1.2; display:flex; justify-content:space-between; align-items:center;">
@@ -1695,7 +1756,7 @@ function renderKPIPerformance() {
                 ${isSelected ? '<i data-lucide="check-circle-2" style="width:12px; height:12px; color:var(--accent-gold);"></i>' : ''}
               </div>
               <div style="display:flex; align-items:baseline; justify-content:space-between;">
-                <span style="font-size:1.5rem; font-weight:800; color:${c.color}; font-family:monospace;">${c.score}%</span>
+                <span style="font-size:1.4rem; font-weight:800; color:${c.color}; font-family:monospace;">${c.score}%</span>
                 <span class="status-pill ${c.badgeClass}" style="font-size:0.6rem; padding:1px 6px;">
                   ${c.level === 'high' ? 'Hijau' : (c.level === 'medium' ? 'Kuning' : 'Merah')}
                 </span>
@@ -1707,7 +1768,7 @@ function renderKPIPerformance() {
     </div>
 
     <!-- RED FLAG PANEL & TRACKER (Layout Kompak 2 Kolom Jika 'All', atau Full Per Departemen) -->
-    <div style="display:grid; grid-template-columns: ${filteredRedFlags.length > 0 && filteredViolations.length > 0 ? '1fr 1fr' : '1fr'}; gap:16px; margin-bottom:20px;">
+    <div class="red-flag-grid">
       
       <!-- RED FLAG PANEL (%ACV < 70%) -->
       ${filteredRedFlags.length > 0 ? `
@@ -2844,8 +2905,9 @@ function renderOKRView() {
       <!-- Top Control & Filter Header -->
       <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
         <div>
-          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:8px; margin:0;">
-            <i data-lucide="target" style="color:var(--accent-gold);"></i> Dashboard OKR Proyek Executive
+          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
+            ${getUnitLogoHtml('okr-bt', 32)}
+            <span>Dashboard OKR Proyek Executive — Batik Trusmi (BT)</span>
           </h2>
           <p style="color:var(--text-secondary); font-size:0.8rem; margin:4px 0 0 0;">
             Monitoring Status Progress OKR (Premium Cirebon, Premium Jakarta, & The Keranjang Bali)
@@ -3300,8 +3362,9 @@ function renderTKBOKRView() {
       <!-- Header -->
       <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
         <div>
-          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:8px; margin:0;">
-            <i data-lucide="target" style="color:var(--accent-gold);"></i> OKR Dashboard — The Keranjang Bali (TKB) 🏝️
+          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
+            ${getUnitLogoHtml('okr-tkb', 32)}
+            <span>OKR Dashboard — The Keranjang Bali (TKB)</span>
           </h2>
           <p style="color:var(--text-secondary); font-size:0.8rem; margin:4px 0 0 0;">
             Monitoring Status OKR TKB — Juli 2026 | CCP Klausul: Late > Denda Rp200.000 / KR
@@ -4291,9 +4354,12 @@ function renderMilestoneView() {
         
         <!-- Banner Header -->
         <div style="background:${bannerBg};color:#FFF;padding:14px 20px;display:flex;justify-content:space-between;align-items:center;">
-          <div>
-            <h3 style="margin:0;font-size:1.1rem;font-weight:900;letter-spacing:0.5px;">${bannerTitle}</h3>
-            <div style="font-size:0.8rem;opacity:0.9;margin-top:2px;">${bannerSub}</div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            ${getUnitLogoHtml(subId, 34)}
+            <div>
+              <h3 style="margin:0;font-size:1.1rem;font-weight:900;letter-spacing:0.5px;">${bannerTitle}</h3>
+              <div style="font-size:0.8rem;opacity:0.9;margin-top:2px;">${bannerSub}</div>
+            </div>
           </div>
           <span style="font-size:0.78rem;background:rgba(0,0,0,0.25);padding:4px 12px;border-radius:4px;font-weight:700;">Periode 2026</span>
         </div>

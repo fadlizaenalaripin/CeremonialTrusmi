@@ -36,13 +36,21 @@
   <div class="app-layout">
     <!-- Top Navigation Header -->
     <header class="top-header">
-      <div class="header-brand">
-        <div class="brand-logo">
-          <i data-lucide="crown" class="logo-icon"></i>
-        </div>
-        <div class="brand-titles">
-          <h1>CEREMONIAL DASHBOARD</h1>
-          <span class="brand-subtitle">Executive Performance & Milestone Portal 2026</span>
+      <div class="header-left-group" style="display:flex; align-items:center; gap:10px;">
+        <button class="btn-hamburger" id="mobileNavToggle" title="Buka Menu Navigasi" aria-label="Toggle Navigation">
+          <i data-lucide="menu" id="hamburgerIcon"></i>
+        </button>
+
+        <div class="header-brand" style="display:flex; align-items:center; gap:12px;">
+          <div class="brand-logos-container" style="display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.04); padding:4px 8px; border-radius:12px; border:1px solid rgba(255,255,255,0.1);">
+            <img src="asset/bt trusmi logo.webp" alt="BT Batik Trusmi Logo" style="height:36px; width:auto; object-fit:contain; filter:drop-shadow(0 0 6px rgba(245,158,11,0.3));" />
+            <div style="width:1px; height:22px; background:rgba(255,255,255,0.2);"></div>
+            <img src="asset/keranjang bali.png" alt="The Keranjang Bali Logo" style="height:36px; width:auto; object-fit:contain; filter:drop-shadow(0 0 6px rgba(6,182,212,0.3));" />
+          </div>
+          <div class="brand-titles">
+            <h1>CEREMONIAL DASHBOARD</h1>
+            <span class="brand-subtitle">Executive Performance & Milestone Portal 2026 — Batik Trusmi & The Keranjang Bali</span>
+          </div>
         </div>
       </div>
 
@@ -68,6 +76,9 @@
         </button>
       </div>
     </header>
+
+    <!-- Overlay backdrop for mobile drawer navigation -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <!-- Main Container with Sidebar Navigation + Content Area -->
     <div class="main-body">

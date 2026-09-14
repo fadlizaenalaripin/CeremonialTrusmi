@@ -52,7 +52,7 @@ const realSalesData = {
     { id: 'cirebon', name: 'Batik Trusmi Cirebon', ytd2026: 44440626864, growth2026: -5.7, janJul2025: 47110091130, total2025: 72290172300, color: '#10B981' },
     { id: 'bali', name: 'The Keranjang Bali', ytd2026: 37663414426, growth2026: -21.1, janJul2025: 47727396264, total2025: 69927082478, color: '#06B6D4' },
     { id: 'ecommerce', name: 'E-Commerce', ytd2026: 4226676060, growth2026: 3.0, janJul2025: 4103027194, total2025: 6163885348, color: '#6366F1' },
-    { id: 'b2b', name: 'B2B Sales', ytd2026: 2885932921, growth2026: 105.7, janJul2025: 1402798530, total2025: 2659742404, color: '#8B5CF6' },
+    { id: 'b2b', name: 'B2B', ytd2026: 2885932921, growth2026: 100, janJul2025: 1402798530, total2025: 2659742404, color: '#8B5CF6' },
     { id: 'medan', name: 'Batik Trusmi Medan', ytd2026: 1347384832, growth2026: -14.2, janJul2025: 1570222216, total2025: 2374344178, color: '#F59E0B' },
     { id: 'lounge', name: 'Batik Trusmi Lounge', ytd2026: 824715410, growth2026: 21.2, janJul2025: 680545300, total2025: 1125895987, color: '#EC4899' },
     { id: 'jakarta', name: 'Batik Trusmi Jakarta', ytd2026: 907812088, growth2026: -33.1, janJul2025: 1357533790, total2025: 2110907540, color: '#3B82F6' }
@@ -106,7 +106,8 @@ function getBranchSalesMetrics(branchId, selectedMonth = 'all') {
   if (selectedMonth === 'all') {
     const val2026 = rows2026.slice(0, 8).reduce((sum, v) => sum + v, 0);
     const val2025 = rows2025.slice(0, 8).reduce((sum, v) => sum + v, 0);
-    const growth = val2025 > 0 ? parseFloat((((val2026 - val2025) / val2025) * 100).toFixed(1)) : 0;
+    const rawGrowth = val2025 > 0 ? parseFloat((((val2026 - val2025) / val2025) * 100).toFixed(1)) : 0;
+    const growth = Math.min(rawGrowth, 100);
     const augustVal = rows2026[7] || 0;
     return {
       name: branch ? branch.name : '',
@@ -123,7 +124,8 @@ function getBranchSalesMetrics(branchId, selectedMonth = 'all') {
     const mIdx = parseInt(selectedMonth, 10);
     const val2026 = rows2026[mIdx] || 0;
     const val2025 = rows2025[mIdx] || 0;
-    const growth = val2025 > 0 ? parseFloat((((val2026 - val2025) / val2025) * 100).toFixed(1)) : 0;
+    const rawGrowth = val2025 > 0 ? parseFloat((((val2026 - val2025) / val2025) * 100).toFixed(1)) : 0;
+    const growth = Math.min(rawGrowth, 100);
     const monthName = realSalesData.months[mIdx];
     return {
       name: branch ? branch.name : '',
@@ -460,7 +462,7 @@ const mockData = {
           footnotes: [
             'Laporan real data KPI Head Batik Trusmi (BT) periode Agustus 2026.',
             'Target Hitrate Sales Store 27% tercapai 28% (100% ACV).',
-            'B2B Sales melebih target dengan pencapaian Rp 612.671.410 (100% ACV).'
+            'B2B melebihi target dengan pencapaian Rp 612.671.410 (100% ACV).'
           ],
           starPerformers: [
             { name: 'Tim Operational BT', role: 'Store Operations & Kasir', award: 'Operational Excellence (100.0%)', unit: 'BT Retail' },
@@ -2013,7 +2015,7 @@ function renderSalesYTD() {
       <div class="chart-card-header" style="background: rgba(139, 92, 246, 0.12); padding: 14px 18px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); display:flex; justify-content:space-between; align-items:center;">
         <div class="chart-card-title">
           <i data-lucide="badge-dollar-sign" style="color: #8B5CF6; width: 22px; height: 22px;"></i>
-          <span style="font-size: 1.05rem; font-weight: 800; color: #FFF;">Detail Laporan B2B Sales YTD: ACV Sales & Cash In (2025 vs 2026)</span>
+          <span style="font-size: 1.05rem; font-weight: 800; color: #FFF;">Detail Laporan B2B YTD: ACV Sales & Cash In (2025 vs 2026)</span>
         </div>
         <span class="status-pill status-achieved" style="font-size: 0.78rem; background: rgba(139, 92, 246, 0.25); color: #C4B5FD; border: 1px solid #8B5CF6;">
           <i data-lucide="trending-up" style="width:13px; height:13px; display:inline;"></i> +105.7% YoY Growth ACV
@@ -3782,44 +3784,45 @@ const produksiOKRData = {
               id: 'BF-1.1', category: 'Percepatan Proses Produksi',
               name: 'Meningkatkan Leadtime Produksi ke 95%',
               targetOutput: 'Output Produksi di 5000 pcs',
-              targetOutcome: 'Bisa menyelesaikan PO online 95%',
-              deadline: '31 Juli 2026',
+              targetOutcome: 'Bisa menyelesaikan PO ontime 95%',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'BF-1.1.1', title: 'Pembuatan dan menerapkan Finite Capacity Planning System (Planing berbasis kapasitas real)', output: 'Kesesuaian planing dengan actual di 98%', deadline: 'Sabtu, 4 Jul 2026', status: 'Progress', actual: 'Sementara masih menggunakan spreadsheet. Sistem planning di sistem fabrikasi masih dalam antrian proses perbaikan.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-1.1.2', title: 'Membangun Production Control Tower Dashboard untuk monitoring seluruh PO', output: 'Dashboard berjalan 100%', deadline: 'Sabtu, 11 Jul 2026', status: 'Progress', actual: 'Sementara masih menggunakan spreadsheet. Sistem planning di sistem fabrikasi masih dalam antrian proses perbaikan.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-1.1.3', title: 'Menambah man power pembatik sebanyak 3 orang', output: '3 orang pembatik join', deadline: 'Jumat, 31 Jul 2026', status: 'Progress', actual: 'Selesai 2 orang batik. 1 orang pembatik dari tim leader ibu Elisa.', link: 'OKR PRODUCTION BT' }
+                { code: 'BF-1.1.1', title: 'Menyusun Capacity Planning mingguan berdasarkan PO, forecast, manpower dan kapasitas mesin', output: 'Capacity Planning tersedia dan tervalidasi', deadline: '10 Agustus 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
+                { code: 'BF-1.1.2', title: 'Membuat Capacity Loading berdasarkan kapasitas Available, Booked dan Idle', output: 'Capacity Loading mingguan tersedia 100%', deadline: '10 Agustus 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
+                { code: 'BF-1.1.3', title: 'Membuat dashboard monitoring Capacity Booking Rate', output: 'Dashboard Capacity aktif dan update 100% hari kerja', deadline: '29 Agustus 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Masih on progres develop perbaikan untuk kesesuaian data' }
               ]
             },
             {
               id: 'BF-1.2', category: 'Percepatan Proses Produksi',
               name: 'Menjaga Stabilitas Ontime Delivery Rate di 95%',
               targetOutput: 'Ontime Delivery Rate stabil di 200 pcs/hari',
-              targetOutcome: 'Bisa menyelesaikan PO online 95%',
-              deadline: '31 Juli 2026',
+              targetOutcome: 'Bisa menyelesaikan PO ontime 95%',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'BF-1.2.1', title: 'Mendesain ulang alur proses produksi (Value Stream Mapping) untuk menghilangkan bottleneck', output: 'Waktu tunggu per pos under 3 hari', deadline: 'Sabtu, 25 Jul 2026', status: 'Progress', actual: 'Terdapat 1 tim leader tambahan untuk mengejar produksi reguler.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-1.2.2', title: 'Membangun sistem penjadwalan produksi berbasis prioritas due date', output: 'Terdapat sistem warning H-14 dan H-7', deadline: 'Kamis, 9 Jul 2026', status: 'Progress', actual: 'Sementara masih menggunakan spreadsheet. Sistem planning di sistem fabrikasi masih dalam antrian proses perbaikan.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-1.2.3', title: 'Trial produksi dengan canting elektrik', output: 'Mengetahui produktivitas canting elektrik', deadline: 'Rabu, 8 Jul 2026', status: 'Progress', actual: 'Canting elektrik dirasa lebih cepat pegal untuk digunakan, karena bagian selang masih terlalu besar.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-1.2.4', title: 'Trial pelorodan dengan sprad mesin lorod', output: 'Mengetahui produktivitas mesin', deadline: 'Kamis, 30 Jul 2026', status: 'Progress', actual: 'Bagian atas & tengah (posisi dalam lipatan) masih terdapat malam. Hasil lorod masih belum optimal, perlu perbaikan teknis.', link: 'OKR PRODUCTION BT' }
+                { code: 'BF-1.2.1', title: 'Melakukan review kapasitas produksi dan forecast 4 minggu ke depan', output: 'Rolling Capacity Forecast tersedia', deadline: '15 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-1.2.2', title: 'Menetapkan Production Priority berdasarkan due date, customer priority dan material readiness', output: '100% order critical memiliki priority plan', deadline: '12 Agustus 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
+                { code: 'BF-1.2.3', title: 'Membuat Early Warning H-2 untuk order yang berisiko terlambat', output: '100% order H-2 termonitor', deadline: '10 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-1.2.4', title: 'Membuat skema Fast Track Order untuk order critical', output: '100% order critical memiliki prioritas dan jalur eskalasi', deadline: '12 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' }
               ]
             },
             {
               id: 'BF-2.1', category: 'Perbaikan Kualitas Reject',
-              name: 'Menurunkan angka reject hingga ke 5%',
-              targetOutput: 'Perbaikan proses pre-production & % Reject Critical menurun',
-              targetOutcome: 'Perbaikan proses pre-production',
-              deadline: '31 Juli 2026',
+              name: 'Menurunkan angka reject hingga ke <5%.',
+              targetOutput: 'Perbaikan proses pre-production, produksi, & post production',
+              targetOutcome: '% Reject Critical menurun',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'BF-2.1.1', title: 'Cuci kain mori dengan pH 7 divalidasi dengan tes lugol', output: 'Mengetahui pengaruh kanji pada kain', deadline: 'Jumat, 24 Jul 2026', status: 'Progress', actual: 'Sudah dilakukan untuk kain viscose & baron. Hasilnya: produk lebih halus & lebih menyerap warna.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.2', title: 'Cuci kain dobi dengan TRO untuk mehindari warna tidak rata', output: 'Mengetahui pengaruh air terhadap penyerapan warna', deadline: 'Kamis, 30 Jul 2026', status: 'Progress', actual: 'Hasil sama dapat dilihat di tgl 3 Agustus, saat ini masih proses fiksasi warna.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.3', title: 'Cuci kain dobi dengan Soda Ash & cuci panas (warna indigosol)', output: 'Mengetahui pengaruh sisa zat impurities pada kain dobi', deadline: 'Kamis, 30 Jul 2026', status: 'Progress', actual: 'Kain yg dicuci terlebih dahulu, setelah selesai proses pewarnaan menjadi lebih lembut & secara warna lebih rata (warna indigosol).', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.4', title: 'Material Dyestuff: Komposisi dyestuff vs leveling agent', output: 'Mengetahui pengaruh leveling agent', deadline: 'Sabtu, 18 Jul 2026', status: 'Progress', actual: 'Hasil warna menggunakan leveling agent lebih rata, namun banyak mempengaruhi hasil kerataan warna. Posisi reject masih terlihat 1 kain.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.5', title: 'Metode - Waktu Penirisan: Pengaruh waktu penirisan terhadap kerataan warna', output: 'Mendapatkan waktu terbaik untuk penirisan', deadline: 'Sabtu, 18 Jul 2026', status: 'Progress', actual: 'Waktu penirisan mempengaruhi kerataan warna, waktu tirisan terbaik di 2 menit.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.6', title: 'Metode - Teknis Pengeringan: Pengaruh teknis pengeringan pencelupan', output: 'Mendapatkan metode penirisan terbaik', deadline: 'Sabtu, 18 Jul 2026', status: 'Progress', actual: 'Teknik jemur horizontal lebih baik dari teknis vertical. Posisi reject horizontal: 1 kain 2 warna. Posis reject vertical: lebih banyak shadding warna.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.7', title: 'Material - Fiksasi: Pengaruh pH melalui penambahan kaustik', output: 'Menguji pengaruh pH terhadap hasil warna', deadline: 'Sabtu, 25 Jul 2026', status: 'Progress', actual: 'Hasilnya: secara kerataan warna tidak berpengaruh (tetap tidak rata), berpengaruh terhadap ketahanan kain (kain mudah robek >3 jam).', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.8', title: 'Metode - Waktu Batching: Pengaruh waktu batching', output: 'Mengetahui waktu batching terbaik', deadline: 'Sabtu, 25 Jul 2026', status: 'Progress', actual: 'WAKTU BATCHING TERBAIK: didiamkan 12 JAM. Residu warna saat lorod lebih sedikit, warna terkunci optimal.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.9', title: 'Metode - Teknis Batching: Pengaruh teknis batching tertutup vs terbuka', output: 'Mengetahui teknis batching terbaik', deadline: 'Sabtu, 25 Jul 2026', status: 'Progress', actual: 'Teknis batching terbaik didiamkan 12 jam dengan posisi kain di padder (pres), ditutup plastik & disimpan di ruangan tertutup.', link: 'OKR PRODUCTION BT' },
-                { code: 'BF-2.1.10', title: 'Material - Air Baku pelorodan: Pengaruh kesadahan air', output: 'Mengecek pengaruh kesadahan air', deadline: 'Kamis, 30 Jul 2026', status: 'Progress', actual: 'Ppm air berpengaruh terhadap hasil lorod. Lorod dengan air ppm lebih rendah menghasilkan warna lebih rata, tidak ada shedding.', link: 'OKR PRODUCTION BT' }
+                { code: 'BF-2.1.1', stage: 'Perbaikan proses pre-production', title: 'Membuat Pareto Top 3 defect produksi', output: 'Pareto Top 3 defect tersedia setiap minggu', deadline: '15 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.2', stage: 'Perbaikan proses pre-production', title: 'Melakukan RCA (Root Cause Analysis) menggunakan 4M + 5 Why untuk defect dominan', output: '100% defect dominan memiliki RCA', deadline: '15 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.3', stage: 'Perbaikan proses pre-production', title: 'Menetapkan Critical Process Parameter (CPP) pada proses kritis', output: 'CPP tersedia untuk 100% proses kritis', deadline: '21 Agustus 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: '-' },
+                { code: 'BF-2.1.4', stage: 'Perbaikan proses produksi', title: 'Membuat Material Readiness Checklist sebelum proses produksi', output: '100% batch menggunakan checklist', deadline: '20 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.5', stage: 'Perbaikan proses produksi', title: 'Melakukan audit kepatuhan SOP dan CPP', output: 'Kepatuhan proses minimal 95%', deadline: '20 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.6', stage: 'Perbaikan proses produksi', title: 'Melakukan corrective action terhadap defect dominan', output: '100% temuan memiliki corrective action', deadline: 'Mingguan', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.7', stage: 'Perbaikan proses produksi', title: 'Melakukan monitoring dan validasi hasil improvement', output: 'Rework turun minimal 30%', deadline: 'Mingguan', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.8', stage: 'Perbaikan proses produksi', title: 'Membuat analisa Cost of Poor Quality (COPQ)', output: 'Laporan COPQ tersedia 100% setiap minggu', deadline: '22 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.9', stage: 'Perbaikan proses produksi', title: 'Menetapkan standard consumption kain, malam, dye dan chemical', output: 'Standard consumption tersedia untuk 100% proses utama', deadline: '22 Agustus 2026', status: 'Done', link: 'Fabrikasi | Sampel Produksi', actual: '-' },
+                { code: 'BF-2.1.10', stage: 'Perbaikan post production', title: 'Menjalankan program Kaizen berdasarkan sumber waste terbesar', output: 'Minimal 2 program Kaizen', deadline: '31 Agustus 2026', status: 'Done', link: 'Control Board Mini Factory (NEW) Sheet : Kaizen', actual: '-' },
+                { code: 'BF-2.1.11', stage: 'Perbaikan post production', title: 'Mengukur saving hasil improvement', output: 'Saving terdokumentasi dalam Rupiah', deadline: '31 Agustus 2026', status: 'Done', link: 'NOMINAL PRODUK REJECT', actual: '-' }
               ]
             }
           ]
@@ -3828,72 +3831,49 @@ const produksiOKRData = {
           id: 'handprint-factory', name: '🖐️ Handprint Factory', color: '#6366F1',
           objectives: [
             {
-              id: 'HF-1.1', category: 'Engineering & Preventive Maintenance',
-              name: 'Overhaul & Perbaikan Mesin Area Basah dan Kalender',
-              targetOutput: 'Identifikasi kerusakan part padder & softening; Kalibrasi unit kalender',
-              targetOutcome: 'Menghindari breakdown total; Output finishing sesuai standar',
-              deadline: '31 Juli 2026',
+              id: 'HF-1.1', category: 'Optimasi & Akselerasi Quality Control (QC) Handprint',
+              name: 'Penambahan & Efisiensi PIC QC Kain Handprint guna Mencegah Keterlambatan PO',
+              targetOutput: 'Perekrutan & Pelatihan 2 PIC QC Baru; SOP Pengecekan Cepat',
+              targetOutcome: 'Zero Late Shipment akibat Bottleneck QC; Lead Time Pengecekan Turun 50%',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'HF-1.1.1', title: 'Pembongkaran dan pengecekan part padder pencucian', output: 'Part aus terdata dan siap diganti', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai diperbaiki dan mesin sudah digunakan', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-1.1.2', title: 'Perbaikan mekanikal pada roller mesin kalender', output: 'Roller presisi dan pemanas berfungsi normal', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai diperbaiki dan mesin sudah digunakan', link: 'OKR PRODUCTION BT' }
+                { code: 'HF-1.1.1', title: 'Melakukan penambahan & onboarding 1 PIC QC Handprint terampil', output: '1 PIC QC Aktif & Kompeten', deadline: '31 Aug 2026', status: 'Done', link: '-', actual: 'Sudah Join' },
+                { code: 'HF-1.1.2', title: 'Mempercepat rata-rata durasi pengecekan kain dari 24 jam menjadi max 6 jam per lot', output: 'SOP Inspection < 6 jam/lot', deadline: '15 Sep 2026', status: 'On Progress', link: '-', actual: 'Menunggu PIC baru onboard' },
+                { code: 'HF-1.1.3', title: 'Mencapai ketepatan waktu inspeksi (QC On-Time Rate) sebesar 98% untuk seluruh PO Handprint', output: 'Laporan QC On-Time Rate 98%', deadline: '30 Sep 2026', status: 'On Progress', link: '-', actual: '-' },
+                { code: 'HF-1.1.4', title: 'Menekan tingkat keterlambatan pengiriman (Late PO) akibat antrean QC hingga 0%', output: '0 Case Late PO (QC Cause)', deadline: '30 Sep 2026', status: 'On Progress', link: '-', actual: '-' }
               ]
             },
             {
-              id: 'HF-1.2', category: 'Engineering & Operational Maintenance',
-              name: 'Perbaikan & Modifikasi Pipa Boiler Kotak Area Steamer & Bak Cuci',
-              targetOutput: 'Desain teknis pipa boiler kotak cocok disepakati; Pengelasan & instalasi terpasang',
-              targetOutcome: 'Memaksimalkan transfer panas boiler; Menstabilkan suhu steam; Menghemat bahan bakar',
-              deadline: '31 Juli 2026',
+              id: 'HF-2.1', category: 'Digitalisasi & Automasi Sistem Produksi Handprint (Notifikasi, WIP, Tasklist)',
+              name: 'Implementasi Sistem Tracking WIP (Work In Progress) Real-time Kain Handprint',
+              targetOutput: 'Modul Tracking WIP Handprint terintegrasi di Dashboard Produksi',
+              targetOutcome: 'Transparansi 100% posisi kain di setiap stasiun kerja & bottleneck terdeteksi dinamis',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'HF-1.2.1', title: 'Membuat gambar sketsa dan dimensi pipa kotak bersama tim teknikal', output: 'Desain fabrikasi pipa divalidasi', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai diperbaiki dan mesin sudah digunakan', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-1.2.2', title: 'Melakukan pemotongan dan pengelasan plat besi untuk pipa kotak', output: 'Pipa kotak terpasang kuat tanpa kebocoran', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai diperbaiki dan mesin sudah digunakan', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-1.2.3', title: 'Menyambungkan pipa kotak ke jalur input steamer dan bak cuci', output: 'Aliran steam panas terdistribusi optimal', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai diperbaiki dan mesin sudah digunakan', link: 'OKR PRODUCTION BT' }
+                { code: 'HF-2.1.1', title: 'Mengembangkan & merilis fitur Tracking WIP Real-Time per Lot Handprint di Sistem Dashboard', output: 'Sistem WIP Live & Functional', deadline: '15 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Pengembangan UI/UX & Database' },
+                { code: 'HF-2.1.2', title: 'Mencapai 100% kepatuhan operator dalam melakukan scan/input status WIP di setiap stasiun', output: 'Kepatuhan Input Data 100%', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Training operator dijadwalkan' }
               ]
             },
             {
-              id: 'HF-1.3', category: 'Engineering & Operational Maintenance',
-              name: 'Konstruksi Fisik Bak Pencucian Sampel (Fase Lanjutan)',
-              targetOutput: 'Pengecoran dinding & dasar bak; Pemasangan galvanis; Keran air bersih terhubung',
-              targetOutcome: 'Mempercepat uji lunturan sampel; Memisahkan cuci sampel & massal; Waktu tunggu approval lebih cepat',
-              deadline: '31 Juli 2026',
+              id: 'HF-2.2', category: 'Digitalisasi & Automasi Sistem Produksi Handprint (Notifikasi, WIP, Tasklist)',
+              name: 'Pengembangan Sistem Notifikasi Otomatis untuk Status & Alert Handprint',
+              targetOutput: 'Sistem Notifikasi Push/Alert (Delay/Reject/QC Ready) ke SPV & Tim',
+              targetOutcome: 'Respon penanganan kendala produksi < 15 menit dari tim terdesain',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'HF-1.3.1', title: 'Melakukan pengecoran dan plesteran fisik bangunan bak baru', output: 'Mempercepat proses uji lunturan sampel', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai pemasangan pipa uap boiler ke setup masing-masing bak pencucian', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-1.3.2', title: 'Memasang galvanis pada permukaan dalam dan luar cuci', output: 'Bak kedap air dan mudah dibersihkan', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Selesai pemasangan pipa uap boiler ke setup masing-masing bak pencucian', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-1.3.3', title: 'Menginstalasi keran pasokan air bersih serta pipa dan pembuangan', output: 'Air mengalir lancar dan drainase aman', deadline: 'Sabtu, 18 Jul 2026', status: 'Done', actual: 'Proses pemasangan pipa uap boiler ke setup masing-masing bak pencucian', link: 'OKR PRODUCTION BT' }
+                { code: 'HF-2.2.1', title: 'Membangun sistem notifikasi otomatis untuk kain siap QC, delay produksi, dan alert defect high-risk', output: 'Fitur Push Notification Active', deadline: '20 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Integrasi API notifikasi' },
+                { code: 'HF-2.2.2', title: 'Menurunkan Response Time terhadap alert kemacetan produksi/defect menjadi di bawah 15 menit', output: 'Avg Response Time < 15 Min', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' }
               ]
             },
             {
-              id: 'HF-2.1', category: 'Operasional & Quality Control',
-              name: 'Pembuatan Area QC Internal Handprint',
-              targetOutput: 'Layout area QC ditentukan; Meja cek & lampu grading terpasang; SOP sortir disahkan',
-              targetOutcome: 'Memotong birokrasi sortir; Menemukan defect lebih awal; Meningkatkan efisiensi kerja',
-              deadline: '31 Juli 2026',
+              id: 'HF-2.3', category: 'Digitalisasi & Automasi Sistem Produksi Handprint (Notifikasi, WIP, Tasklist)',
+              name: 'Implementasi Sistem Tasklist Otomatis Harian Tim Produksi Handprint',
+              targetOutput: 'Auto-generated Daily Tasklist berdasarkan Prioritas PO di Sistem',
+              targetOutcome: 'Peningkatan produktivitas tim & tidak ada task/PO yang terlewat',
+              deadline: '31 Agu 2026',
               krs: [
-                { code: 'HF-2.1.1', title: 'Menentukan koordinat area penempatan meja sortir QC internal', output: 'Area steril QC dekat meja cetak', deadline: 'Jumat, 31 Jul 2026', status: 'Hold', actual: 'Tahap pembuatan pengait kain; Hold dikarenakan harga meja QC vendor masih mahal', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-2.1.2', title: 'Memasang fasilitas meja cek panjang dan lampu sorot grading', output: 'Pencahayaan area QC memenuhi standar', deadline: 'Jumat, 31 Jul 2026', status: 'Hold', actual: 'Masih tahap negosiasi harga; Hold dikarenakan harga meja QC vendor masih mahal', link: 'OKR PRODUCTION BT' },
-                { code: 'HF-2.1.3', title: 'Menyusun alur kerja penanganan kain defect langsung di tempat', output: 'SOP sortir internal dipahami seluruh tim', deadline: 'Jumat, 31 Jul 2026', status: 'Hold', actual: 'Tahap penyusunan SOP klasifikasi reject; Hold dikarenakan harga meja QC vendor masih mahal', link: 'OKR PRODUCTION BT' }
-              ]
-            }
-          ]
-        },
-        {
-          id: 'garment', name: '👔 Garment', color: '#10B981',
-          objectives: [
-            {
-              id: 'GM-1.1', category: 'Produksi Internal',
-              name: 'Pembuatan Garment untuk Produksi Internal BT Batik Trusmi',
-              targetOutput: 'Garment sudah bisa beroperasi dengan kapasitas 9250 pcs per bulan',
-              targetOutcome: 'Bisa mengakomodir 80% demand PO dari purchasing untuk dikerjakan di produksi internal',
-              deadline: '31 Juli 2026',
-              budget: 'Rp 1.500.000.000',
-              krs: [
-                { code: 'GM-1.1.1', title: 'Layout Produksi dan Alur Kerja', output: 'Layout detail & Alur Kerja disetujui', deadline: '17 Jan 2026', status: 'Done', actual: 'Layout dan alur kerja disetujui', link: 'https://canva.link' },
-                { code: 'GM-1.1.2', title: 'Pembuatan Area dan Infrastruktur', output: 'Pengecoran, sekat GRC, epoxy, listrik selesai', deadline: '17 Feb 2026', status: 'Done', actual: 'Pekerjaan fisik dan infrastruktur selesai', link: 'https://canva.link' },
-                { code: 'GM-1.1.3', title: 'SOP Sistem Kerja & Standar Produksi', output: 'SOP Produksi & sistem kerja SDM', deadline: '21 Feb 2026', status: 'Done', actual: 'SOP produksi disahkan', link: 'https://drive.google.com' },
-                { code: 'GM-1.1.4', title: 'Rekrutmen dan Persiapan SDM', output: 'Daftar kebutuhan & rekrutmen SDM', deadline: '28 Feb 2026', status: 'Progress', actual: 'Proses rekrutmen berjalan', link: 'https://drive.google.com' },
-                { code: 'GM-1.1.5', title: 'Pengadaan Mesin dan Peralatan Garment', output: 'Daftar mesin, budget, pengiriman & instalasi', deadline: '31 Mar 2026', status: 'Done', actual: 'Pengadaan dan instalasi mesin selesai', link: 'https://canva.link' },
-                { code: 'GM-1.1.6', title: 'Trial Produksi', output: 'Evaluasi Hasil Trial & perbaikan', deadline: '30 Apr 2026', status: 'Done', actual: 'Trial produksi selesai divalidasi', link: 'https://canva.link' },
-                { code: 'GM-1.1.7', title: 'Produksi Masal dengan kapasitas 9250 Pcs / Bulan', output: 'Produksi Masal berjalan & evaluasi bulanan', deadline: '31 Jul 2026', status: 'Progress', actual: 'Produksi masal berjalan bertahap', link: 'OKR PRODUCTION BT' }
+                { code: 'HF-2.3.1', title: 'Merancang & mengimplementasikan modul Auto-Tasklist harian berdasarkan priority PO & due date', output: 'Module Tasklist Otomatis', deadline: '25 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' },
+                { code: 'HF-2.3.2', title: 'Mencapai Task Completion Rate harian tim produksi sebesar minimum 95%', output: 'Task Completion Rate 95%', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' }
               ]
             }
           ]
@@ -4033,7 +4013,7 @@ function normalizeOKRStatus(status) {
   if (s.includes('done') || s.includes('selesai')) return { key: 'Done', label: 'Done', color: '#10B981', bg: 'rgba(16, 185, 129, 0.2)', border: 'rgba(16, 185, 129, 0.5)', icon: '🟢' };
   if (s.includes('overdue')) return { key: 'Overdue', label: 'Overdue', color: '#EF4444', bg: 'rgba(239, 68, 68, 0.2)', border: 'rgba(239, 68, 68, 0.5)', icon: '🔴' };
   if (s.includes('hold')) return { key: 'Hold', label: 'Hold', color: '#F59E0B', bg: 'rgba(245, 158, 11, 0.2)', border: 'rgba(245, 158, 11, 0.5)', icon: '🟠' };
-  if (s.includes('progress') || s.includes('progres') || s.includes('revisi')) return { key: 'On Progress', label: 'On Progress / Revisi', color: '#EAB308', bg: 'rgba(234, 179, 8, 0.2)', border: 'rgba(234, 179, 8, 0.5)', icon: '🟡' };
+  if (s.includes('progress') || s.includes('progres') || s.includes('berjalan') || s.includes('jalan') || s.includes('revisi')) return { key: 'On Progress', label: 'On Progress / Berjalan', color: '#EAB308', bg: 'rgba(234, 179, 8, 0.2)', border: 'rgba(234, 179, 8, 0.5)', icon: '🟡' };
   return { key: 'Belum Mulai', label: 'Belum Mulai', color: '#9CA3AF', bg: 'rgba(156, 163, 175, 0.2)', border: 'rgba(156, 163, 175, 0.5)', icon: '⚪' };
 }
 
@@ -5091,12 +5071,12 @@ function renderProduksiOKRView() {
           + 'onmouseover="this.style.transform=\'translateY(-2px)\'" onmouseout="this.style.transform=\'translateY(0)\'">'
           + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
           + '<span style="font-size:0.67rem;font-family:monospace;color:var(--accent-gold);font-weight:800;">' + kr.code + '</span>'
-          + '<span style="font-size:0.67rem;background:' + kr.normStatus.bg + ';color:' + kr.normStatus.color + ';padding:1px 5px;border-radius:3px;font-weight:800;">' + kr.normStatus.label + '</span></div>'
-          + '<h5 style="color:#FFF;font-size:0.79rem;font-weight:700;margin:0 0 3px;line-height:1.3;">' + kr.title + '</h5>'
-          + '<div style="font-size:0.7rem;color:var(--text-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:5px;">' + (kr.actual || '') + '</div>'
-          + '<div style="display:flex;justify-content:space-between;font-size:0.67rem;color:var(--text-secondary);border-top:1px solid rgba(255,255,255,0.05);padding-top:4px;">'
+          + '<span style="font-size:0.67rem;background:' + kr.normStatus.bg + ';color:' + kr.normStatus.color + ';padding:1px 5px;border-radius:3px;font-weight:800;">' + (kr.status || kr.normStatus.label) + '</span></div>'
+          + '<h5 style="color:#FFF;font-size:0.79rem;font-weight:700;margin:0 0 3px;line-height:1.3;">' + (kr.stage ? '<span style="color:var(--accent-gold);font-size:0.7rem;">[' + kr.stage + '] </span>' : '') + kr.title + '</h5>'
+          + (kr.actual && kr.actual !== '-' ? '<div style="font-size:0.7rem;color:var(--text-secondary);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin-bottom:5px;">' + kr.actual + '</div>' : '')
+          + '<div style="display:flex;justify-content:space-between;font-size:0.67rem;color:var(--text-secondary);border-top:1px solid rgba(255,255,255,0.05);padding-top:4px;gap:6px;">'
           + '<span style="color:#60A5FA;">📅 ' + kr.deadline + '</span>'
-          + '<span style="color:var(--accent-gold);">📦 ' + kr.output + '</span></div></div>'
+          + '<span style="color:var(--accent-gold);text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;" title="' + kr.output + '">📦 ' + kr.output + '</span></div></div>'
         ).join('');
     return '<div style="background:rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.06);border-top:3px solid ' + col.color + ';padding:12px;border-radius:8px;min-height:280px;display:flex;flex-direction:column;">'
       + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,0.05);">'
@@ -5110,26 +5090,37 @@ function renderProduksiOKRView() {
     const rows = obj.krs.map((kr, i) => {
       const norm = normalizeOKRStatus(kr.status);
       return '<tr style="border-top:1px solid rgba(255,255,255,0.04);cursor:pointer;" onclick="window.showProduksiKRDetail(\'' + kr.code + '\',\'' + activeSection + '\')" onmouseover="this.style.background=\'rgba(255,255,255,0.04)\'" onmouseout="this.style.background=\'' + (i % 2 === 0 ? 'rgba(255,255,255,0.01)' : 'transparent') + '\'">'
-        + '<td style="padding:8px 10px;font-family:monospace;color:var(--accent-gold);font-weight:800;">' + kr.code + '</td>'
-        + '<td style="padding:8px 10px;color:#FFF;font-weight:600;">' + kr.title + '</td>'
-        + '<td style="padding:8px 10px;color:var(--text-secondary);text-align:center;">' + kr.output + '</td>'
-        + '<td style="padding:8px 10px;color:#60A5FA;text-align:center;font-size:0.72rem;">' + kr.deadline + '</td>'
-        + '<td style="padding:8px 10px;text-align:center;"><span style="background:' + norm.bg + ';color:' + norm.color + ';border:1px solid ' + norm.border + ';padding:2px 8px;border-radius:4px;font-weight:800;font-size:0.72rem;">' + norm.icon + ' ' + norm.label + '</span></td>'
+        + '<td style="padding:10px 12px;font-family:monospace;color:var(--accent-gold);font-weight:800;white-space:nowrap;">' + kr.code + '</td>'
+        + '<td style="padding:10px 12px;color:#FFF;font-weight:600;">' + (kr.stage ? '<span style="display:inline-block;font-size:0.68rem;color:var(--accent-gold);margin-right:6px;background:rgba(245,158,11,0.15);padding:1px 6px;border-radius:4px;border:1px solid rgba(245,158,11,0.3);">' + kr.stage + '</span>' : '') + kr.title + '</td>'
+        + '<td style="padding:10px 12px;color:var(--text-secondary);text-align:center;">' + kr.output + '</td>'
+        + '<td style="padding:10px 12px;color:#60A5FA;text-align:center;font-size:0.75rem;white-space:nowrap;">' + kr.deadline + '</td>'
+        + '<td style="padding:10px 12px;text-align:center;white-space:nowrap;"><span style="background:' + norm.bg + ';color:' + norm.color + ';border:1px solid ' + norm.border + ';padding:2px 8px;border-radius:4px;font-weight:800;font-size:0.72rem;">' + norm.icon + ' ' + (kr.status || norm.label) + '</span></td>'
+        + '<td style="padding:10px 12px;text-align:center;font-size:0.75rem;">' + (kr.link && kr.link !== '-' ? '<span style="display:inline-flex;align-items:center;gap:4px;background:rgba(167,139,250,0.12);color:#C4B5FD;border:1px solid rgba(167,139,250,0.25);padding:2px 8px;border-radius:4px;font-weight:600;font-size:0.72rem;">📄 ' + kr.link + '</span>' : '<span style="color:var(--text-secondary);">-</span>') + '</td>'
+        + '<td style="padding:10px 12px;color:var(--text-secondary);font-size:0.75rem;">' + (kr.actual && kr.actual !== '-' ? kr.actual : '-') + '</td>'
         + '</tr>';
     }).join('');
-    return '<div style="margin-bottom:14px;border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;">'
-      + '<div style="background:rgba(255,255,255,0.04);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,0.07);">'
-      + '<div><span style="font-size:0.67rem;color:var(--accent-gold);font-weight:800;">' + obj.id + ' | ' + obj.category + ' | Due: ' + obj.deadline + '</span>'
-      + '<div style="color:#FFF;font-size:0.88rem;font-weight:700;">' + obj.name + '</div></div>'
-      + '<div style="font-size:0.78rem;color:var(--text-secondary);">✅ ' + done + '/' + obj.krs.length + ' Done</div></div>'
-      + '<table style="width:100%;border-collapse:collapse;font-size:0.78rem;">'
+    return '<div style="margin-bottom:18px;border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;background:rgba(255,255,255,0.015);">'
+      + '<div style="background:rgba(255,255,255,0.04);padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid rgba(255,255,255,0.07);gap:12px;flex-wrap:wrap;">'
+      + '<div>'
+      + '<span style="font-size:0.68rem;color:var(--accent-gold);font-weight:800;">' + obj.id + ' | ' + obj.category + ' | Due: ' + obj.deadline + '</span>'
+      + '<div style="color:#FFF;font-size:0.92rem;font-weight:700;margin-top:2px;">' + obj.name + '</div>'
+      + (obj.targetOutput || obj.targetOutcome ? '<div style="font-size:0.74rem;color:var(--text-secondary);margin-top:5px;display:flex;gap:16px;flex-wrap:wrap;">'
+        + (obj.targetOutput ? '<span>📦 <strong style="color:#FFF;">Target Output:</strong> ' + obj.targetOutput + '</span>' : '')
+        + (obj.targetOutcome ? '<span>🎯 <strong style="color:#FFF;">Target Outcome:</strong> ' + obj.targetOutcome + '</span>' : '')
+        + '</div>' : '')
+      + '</div>'
+      + '<div style="font-size:0.78rem;color:var(--text-secondary);white-space:nowrap;padding:4px 10px;background:rgba(255,255,255,0.04);border-radius:6px;">✅ ' + done + '/' + obj.krs.length + ' Done</div></div>'
+      + '<div style="overflow-x:auto;">'
+      + '<table style="width:100%;border-collapse:collapse;font-size:0.78rem;min-width:760px;">'
       + '<thead><tr style="background:rgba(255,255,255,0.03);">'
-      + '<th style="padding:8px 10px;color:var(--text-secondary);font-weight:700;text-align:left;width:90px;">Kode</th>'
-      + '<th style="padding:8px 10px;color:var(--text-secondary);font-weight:700;text-align:left;">Key Result</th>'
-      + '<th style="padding:8px 10px;color:var(--text-secondary);font-weight:700;text-align:center;">Target</th>'
-      + '<th style="padding:8px 10px;color:var(--text-secondary);font-weight:700;text-align:center;">Deadline</th>'
-      + '<th style="padding:8px 10px;color:var(--text-secondary);font-weight:700;text-align:center;">Status</th>'
-      + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:left;width:85px;">Kode</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:left;">Key Result (KR)</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:center;width:170px;">Target Output</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:center;width:120px;">Target Waktu</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:center;width:120px;">Status</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:center;width:160px;">Link Output</th>'
+      + '<th style="padding:10px 12px;color:var(--text-secondary);font-weight:700;text-align:left;width:180px;">Evaluasi</th>'
+      + '</tr></thead><tbody>' + rows + '</tbody></table></div></div>';
   }).join('');
 
   return `
@@ -5140,7 +5131,7 @@ function renderProduksiOKRView() {
             <h2 style="color:#FFF;font-size:1.25rem;font-weight:800;display:flex;align-items:center;gap:8px;margin:0;">
               <i data-lucide="factory" style="color:var(--accent-gold);"></i> OKR Dashboard — Produksi (${monthTitle}) 🏭
             </h2>
-            <p style="color:var(--text-secondary);font-size:0.8rem;margin:4px 0 0 0;">Batik Factory · Handprint Factory · Garment — ${monthTitle}</p>
+            <p style="color:var(--text-secondary);font-size:0.8rem;margin:4px 0 0 0;">${sections.map(s => s.name).join(' · ')} — ${monthTitle}</p>
           </div>
           <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
             <select id="produksiMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:#111827;border:1.5px solid var(--accent-gold);color:#FFF;padding:6px 12px;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;">
@@ -5213,14 +5204,18 @@ window.showProduksiKRDetail = function(code, sectionId) {
     + '<div><span style="font-size:0.72rem;color:var(--accent-gold);font-weight:800;">' + (foundSection ? foundSection.name : 'Produksi') + ' — ' + (foundObj ? foundObj.category : '') + '</span>'
     + '<div style="color:#FFF;font-weight:700;font-size:0.85rem;">' + (foundObj ? foundObj.name : '') + '</div>'
     + '<div style="font-size:0.72rem;color:var(--text-secondary);">Due Objective: ' + (foundObj ? foundObj.deadline : '-') + '</div></div>'
-    + '<span style="background:' + norm.bg + ';color:' + norm.color + ';border:1px solid ' + norm.border + ';padding:4px 10px;border-radius:6px;font-weight:800;">' + norm.icon + ' ' + norm.label + '</span>'
+    + '<span style="background:' + norm.bg + ';color:' + norm.color + ';border:1px solid ' + norm.border + ';padding:4px 10px;border-radius:6px;font-weight:800;">' + norm.icon + ' ' + (foundKR.status || norm.label) + '</span>'
     + '</div>'
+    + (foundObj && (foundObj.targetOutput || foundObj.targetOutcome) ? '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'
+      + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">TARGET OUTPUT (OBJECTIVE):</strong><span style="color:#FFF;font-weight:600;font-size:0.8rem;">' + (foundObj.targetOutput || '-') + '</span></div>'
+      + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">TARGET OUTCOME (OBJECTIVE):</strong><span style="color:#10B981;font-weight:600;font-size:0.8rem;">🎯 ' + (foundObj.targetOutcome || '-') + '</span></div>'
+      + '</div>' : '')
     + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">'
-    + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">TARGET OUTPUT:</strong><span style="color:#FFF;font-weight:700;">' + foundKR.output + '</span></div>'
-    + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">DEADLINE:</strong><span style="color:#60A5FA;font-weight:700;">📅 ' + foundKR.deadline + '</span></div>'
+    + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">TARGET OUTPUT (KR):</strong><span style="color:#FFF;font-weight:700;">' + foundKR.output + '</span></div>'
+    + '<div style="background:rgba(255,255,255,0.02);padding:10px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;">TARGET WAKTU:</strong><span style="color:#60A5FA;font-weight:700;">📅 ' + foundKR.deadline + '</span></div>'
     + '</div>'
-    + '<div style="background:rgba(255,255,255,0.02);padding:12px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;margin-bottom:4px;">PROGRESS AKTUAL / EVALUASI:</strong><p style="color:#FFF;font-weight:600;margin:0;line-height:1.5;">' + (foundKR.actual || 'Belum ada update.') + '</p></div>'
-    + '<div style="text-align:right;"><a href="#" onclick="return false;" style="display:inline-flex;align-items:center;gap:6px;background:var(--accent-gold);color:#000;font-weight:800;padding:6px 14px;border-radius:6px;text-decoration:none;font-size:0.8rem;">🔗 ' + foundKR.link + '</a></div>'
+    + '<div style="background:rgba(255,255,255,0.02);padding:12px;border-radius:6px;border:1px solid rgba(255,255,255,0.05);"><strong style="color:var(--text-secondary);display:block;font-size:0.72rem;margin-bottom:4px;">EVALUASI / PROGRESS AKTUAL:</strong><p style="color:#FFF;font-weight:600;margin:0;line-height:1.5;">' + (foundKR.actual || 'Belum ada catatan evaluasi.') + '</p></div>'
+    + (foundKR.link && foundKR.link !== '-' ? '<div style="text-align:right;"><span style="display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);border:1px solid var(--accent-gold);color:var(--accent-gold);font-weight:700;padding:6px 14px;border-radius:6px;font-size:0.8rem;">🔗 Link Output: ' + foundKR.link + '</span></div>' : '')
     + '</div>'
   );
 };

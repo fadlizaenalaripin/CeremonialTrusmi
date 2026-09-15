@@ -1389,7 +1389,7 @@ const mockData = {
           { id: 5, year: '2026', title: 'Handprint Factory', status: 'Berjalan', tag: 'Production', desc: 'Operasional penuh fasilitas produksi cetak batik tulis/tangan (Handprint).', markerDone: true },
           { id: 6, year: '2026', title: 'Garment', status: 'Berjalan', tag: 'Production', desc: 'Operasional manufaktur & penjahitan unit konveksi/garment.', markerDone: true },
           { id: 7, year: '2026', title: 'Laboratory Matching Color', status: 'Berjalan', tag: 'R&D Quality', desc: 'Fasilitas laboratorium formulasi pencelupan & pencocokan warna presisi.', markerDone: true },
-          { id: 8, year: '2026', title: 'Weighing System', status: 'Progress', tag: 'System', desc: 'Digitalisasi & otomatisasi sistem penimbangan bahan baku produksi.', markerDone: false },
+          { id: 8, year: '2026', title: 'Weighing System', status: 'Berjalan', tag: 'System', desc: 'Digitalisasi & otomatisasi sistem penimbangan bahan baku produksi.', markerDone: true },
           { id: 9, year: '2026', title: 'Digital Printing', status: 'Progress', tag: 'Technology', desc: 'Implementasi dan instalasi teknologi modern Digital Printing tekstil.', markerDone: false }
         ],
         'milestone-tkb': [
@@ -1410,7 +1410,7 @@ const mockData = {
           { id: 5, year: '2026', title: 'Handprint Factory', status: 'Berjalan', tag: 'Production', desc: 'Operasional penuh fasilitas produksi cetak batik tulis/tangan (Handprint).', markerDone: true },
           { id: 6, year: '2026', title: 'Garment', status: 'Berjalan', tag: 'Production', desc: 'Operasional manufaktur & penjahitan unit konveksi/garment.', markerDone: true },
           { id: 7, year: '2026', title: 'Laboratory Matching Color', status: 'Berjalan', tag: 'R&D Quality', desc: 'Fasilitas laboratorium formulasi pencelupan & pencocokan warna presisi.', markerDone: true },
-          { id: 8, year: '2026', title: 'Weighing System', status: 'Progress', tag: 'System', desc: 'Digitalisasi & otomatisasi sistem penimbangan bahan baku produksi.', markerDone: false },
+          { id: 8, year: '2026', title: 'Weighing System', status: 'Berjalan', tag: 'System', desc: 'Digitalisasi & otomatisasi sistem penimbangan bahan baku produksi.', markerDone: true },
           { id: 9, year: '2026', title: 'Digital Printing', status: 'Progress', tag: 'Technology', desc: 'Implementasi dan instalasi teknologi modern Digital Printing tekstil.', markerDone: false }
         ],
         'milestone-tkb': [

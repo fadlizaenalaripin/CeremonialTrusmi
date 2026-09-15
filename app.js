@@ -14,6 +14,25 @@ const state = {
   activeChartInstances: {}
 };
 
+// Global Currency & Number Format Helpers
+function formatRupiah(num) {
+  if (num === null || num === undefined || isNaN(num)) return 'Rp 0';
+  return 'Rp ' + Math.round(Number(num)).toLocaleString('id-ID');
+}
+window.formatRupiah = formatRupiah;
+
+function formatRupiahShort(num) {
+  if (!num || isNaN(num)) return 'Rp 0';
+  const val = Number(num);
+  if (Math.abs(val) >= 1000000000) {
+    return 'Rp ' + (val / 1000000000).toFixed(2).replace('.', ',') + ' M';
+  } else if (Math.abs(val) >= 1000000) {
+    return 'Rp ' + (val / 1000000).toFixed(1).replace('.', ',') + ' Jt';
+  }
+  return 'Rp ' + val.toLocaleString('id-ID');
+}
+window.formatRupiahShort = formatRupiahShort;
+
 // Subcategory Map Definition
 const subcategoriesMap = {
   'kpi-performance': [
@@ -33,6 +52,11 @@ const subcategoriesMap = {
   'milestone': [
     { id: 'milestone-bt', title: 'Milestone BT' },
     { id: 'milestone-tkb', title: 'Milestone TKB' }
+  ],
+  'b2b': [
+    { id: 'b2b-achievement', title: 'Achievement B2B' },
+    { id: 'b2b-comparison', title: 'Perbandingan YoY' },
+    { id: 'b2b-complain', title: 'Complain B2B' }
   ]
 };
 
@@ -43,7 +67,8 @@ const categoryTitles = {
   'head-to-head': 'Head to Head',
   'okr': 'OKR',
   'complain': 'Complain',
-  'milestone': 'Milestone'
+  'milestone': 'Milestone',
+  'b2b': 'B2B'
 };
 
 // Real Sales Database Transcribed from User Spreadsheet (2025 & 2026 - Up to August)
@@ -1723,6 +1748,9 @@ function renderCurrentView() {
     case 'milestone':
       contentHtml = renderMilestoneView();
       break;
+    case 'b2b':
+      contentHtml = renderB2BView();
+      break;
     default:
       contentHtml = renderSalesYTD();
   }
@@ -1738,6 +1766,8 @@ function renderCurrentView() {
     initH2HChart();
   } else if (state.activeCategory === 'complain') {
     initComplainChart();
+  } else if (state.activeCategory === 'b2b') {
+    initB2BCharts();
   }
 }
 
@@ -1784,8 +1814,8 @@ function renderSalesYTD() {
 
   return `
     <!-- Top Filter Controls Bar: Divisi/Channel Filter & Month/Period Filter -->
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px; background:rgba(30, 41, 59, 0.6); padding:14px 18px; border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
-      <div style="font-size:0.98rem; font-weight:800; color:#FFF; display:flex; align-items:center; gap:8px;">
+    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:20px; background:var(--bg-card); padding:14px 18px; border-radius:12px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);">
+      <div style="font-size:0.98rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:8px;">
         <i data-lucide="filter" style="color:var(--accent-gold); width:18px; height:18px;"></i>
         <span>Filter Tampilan Sales YTD: <strong style="color:var(--accent-gold);">${filterTitle}</strong></span>
       </div>
@@ -1793,10 +1823,10 @@ function renderSalesYTD() {
       <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px;">
         <!-- Filter Bulan Selector -->
         <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:600;">
+          <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:700;">
             <i data-lucide="calendar" style="width:13px; height:13px; display:inline;"></i> Bulan:
           </span>
-          <select id="salesMonthFilter" class="pill-btn" style="background:#0F172A; color:#FFF; font-weight:700; border:1px solid var(--accent-gold); outline:none; padding:7px 14px; border-radius:6px; cursor:pointer;" onchange="window.updateSalesMonthFilter(this.value)">
+          <select id="salesMonthFilter" class="pill-btn" style="background:#111827; color:#FFF; font-weight:700; border:1px solid var(--border-highlight); outline:none; padding:7px 14px; border-radius:6px; cursor:pointer;" onchange="window.updateSalesMonthFilter(this.value)">
             <option value="7" ${selMonth === '7' || selMonth === 7 ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
             <option value="6" ${selMonth === '6' || selMonth === 6 ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             <option value="all" ${selMonth === 'all' ? 'selected' : ''}>Semua Bulan (YTD Jan–Ags 2026)</option>
@@ -1805,10 +1835,10 @@ function renderSalesYTD() {
 
         <!-- Filter Divisi Selector -->
         <div style="display:flex; align-items:center; gap:6px;">
-          <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:600;">
+          <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:700;">
             <i data-lucide="store" style="width:13px; height:13px; display:inline;"></i> Divisi:
           </span>
-          <select id="branchChartFilter" class="pill-btn" style="background:#0F172A; color:#FFF; font-weight:700; border:1px solid #10B981; outline:none; padding:7px 14px; border-radius:6px; cursor:pointer;" onchange="window.updateBranchChartFilter(this.value)">
+          <select id="branchChartFilter" class="pill-btn" style="background:#111827; color:#FFF; font-weight:700; border:1px solid var(--accent-sales); outline:none; padding:7px 14px; border-radius:6px; cursor:pointer;" onchange="window.updateBranchChartFilter(this.value)">
             <option value="all" ${state.selectedBranch === 'all' ? 'selected' : ''}>Semua Outlet (Konsolidasi)</option>
             ${realSalesData.branches.map(b => `
               <option value="${b.id}" ${state.selectedBranch === b.id ? 'selected' : ''}>
@@ -1822,7 +1852,7 @@ function renderSalesYTD() {
 
     <!-- 7 Kartu Scorecard Masing-Masing Divisi (Enlarged 74px Donut Ring, Dynamic Month & Baseline) -->
     <div style="margin-bottom:24px;">
-      <div style="font-size:0.95rem; font-weight:800; color:#FFF; margin-bottom:12px; display:flex; align-items:center; gap:8px;">
+      <div style="font-size:0.95rem; font-weight:800; color:var(--text-primary); margin-bottom:12px; display:flex; align-items:center; gap:8px;">
         <i data-lucide="layout-grid" style="color:var(--accent-gold);"></i>
         <span>Scorecard Sales Per Divisi / Channel (${filterTitle})</span>
       </div>
@@ -1831,15 +1861,15 @@ function renderSalesYTD() {
         ${branchesWithShare.map(b => {
           const isSelected = selectedBranchId === b.id;
           const isPositive = b.growth >= 0;
-          const growthColor = isPositive ? '#10B981' : '#EF4444';
+          const growthColor = isPositive ? '#059669' : '#E11D48';
           const growthText = (isPositive ? '+' : '') + b.growth + '%';
           const absGrowth = Math.min(Math.abs(b.growth), 100);
 
           return `
             <div onclick="window.updateBranchChartFilter('${b.id}')"
-                 style="background:${isSelected ? 'rgba(245, 158, 11, 0.14)' : 'var(--bg-card)'};
+                 style="background:${isSelected ? 'rgba(245, 158, 11, 0.1)' : 'var(--bg-card)'};
                         border: 2px solid ${isSelected ? 'var(--accent-gold)' : b.color + '60'};
-                        box-shadow: ${isSelected ? '0 0 16px rgba(245, 158, 11, 0.3)' : 'none'};
+                        box-shadow: ${isSelected ? '0 0 16px rgba(245, 158, 11, 0.25)' : 'var(--shadow-sm)'};
                         border-radius: var(--radius-md); padding: 14px 16px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
                  title="Klik untuk filter grafik divisi ${b.name}">
               
@@ -1848,14 +1878,14 @@ function renderSalesYTD() {
               <!-- Header: Nama Divisi + Circular Donut Chart Visual untuk Growth % -->
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
                 <div>
-                  <span style="font-weight: 800; font-size: 1.02rem; color: #FFF; line-height: 1.2; display: block;">${b.name}</span>
+                  <span style="font-weight: 800; font-size: 1.02rem; color: var(--text-primary); line-height: 1.2; display: block;">${b.name}</span>
                   <span style="font-size: 0.73rem; color: var(--text-secondary); font-weight: 600;">${b.periodLabel}</span>
                 </div>
 
                 <!-- Enlarged Circular Donut Chart Visual (74px x 74px) -->
                 <div style="position: relative; width: 74px; height: 74px; flex-shrink: 0;" title="Growth YoY: ${growthText}">
-                  <svg width="74" height="74" viewBox="0 0 74 74" style="transform: rotate(-90deg); filter: drop-shadow(0 0 6px ${growthColor}60);">
-                    <circle cx="37" cy="37" r="28" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="5.5" />
+                  <svg width="74" height="74" viewBox="0 0 74 74" style="transform: rotate(-90deg); filter: drop-shadow(0 0 4px ${growthColor}40);">
+                    <circle cx="37" cy="37" r="28" fill="none" stroke="#E2E8F0" stroke-width="5.5" />
                     <circle cx="37" cy="37" r="28" fill="none" stroke="${growthColor}" stroke-width="5.5"
                             stroke-dasharray="175.93"
                             stroke-dashoffset="${(175.93 * (1 - Math.max(absGrowth, 15) / 100)).toFixed(2)}"
@@ -1873,17 +1903,17 @@ function renderSalesYTD() {
               </div>
 
               <!-- Realisasi Bulan Aktif -->
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.78rem; background:rgba(16,185,129,0.08); padding:5px 8px; border-radius:4px; border:1px solid rgba(16,185,129,0.2);">
-                <span style="color:#10B981; font-weight:700; display:flex; align-items:center; gap:4px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.78rem; background:rgba(5, 150, 105, 0.08); padding:6px 10px; border-radius:6px; border:1px solid rgba(5, 150, 105, 0.25);">
+                <span style="color:#059669; font-weight:700; display:flex; align-items:center; gap:4px;">
                   <i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> ${b.activeMonthLabel}:
                 </span>
-                <strong style="color:#FFF; font-family:monospace; font-weight:800; font-size:0.85rem;">${formatRupiah(b.activeMonthVal)}</strong>
+                <strong style="color:#064E3B; font-family:monospace; font-weight:800; font-size:0.85rem;">${formatRupiah(b.activeMonthVal)}</strong>
               </div>
 
               <!-- Baseline Sales 2025 -->
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 8px; font-size: 0.78rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #CBD5E1; padding-top: 8px; font-size: 0.78rem;">
                 <span style="color: var(--text-secondary);">
-                  Baseline 2025: <strong style="color: #06B6D4; font-family:monospace;">${formatRupiah(b.val2025)}</strong>
+                  Baseline 2025: <strong style="color: #0284C7; font-family:monospace;">${formatRupiah(b.val2025)}</strong>
                 </span>
                 <span style="color: var(--text-muted); font-size: 0.72rem; font-weight: 600;">
                   <i data-lucide="calendar" style="width: 11px; height: 11px; display: inline;"></i> ${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]}
@@ -2011,35 +2041,35 @@ function renderSalesYTD() {
     </div>
 
     <!-- Dedicated B2B Performance & Cash In Analysis Table -->
-    <div class="table-card" style="margin-top:24px; border: 1px solid rgba(139, 92, 246, 0.35);">
-      <div class="chart-card-header" style="background: rgba(139, 92, 246, 0.12); padding: 14px 18px; border-bottom: 1px solid rgba(139, 92, 246, 0.3); display:flex; justify-content:space-between; align-items:center;">
+    <div class="table-card" style="margin-top:24px; border: 1px solid rgba(79, 70, 229, 0.25);">
+      <div class="chart-card-header" style="background: rgba(79, 70, 229, 0.08); padding: 14px 18px; border-bottom: 1px solid rgba(79, 70, 229, 0.2); display:flex; justify-content:space-between; align-items:center;">
         <div class="chart-card-title">
-          <i data-lucide="badge-dollar-sign" style="color: #8B5CF6; width: 22px; height: 22px;"></i>
+          <i data-lucide="badge-dollar-sign" style="color: #818CF8; width: 22px; height: 22px;"></i>
           <span style="font-size: 1.05rem; font-weight: 800; color: #FFF;">Detail Laporan B2B YTD: ACV Sales & Cash In (2025 vs 2026)</span>
         </div>
-        <span class="status-pill status-achieved" style="font-size: 0.78rem; background: rgba(139, 92, 246, 0.25); color: #C4B5FD; border: 1px solid #8B5CF6;">
+        <span class="status-pill status-achieved" style="font-size: 0.78rem; background: rgba(79, 70, 229, 0.15); color: #A5B4FC; border: 1px solid #6366F1;">
           <i data-lucide="trending-up" style="width:13px; height:13px; display:inline;"></i> +105.7% YoY Growth ACV
         </span>
       </div>
 
       <!-- B2B KPI Executive Scorecard Bar -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 16px; background: rgba(15, 23, 42, 0.6); border-bottom: 1px solid rgba(255,255,255,0.06);">
-        <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border-left: 3px solid #8B5CF6;">
-          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; display: block;">TARGET SALES B2B 2026 (JAN-AGS)</span>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 16px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color);">
+        <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid #818CF8;">
+          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">TARGET SALES B2B 2026 (JAN-AGS)</span>
           <span style="font-size: 1.15rem; font-weight: 800; color: #FFF; font-family: monospace;">Rp 3.960.000.000</span>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border-left: 3px solid #10B981;">
-          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; display: block;">REALISASI ACV SALES 2026</span>
+        <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid #10B981;">
+          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">REALISASI ACV SALES 2026</span>
           <span style="font-size: 1.15rem; font-weight: 800; color: #10B981; font-family: monospace;">Rp 2.885.932.921</span>
-          <span style="font-size: 0.7rem; color: #A7F3D0; font-weight: 700; display: block;">(72.9% Achv | +105.7% YoY)</span>
+          <span style="font-size: 0.7rem; color: #34D399; font-weight: 700; display: block;">(72.9% Achv | +105.7% YoY)</span>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border-left: 3px solid #06B6D4;">
-          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; display: block;">REALISASI CASH IN 2026</span>
+        <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid #06B6D4;">
+          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">REALISASI CASH IN 2026</span>
           <span style="font-size: 1.15rem; font-weight: 800; color: #06B6D4; font-family: monospace;">Rp 2.131.472.842</span>
-          <span style="font-size: 0.7rem; color: #67E8F9; font-weight: 700; display: block;">(53.8% Achv | +352.6% YoY)</span>
+          <span style="font-size: 0.7rem; color: #38BDF8; font-weight: 700; display: block;">(53.8% Achv | +352.6% YoY)</span>
         </div>
-        <div style="background: rgba(255,255,255,0.03); padding: 12px 14px; border-radius: 8px; border-left: 3px solid var(--accent-gold);">
-          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 600; display: block;">BASELINE CASH IN 2025 (JAN-AGS)</span>
+        <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid var(--accent-gold);">
+          <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">BASELINE CASH IN 2025 (JAN-AGS)</span>
           <span style="font-size: 1.15rem; font-weight: 800; color: var(--accent-gold); font-family: monospace;">Rp 470.958.666</span>
           <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 600; display: block;">(Full Year 2025: Rp 1,62 M)</span>
         </div>
@@ -2048,7 +2078,7 @@ function renderSalesYTD() {
       <div style="overflow-x:auto;">
         <table class="custom-table" style="font-size: 0.82rem;">
           <thead>
-            <tr style="background: #1E293B; color: #FFF;">
+            <tr style="background: #111827; color: #FFF;">
               <th>BULAN</th>
               <th style="text-align:right;">TARGET 2026</th>
               <th style="text-align:right;">2025 ACV SALES</th>
@@ -2085,7 +2115,7 @@ function renderSalesYTD() {
               }
 
               let b2bRowStyle = '';
-              if (isAgustus) b2bRowStyle = 'background: rgba(16, 185, 129, 0.15); border-left: 4px solid #10B981; font-weight: 700;';
+              if (isAgustus) b2bRowStyle = 'background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10B981; font-weight: 700;';
               else if (isJuli) b2bRowStyle = 'background: rgba(6, 182, 212, 0.12); border-left: 4px solid #06B6D4; font-weight: 600;';
               else if (isFuture) b2bRowStyle = 'opacity: 0.55;';
 
@@ -2124,7 +2154,7 @@ function renderSalesYTD() {
             }).join('')}
 
             <!-- TOTAL YTD (JAN-AGS) SUMMARY ROW -->
-            <tr style="background: rgba(139, 92, 246, 0.2); font-weight: 800; border-top: 2px solid #8B5CF6;">
+            <tr style="background: rgba(79, 70, 229, 0.18); font-weight: 800; border-top: 2px solid #818CF8;">
               <td style="color: #FFF;">TOTAL YTD (JAN-AGS)</td>
               <td style="text-align:right; color:#FFF;">Rp 3.960.000.000</td>
               <td style="text-align:right; color:#FFF;">Rp 1.402.798.530</td>
@@ -2468,8 +2498,9 @@ function renderKPIPerformance() {
     <!-- TOP HEADER SCORECARD (7 Kartu Departemen Interaktif) -->
     <div style="margin-bottom:20px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
         <div>
-          <h2 style="font-size:1.25rem; font-weight:800; color:#FFF; display:flex; align-items:center; gap:10px; margin:0;">
+          <h2 style="font-size:1.25rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:10px; margin:0;">
             ${getUnitLogoHtml(subId, 32)}
             <span>Header Scorecard KPI ${monthTitle} — ${unitData.unitName}</span>
           </h2>
@@ -2480,14 +2511,14 @@ function renderKPIPerformance() {
 
         <!-- Filter Interaktif Dropdown & Reset -->
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-          <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:600;"><i data-lucide="calendar" style="width:14px; height:14px; display:inline;"></i> Filter Bulan:</span>
-          <select class="chart-filter" id="kpiMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:#FFF; padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:700; cursor:pointer;">
+          <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:700;"><i data-lucide="calendar" style="width:14px; height:14px; display:inline;"></i> Filter Bulan:</span>
+          <select class="chart-filter" id="kpiMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--text-primary); padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:700; cursor:pointer;">
             <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
             <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
           </select>
 
-          <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:600; margin-left:6px;"><i data-lucide="filter" style="width:14px; height:14px; display:inline;"></i> Departemen:</span>
-          <select class="chart-filter" id="kpiDeptSelect" onchange="window.handleKPIDeptFilterChange(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:#FFF; padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:700; cursor:pointer;">
+          <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:700; margin-left:6px;"><i data-lucide="filter" style="width:14px; height:14px; display:inline;"></i> Departemen:</span>
+          <select class="chart-filter" id="kpiDeptSelect" onchange="window.handleKPIDeptFilterChange(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--text-primary); padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:700; cursor:pointer;">
             <option value="all" ${selectedDeptFilter === 'all' ? 'selected' : ''}>Semua Departemen (7)</option>
             ${unitData.departments.map(d => `<option value="${d.id}" ${selectedDeptFilter === d.id ? 'selected' : ''}>${d.name} (${d.score}%)</option>`).join('')}
           </select>
@@ -2505,9 +2536,9 @@ function renderKPIPerformance() {
           const isSelected = selectedDeptFilter === c.id;
           return `
             <div onclick="window.handleKPIDeptFilterChange('${c.id}')"
-                 style="background:${isSelected ? 'rgba(245, 158, 11, 0.18)' : 'var(--bg-card)'}; 
+                 style="background:${isSelected ? 'rgba(245, 158, 11, 0.12)' : 'var(--bg-card)'}; 
                         border:2px solid ${isSelected ? 'var(--accent-gold)' : c.color + '50'}; 
-                        box-shadow: ${isSelected ? '0 0 12px rgba(245, 158, 11, 0.4)' : 'none'};
+                        box-shadow: ${isSelected ? '0 0 12px rgba(245, 158, 11, 0.3)' : 'var(--shadow-sm)'};
                         border-radius:var(--radius-md); padding:10px 12px; cursor:pointer; transition:all 0.2s ease; position:relative; overflow:hidden;"
                  title="Klik untuk filter departemen ${c.name}">
               <div style="position:absolute; top:0; left:0; width:4px; height:100%; background:${c.color};"></div>
@@ -2532,12 +2563,12 @@ function renderKPIPerformance() {
       
       <!-- RED FLAG PANEL (%ACV < 70%) -->
       ${filteredRedFlags.length > 0 ? `
-        <div class="table-card" style="border:1px solid rgba(239, 68, 68, 0.4); background:rgba(239, 68, 68, 0.05); padding:16px;">
-          <div class="chart-card-header" style="border-bottom:1px solid rgba(239, 68, 68, 0.2); padding-bottom:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
-            <div class="chart-card-title" style="color:#EF4444; font-weight:800; font-size:0.95rem;">
-              <i data-lucide="alert-triangle" style="color:#EF4444;"></i>
+        <div class="table-card" style="border:1px solid rgba(225, 29, 72, 0.3); background:rgba(225, 29, 72, 0.04); padding:16px;">
+          <div class="chart-card-header" style="border-bottom:1px solid rgba(225, 29, 72, 0.2); padding-bottom:10px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
+            <div class="chart-card-title" style="color:#E11D48; font-weight:800; font-size:0.95rem;">
+              <i data-lucide="alert-triangle" style="color:#E11D48;"></i>
               <span>Red Flag Panel (%ACV < 70%)</span>
-              <span style="background:rgba(239, 68, 68, 0.2); color:#EF4444; font-size:0.7rem; padding:2px 6px; border-radius:10px; font-weight:700;">
+              <span style="background:rgba(225, 29, 72, 0.15); color:#BE123C; font-size:0.7rem; padding:2px 6px; border-radius:10px; font-weight:800;">
                 ${filteredRedFlags.length} Kritis
               </span>
             </div>
@@ -2556,11 +2587,11 @@ function renderKPIPerformance() {
                 ${filteredRedFlags.map(rf => `
                   <tr>
                     <td>
-                      <strong style="color:#FFF; display:block;">${rf.objective}</strong>
+                      <strong style="color:var(--text-primary); display:block;">${rf.objective}</strong>
                       <span style="font-size:0.72rem; color:var(--text-secondary);">${rf.dept}</span>
                     </td>
                     <td style="text-align:right; font-family:monospace; color:var(--text-secondary);">${rf.target || '-'}</td>
-                    <td style="text-align:right; font-family:monospace; color:#EF4444; font-weight:700;">${rf.actual}</td>
+                    <td style="text-align:right; font-family:monospace; color:#E11D48; font-weight:700;">${rf.actual}</td>
                     <td style="text-align:center;">
                       ${getAcvPillHtml(rf.acv)}
                     </td>
@@ -2574,8 +2605,8 @@ function renderKPIPerformance() {
 
       <!-- TRACKER PELANGGARAN & SANKSIS -->
       ${filteredViolations.length > 0 ? `
-        <div class="table-card" style="border:1px solid rgba(245, 158, 11, 0.4); background:rgba(245, 158, 11, 0.03); padding:16px;">
-          <div class="chart-card-header" style="border-bottom:1px solid rgba(245, 158, 11, 0.2); padding-bottom:10px; margin-bottom:10px;">
+        <div class="table-card" style="border:1px solid rgba(217, 119, 6, 0.3); background:rgba(217, 119, 6, 0.04); padding:16px;">
+          <div class="chart-card-header" style="border-bottom:1px solid rgba(217, 119, 6, 0.2); padding-bottom:10px; margin-bottom:10px;">
             <div class="chart-card-title" style="color:var(--accent-gold); font-weight:800; font-size:0.95rem;">
               <i data-lucide="shield-alert" style="color:var(--accent-gold);"></i>
               <span>Tracker Pelanggaran & Sanksi Ops</span>
@@ -2594,10 +2625,10 @@ function renderKPIPerformance() {
                   <tr>
                     <td>
                       <strong style="color:var(--accent-gold); display:block;">${v.indicator}</strong>
-                      <span style="font-size:0.72rem; color:#FFF;">${v.dept}</span>
+                      <span style="font-size:0.72rem; color:var(--text-secondary);">${v.dept}</span>
                     </td>
                     <td>
-                      <div style="color:#FCA5A5; font-size:0.75rem; margin-bottom:2px;">${v.pelanggaran}</div>
+                      <div style="color:#B91C1C; font-size:0.75rem; margin-bottom:2px; font-weight:600;">${v.pelanggaran}</div>
                       <span class="status-pill status-at-risk" style="font-size:0.68rem;">${v.sanksi}</span>
                     </td>
                   </tr>
@@ -2613,7 +2644,7 @@ function renderKPIPerformance() {
     <!-- BREAKDOWN DEPARTEMEN TERFILTER -->
     <div style="margin-bottom:24px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-        <h3 style="font-size:1.1rem; font-weight:800; color:#FFF; margin:0; display:flex; align-items:center; gap:8px;">
+        <h3 style="font-size:1.1rem; font-weight:800; color:var(--text-primary); margin:0; display:flex; align-items:center; gap:8px;">
           <i data-lucide="layers" style="color:var(--accent-kpi);"></i>
           Rincian Scorecard Departemen (${filteredDepartments.length} Departemen Tampil)
         </h3>
@@ -2623,7 +2654,7 @@ function renderKPIPerformance() {
         <div class="table-card" style="margin-bottom:20px; border-left:4px solid var(--accent-kpi);">
           <div class="chart-card-header" style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:10px; margin-bottom:14px;">
             <div class="chart-card-title">
-              <span style="font-size:1.05rem; font-weight:800; color:#FFF;">${dept.name}</span>
+              <span style="font-size:1.05rem; font-weight:800; color:var(--text-primary);">${dept.name}</span>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
               <span class="status-pill ${dept.statusClass}" style="font-size:0.85rem; font-weight:800; padding:4px 12px;">
@@ -2634,7 +2665,7 @@ function renderKPIPerformance() {
 
           ${dept.perspectives.map(p => `
             <div style="margin-bottom:16px;">
-              <div style="background:rgba(255,255,255,0.03); padding:6px 12px; border-radius:6px; border-left:3px solid var(--accent-kpi); margin-bottom:8px; font-weight:700; font-size:0.85rem; color:#FFF; display:flex; justify-content:space-between;">
+              <div style="background:rgba(255, 255, 255, 0.04); padding:6px 12px; border-radius:6px; border-left:3px solid var(--accent-kpi); margin-bottom:8px; font-weight:700; font-size:0.85rem; color:var(--text-primary); display:flex; justify-content:space-between; border: 1px solid var(--border-color);">
                 <span>${p.name}</span>
                 <span style="color:var(--text-secondary); font-size:0.78rem;">Bobot: ${p.weight}</span>
               </div>
@@ -2757,20 +2788,20 @@ function renderHeadToHead() {
 
   return `
     <!-- Top Executive Leaderboard Card -->
-    <div style="background:var(--bg-card); border:1px solid var(--accent-gold); border-radius:var(--radius-md); padding:20px; margin-bottom:24px; position:relative; overflow:hidden;">
-      <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, #10B981, #F59E0B, #06B6D4);"></div>
+    <div style="background:var(--bg-card); border:1px solid var(--border-color); box-shadow:var(--shadow-sm); border-radius:var(--radius-md); padding:20px; margin-bottom:24px; position:relative; overflow:hidden;">
+      <div style="position:absolute; top:0; left:0; width:100%; height:4px; background:linear-gradient(90deg, #059669, #D97706, #0284C7);"></div>
       
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;">
         <!-- Left: BT Status -->
-        <div style="flex:1; min-width:260px; display:flex; align-items:center; gap:16px; background:rgba(16, 185, 129, 0.08); padding:16px; border-radius:var(--radius-sm); border:1px solid rgba(16, 185, 129, 0.3);">
-          <div style="width:52px; height:52px; border-radius:50%; background:#10B981; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:1.5rem; box-shadow:0 0 16px rgba(16, 185, 129, 0.4); flex-shrink:0;">
+        <div style="flex:1; min-width:260px; display:flex; align-items:center; gap:16px; background:rgba(5, 150, 105, 0.08); padding:16px; border-radius:var(--radius-sm); border:1px solid rgba(5, 150, 105, 0.25);">
+          <div style="width:52px; height:52px; border-radius:50%; background:#059669; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:1.5rem; box-shadow:0 4px 12px rgba(5, 150, 105, 0.3); flex-shrink:0;">
             <i data-lucide="crown"></i>
           </div>
           <div>
-            <span style="font-size:0.78rem; color:#A7F3D0; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block;">Pemenang H2H (VS Actual & Target)</span>
-            <h3 style="font-size:1.25rem; font-weight:800; color:#FFF; margin:2px 0;">Batik Trusmi (BT)</h3>
+            <span style="font-size:0.78rem; color:#047857; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block;">Pemenang H2H (VS Actual & Target)</span>
+            <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-primary); margin:2px 0;">Batik Trusmi (BT)</h3>
             <div style="display:flex; gap:10px; margin-top:4px; font-size:0.8rem; font-weight:700;">
-              <span style="color:#10B981;">VS Actual: <strong>${s.vsActual.btWins} WIN</strong></span>
+              <span style="color:#059669;">VS Actual: <strong>${s.vsActual.btWins} WIN</strong></span>
               <span style="color:var(--accent-gold);">• VS Target: <strong>${s.vsTarget.btWins} WIN</strong></span>
             </div>
           </div>
@@ -2778,12 +2809,12 @@ function renderHeadToHead() {
 
         <!-- Center: VS Badge & Month Filter -->
         <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center;">
-          <div style="width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, #EC4899, #8B5CF6); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem; color:#FFF; box-shadow:0 0 20px rgba(236,72,153,0.5);">
+          <div style="width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg, #DB2777, #7C3AED); display:flex; align-items:center; justify-content:center; font-weight:900; font-size:1.2rem; color:#FFF; box-shadow:0 4px 14px rgba(219,39,119,0.35);">
             VS
           </div>
           <span style="font-size:0.75rem; color:var(--text-secondary); margin-top:6px; font-weight:700;">H2H ${monthTitle}</span>
           <div style="margin-top:6px;">
-            <select class="chart-filter" id="h2hMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:#FFF; padding:5px 12px; border-radius:var(--radius-sm); font-size:0.8rem; font-weight:700; cursor:pointer;">
+            <select class="chart-filter" id="h2hMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--text-primary); padding:5px 12px; border-radius:var(--radius-sm); font-size:0.8rem; font-weight:700; cursor:pointer;">
               <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
@@ -2794,15 +2825,15 @@ function renderHeadToHead() {
         </div>
 
         <!-- Right: TKB Status -->
-        <div style="flex:1; min-width:260px; display:flex; align-items:center; gap:16px; background:rgba(6, 182, 212, 0.08); padding:16px; border-radius:var(--radius-sm); border:1px solid rgba(6, 182, 212, 0.3);">
-          <div style="width:52px; height:52px; border-radius:50%; background:#06B6D4; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:1.5rem; box-shadow:0 0 16px rgba(6, 182, 212, 0.4); flex-shrink:0;">
+        <div style="flex:1; min-width:260px; display:flex; align-items:center; gap:16px; background:rgba(2, 132, 199, 0.08); padding:16px; border-radius:var(--radius-sm); border:1px solid rgba(2, 132, 199, 0.25);">
+          <div style="width:52px; height:52px; border-radius:50%; background:#0284C7; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:1.5rem; box-shadow:0 4px 12px rgba(2, 132, 199, 0.3); flex-shrink:0;">
             <i data-lucide="store"></i>
           </div>
           <div>
-            <span style="font-size:0.78rem; color:#67E8F9; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block;">Runner-Up H2H</span>
-            <h3 style="font-size:1.25rem; font-weight:800; color:#FFF; margin:2px 0;">The Keranjang Bali (TKB)</h3>
+            <span style="font-size:0.78rem; color:#0369A1; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block;">Runner-Up H2H</span>
+            <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-primary); margin:2px 0;">The Keranjang Bali (TKB)</h3>
             <div style="display:flex; gap:10px; margin-top:4px; font-size:0.8rem; font-weight:700;">
-              <span style="color:#EF4444;">VS Actual: <strong>${s.vsActual.tkbWins} WIN</strong></span>
+              <span style="color:#E11D48;">VS Actual: <strong>${s.vsActual.tkbWins} WIN</strong></span>
               <span style="color:var(--text-secondary);">• VS Target: <strong>${s.vsTarget.tkbWins} WIN / 4 DRAW</strong></span>
             </div>
           </div>
@@ -2818,8 +2849,8 @@ function renderHeadToHead() {
           <span>Perbandingan Total Skor KPI (%) Per Kategori (${monthTitle})</span>
         </div>
         <div style="font-size:0.78rem; color:var(--text-secondary); font-weight:600;">
-          <span style="display:inline-block; width:10px; height:10px; background:#10B981; border-radius:2px; margin-right:4px;"></span> BT
-          <span style="display:inline-block; width:10px; height:10px; background:#06B6D4; border-radius:2px; margin-left:10px; margin-right:4px;"></span> TKB
+          <span style="display:inline-block; width:10px; height:10px; background:#059669; border-radius:2px; margin-right:4px;"></span> BT
+          <span style="display:inline-block; width:10px; height:10px; background:#0284C7; border-radius:2px; margin-left:10px; margin-right:4px;"></span> TKB
         </div>
       </div>
       <div class="chart-wrapper" style="height:320px;">
@@ -2828,12 +2859,12 @@ function renderHeadToHead() {
     </div>
 
     <!-- Matriks Perbandingan Detail (Dengan Dropdown Filter Kategori & Tampilan Sangat Rapi) -->
-    <div class="table-card" style="border:1px solid rgba(245, 158, 11, 0.3);">
+    <div class="table-card" style="border:1px solid rgba(217, 119, 6, 0.25);">
       
       <!-- Filter Dropdown & Quick Pills -->
       <div class="chart-card-header" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; border-bottom:1px solid var(--border-color); padding-bottom:14px; margin-bottom:16px;">
         <div>
-          <h3 style="font-size:1.05rem; font-weight:800; color:#FFF; margin:0; display:flex; align-items:center; gap:8px;">
+          <h3 style="font-size:1.05rem; font-weight:800; color:var(--text-primary); margin:0; display:flex; align-items:center; gap:8px;">
             <i data-lucide="filter" style="color:var(--accent-gold); width:18px; height:18px;"></i>
             Matriks Perbandingan H2H ${monthTitle}
           </h3>
@@ -2844,7 +2875,7 @@ function renderHeadToHead() {
           <span style="font-size:0.82rem; color:var(--text-secondary); font-weight:700;">Filter Kategori:</span>
           
           <select id="h2hCatSelect" onchange="window.handleH2HCatFilterChange(this.value)" 
-                  style="background:var(--bg-card); border:2px solid var(--accent-gold); color:#FFF; padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:800; cursor:pointer;">
+                  style="background:var(--bg-card); border:2px solid var(--accent-gold); color:var(--text-primary); padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:800; cursor:pointer;">
             <option value="all" ${selectedCat === 'all' ? 'selected' : ''}>Semua Kategori (${filteredItems.length} Indikator)</option>
             ${h2h.categoryScores.map(c => `<option value="${c.category}" ${selectedCat === c.category ? 'selected' : ''}>${c.category} (BT ${c.btScore}% vs TKB ${c.tkbScore}%)</option>`).join('')}
           </select>
@@ -2863,28 +2894,28 @@ function renderHeadToHead() {
       <div style="overflow-x:auto;">
         <table class="custom-table" style="font-size:0.82rem; border-collapse:separate; border-spacing:0 4px;">
           <thead>
-            <tr style="background:rgba(255,255,255,0.03);">
+            <tr style="background:#111827;">
               <th rowspan="2" style="vertical-align:middle; text-align:left; border-radius:6px 0 0 6px;">Kategori</th>
               <th rowspan="2" style="vertical-align:middle; text-align:left;">Point Check</th>
               <th rowspan="2" style="vertical-align:middle; text-align:center;">Bobot</th>
-              <th colspan="4" style="text-align:center; background:rgba(16, 185, 129, 0.15); color:#A7F3D0; font-weight:800; border-bottom:1px solid rgba(16, 185, 129, 0.3);">Batik Trusmi (BT)</th>
-              <th colspan="4" style="text-align:center; background:rgba(6, 182, 212, 0.15); color:#67E8F9; font-weight:800; border-bottom:1px solid rgba(6, 182, 212, 0.3);">The Keranjang Bali (TKB)</th>
-              <th colspan="2" style="text-align:center; background:rgba(245, 158, 11, 0.15); color:var(--accent-gold); font-weight:800; border-bottom:1px solid rgba(245, 158, 11, 0.3); border-radius:0 6px 6px 0;">Pemenang H2H</th>
+              <th colspan="4" style="text-align:center; background:rgba(5, 150, 105, 0.15); color:#10B981; font-weight:800; border-bottom:1px solid rgba(5, 150, 105, 0.35);">Batik Trusmi (BT)</th>
+              <th colspan="4" style="text-align:center; background:rgba(2, 132, 199, 0.15); color:#06B6D4; font-weight:800; border-bottom:1px solid rgba(2, 132, 199, 0.35);">The Keranjang Bali (TKB)</th>
+              <th colspan="2" style="text-align:center; background:rgba(217, 119, 6, 0.15); color:var(--accent-gold); font-weight:800; border-bottom:1px solid rgba(217, 119, 6, 0.35); border-radius:0 6px 6px 0;">Pemenang H2H</th>
             </tr>
-            <tr style="background:rgba(255,255,255,0.02);">
+            <tr style="background:#0F172A;">
               <!-- BT Headers -->
-              <th style="text-align:right; color:var(--text-secondary); background:rgba(16, 185, 129, 0.05);">Target</th>
-              <th style="text-align:right; color:#10B981; background:rgba(16, 185, 129, 0.05);">Actual</th>
-              <th style="text-align:center; color:#A7F3D0; background:rgba(16, 185, 129, 0.05);">%ACV</th>
-              <th style="text-align:center; color:var(--accent-gold); background:rgba(16, 185, 129, 0.05);">Score</th>
+              <th style="text-align:right; color:var(--text-secondary); background:rgba(5, 150, 105, 0.08);">Target</th>
+              <th style="text-align:right; color:#10B981; background:rgba(5, 150, 105, 0.08);">Actual</th>
+              <th style="text-align:center; color:#10B981; background:rgba(5, 150, 105, 0.08);">%ACV</th>
+              <th style="text-align:center; color:var(--accent-gold); background:rgba(5, 150, 105, 0.08);">Score</th>
               <!-- TKB Headers -->
-              <th style="text-align:right; color:var(--text-secondary); background:rgba(6, 182, 212, 0.05);">Target</th>
-              <th style="text-align:right; color:#06B6D4; background:rgba(6, 182, 212, 0.05);">Actual</th>
-              <th style="text-align:center; color:#67E8F9; background:rgba(6, 182, 212, 0.05);">%ACV</th>
-              <th style="text-align:center; color:#06B6D4; background:rgba(6, 182, 212, 0.05);">Score</th>
+              <th style="text-align:right; color:var(--text-secondary); background:rgba(2, 132, 199, 0.08);">Target</th>
+              <th style="text-align:right; color:#06B6D4; background:rgba(2, 132, 199, 0.08);">Actual</th>
+              <th style="text-align:center; color:#06B6D4; background:rgba(2, 132, 199, 0.08);">%ACV</th>
+              <th style="text-align:center; color:#06B6D4; background:rgba(2, 132, 199, 0.08);">Score</th>
               <!-- VS Headers -->
-              <th style="text-align:center; background:rgba(245, 158, 11, 0.05);">VS Actual</th>
-              <th style="text-align:center; background:rgba(245, 158, 11, 0.05);">VS Target</th>
+              <th style="text-align:center; background:rgba(217, 119, 6, 0.08); color:var(--accent-gold);">VS Actual</th>
+              <th style="text-align:center; background:rgba(217, 119, 6, 0.08); color:var(--accent-gold);">VS Target</th>
             </tr>
           </thead>
           <tbody>
@@ -2894,40 +2925,40 @@ function renderHeadToHead() {
               const catObj = h2h.categoryScores.find(c => c.category === item.cat);
 
               const vsActBadge = item.vsAct === 'BT' 
-                ? '<span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10B981; border:1px solid rgba(16, 185, 129, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">BT WIN</span>'
+                ? '<span style="display:inline-block; background:rgba(5, 150, 105, 0.15); color:#059669; border:1px solid rgba(5, 150, 105, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">BT WIN</span>'
                 : (item.vsAct === 'TKB' 
-                    ? '<span style="display:inline-block; background:rgba(245, 158, 11, 0.2); color:#F59E0B; border:1px solid rgba(245, 158, 11, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">TKB WIN</span>'
-                    : '<span style="display:inline-block; background:rgba(59, 130, 246, 0.2); color:#60A5FA; border:1px solid rgba(59, 130, 246, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">DRAW</span>');
+                    ? '<span style="display:inline-block; background:rgba(217, 119, 6, 0.15); color:#D97706; border:1px solid rgba(217, 119, 6, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">TKB WIN</span>'
+                    : '<span style="display:inline-block; background:rgba(37, 99, 235, 0.15); color:#2563EB; border:1px solid rgba(37, 99, 235, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">DRAW</span>');
 
               const vsTgtBadge = item.vsTgt === 'BT' 
-                ? '<span style="display:inline-block; background:rgba(16, 185, 129, 0.2); color:#10B981; border:1px solid rgba(16, 185, 129, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">BT WIN</span>'
+                ? '<span style="display:inline-block; background:rgba(5, 150, 105, 0.15); color:#059669; border:1px solid rgba(5, 150, 105, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">BT WIN</span>'
                 : (item.vsTgt === 'TKB' 
-                    ? '<span style="display:inline-block; background:rgba(245, 158, 11, 0.2); color:#F59E0B; border:1px solid rgba(245, 158, 11, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">TKB WIN</span>'
-                    : '<span style="display:inline-block; background:rgba(59, 130, 246, 0.2); color:#60A5FA; border:1px solid rgba(59, 130, 246, 0.5); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">DRAW</span>');
+                    ? '<span style="display:inline-block; background:rgba(217, 119, 6, 0.15); color:#D97706; border:1px solid rgba(217, 119, 6, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">TKB WIN</span>'
+                    : '<span style="display:inline-block; background:rgba(37, 99, 235, 0.15); color:#2563EB; border:1px solid rgba(37, 99, 235, 0.4); font-size:0.75rem; padding:3px 10px; font-weight:800; border-radius:6px;">DRAW</span>');
 
               return `
-                <tr style="background:rgba(255,255,255,0.015); transition:all 0.15s ease;">
+                <tr style="background:var(--bg-card); transition:all 0.15s ease;">
                   ${isFirstInCat ? `
-                    <td rowspan="${catItemsCount}" style="vertical-align:middle; font-weight:800; color:#FFF; background:rgba(245, 158, 11, 0.04); border-right:1px solid rgba(245, 158, 11, 0.2); padding:12px;">
-                      <div style="font-size:0.95rem; color:#FFF;">${item.cat}</div>
+                    <td rowspan="${catItemsCount}" style="vertical-align:middle; font-weight:800; color:var(--text-primary); background:rgba(217, 119, 6, 0.04); border-right:1px solid rgba(217, 119, 6, 0.2); padding:12px;">
+                      <div style="font-size:0.95rem; color:var(--text-primary);">${item.cat}</div>
                       <div style="font-size:0.75rem; color:var(--accent-gold); margin-top:6px; font-weight:700; line-height:1.4;">
-                        <span style="color:#10B981;">BT: ${catObj ? catObj.btScore : ''}%</span><br>
-                        <span style="color:#06B6D4;">TKB: ${catObj ? catObj.tkbScore : ''}%</span>
+                        <span style="color:#059669;">BT: ${catObj ? catObj.btScore : ''}%</span><br>
+                        <span style="color:#0284C7;">TKB: ${catObj ? catObj.tkbScore : ''}%</span>
                       </div>
                     </td>
                   ` : ''}
-                  <td style="padding:10px 12px;"><strong style="color:#FFF; font-size:0.85rem;">${item.point}</strong></td>
+                  <td style="padding:10px 12px;"><strong style="color:var(--text-primary); font-size:0.85rem;">${item.point}</strong></td>
                   <td style="text-align:center; font-family:monospace; color:var(--text-secondary);">${item.bobot}</td>
                   <!-- BT Values -->
                   <td style="text-align:right; font-family:monospace; color:var(--text-secondary);">${item.btTarget}</td>
-                  <td style="text-align:right; font-family:monospace; color:#10B981; font-weight:800;">${item.btAct}</td>
-                  <td style="text-align:center; font-weight:800; color:#A7F3D0;">${item.btAcv}</td>
+                  <td style="text-align:right; font-family:monospace; color:#059669; font-weight:800;">${item.btAct}</td>
+                  <td style="text-align:center; font-weight:800; color:#047857;">${item.btAcv}</td>
                   <td style="text-align:center; font-family:monospace; color:var(--accent-gold); font-weight:800;">${item.btScore}</td>
                   <!-- TKB Values -->
                   <td style="text-align:right; font-family:monospace; color:var(--text-secondary);">${item.tkbTarget}</td>
-                  <td style="text-align:right; font-family:monospace; color:#06B6D4; font-weight:800;">${item.tkbAct}</td>
-                  <td style="text-align:center; font-weight:800; color:#67E8F9;">${item.tkbAcv}</td>
-                  <td style="text-align:center; font-family:monospace; color:#06B6D4; font-weight:800;">${item.tkbScore}</td>
+                  <td style="text-align:right; font-family:monospace; color:#0284C7; font-weight:800;">${item.tkbAct}</td>
+                  <td style="text-align:center; font-weight:800; color:#0369A1;">${item.tkbAcv}</td>
+                  <td style="text-align:center; font-family:monospace; color:#0284C7; font-weight:800;">${item.tkbScore}</td>
                   <!-- Winners -->
                   <td style="text-align:center; padding:8px;">${vsActBadge}</td>
                   <td style="text-align:center; padding:8px;">${vsTgtBadge}</td>
@@ -4088,7 +4119,7 @@ function renderOKRView() {
       <!-- Top Control & Filter Header -->
       <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
         <div>
-          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
+          <h2 style="color:var(--text-primary); font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
             ${getUnitLogoHtml('okr-bt', 32)}
             <span>Dashboard OKR Proyek Executive — Batik Trusmi (BT) (${monthTitle})</span>
           </h2>
@@ -4102,7 +4133,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
-                    style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
@@ -4112,7 +4143,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Project:</span>
             <select id="okrProjSelect" onchange="window.handleOKRProjectFilterChange(this.value)" 
-                    style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedProj === 'all' ? 'selected' : ''}>🏙️ Premium Jakarta (1 Proyek Aktif)</option>
             </select>
           </div>
@@ -4121,7 +4152,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Status:</span>
             <select id="okrStatSelect" onchange="window.handleOKRStatusFilterChange(this.value)" 
-                    style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedStat === 'all' ? 'selected' : ''}>Semua Status (5 Kategori)</option>
               <option value="Overdue" ${selectedStat === 'Overdue' ? 'selected' : ''}>🔴 Overdue</option>
               <option value="Hold" ${selectedStat === 'Hold' ? 'selected' : ''}>🟠 Hold</option>
@@ -4149,59 +4180,59 @@ function renderOKRView() {
             <span class="metric-title">Overall Done Rate</span>
             <div class="metric-icon-box okr-theme"><i data-lucide="check-circle-2"></i></div>
           </div>
-          <div class="metric-value" style="color:#10B981;">${donePercent}% Completed</div>
+          <div class="metric-value" style="color:#059669;">${donePercent}% Completed</div>
           <div class="metric-trend trend-up">${doneKRs} dari ${totalKRs} KR Selesai</div>
         </div>
 
-        <div class="metric-card" style="border-color:rgba(239, 68, 68, 0.4);">
+        <div class="metric-card" style="border-color:rgba(225, 29, 72, 0.3);">
           <div class="metric-card-header">
             <span class="metric-title">Critical Overdue Items</span>
             <div class="metric-icon-box complain-theme"><i data-lucide="alert-triangle"></i></div>
           </div>
-          <div class="metric-value" style="color:#EF4444;">${overdueKRs} Items</div>
+          <div class="metric-value" style="color:#E11D48;">${overdueKRs} Items</div>
           <div class="metric-trend trend-down">Butuh Action Segera</div>
         </div>
 
-        <div class="metric-card" style="border-color:rgba(245, 158, 11, 0.4);">
+        <div class="metric-card" style="border-color:rgba(217, 119, 6, 0.3);">
           <div class="metric-card-header">
             <span class="metric-title">Held Projects</span>
             <div class="metric-icon-box milestone-theme"><i data-lucide="pause-circle"></i></div>
           </div>
-          <div class="metric-value" style="color:#F59E0B;">${holdKRs} Items</div>
+          <div class="metric-value" style="color:#D97706;">${holdKRs} Items</div>
           <div class="metric-trend trend-neutral">Evaluasi Strategi</div>
         </div>
       </div>
 
       <!-- Dedicated Panel Potensi Sanksi Keterlambatan Denda CCP TKB -->
       ${(selectedProj === 'all' || selectedProj === 'tkb') && overdueTKBKRs.length > 0 ? `
-        <div style="background:linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(17, 24, 39, 0.95) 100%); border:1.5px solid #EF4444; padding:18px 20px; border-radius:var(--radius-md);">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px; border-bottom:1px solid rgba(239, 68, 68, 0.3); padding-bottom:10px;">
+        <div style="background:linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%); border:1.5px solid #E11D48; padding:18px 20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px; border-bottom:1px solid rgba(225, 29, 72, 0.3); padding-bottom:10px;">
             <div>
-              <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:#EF4444; font-weight:800; display:flex; align-items:center; gap:6px;">
+              <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:#F43F5E; font-weight:800; display:flex; align-items:center; gap:6px;">
                 <i data-lucide="alert-octagon"></i> Panel Potensi Sanksi Keterlambatan (Denda CCP TKB)
               </div>
               <div style="font-size:0.85rem; color:var(--text-secondary); margin-top:2px;">
                 Klausul CCP TKB: <span style="color:#FFF; font-weight:700;">Late > Denda Rp200.000 / KR</span> (Menampilkan HANYA KR berstatus Overdue yang berpotensi kena denda)
               </div>
             </div>
-            <div style="background:rgba(239, 68, 68, 0.25); border:1px solid #EF4444; color:#EF4444; padding:6px 14px; border-radius:8px; font-weight:800; font-size:0.95rem; font-family:monospace;">
+            <div style="background:rgba(225, 29, 72, 0.2); border:1px solid #E11D48; color:#FDA4AF; padding:6px 14px; border-radius:8px; font-weight:800; font-size:0.95rem; font-family:monospace;">
               Total Potensi Denda: Rp ${totalTKBDenda.toLocaleString('id-ID')}
             </div>
           </div>
 
           <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:12px;">
             ${overdueTKBKRs.map(kr => `
-              <div style="background:rgba(0,0,0,0.45); border:1px solid rgba(239, 68, 68, 0.4); padding:14px; border-radius:8px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px;">
+              <div style="background:var(--bg-card); border:1px solid rgba(225, 29, 72, 0.35); padding:14px; border-radius:8px; display:flex; justify-content:space-between; align-items:flex-start; gap:12px; box-shadow:var(--shadow-sm);">
                 <div style="flex:1; min-width:0;">
                   <div style="display:flex; align-items:center; gap:8px; margin-bottom:4px;">
-                    <span style="font-size:0.7rem; font-family:monospace; color:var(--accent-gold); font-weight:800; background:rgba(245,158,11,0.15); padding:2px 6px; border-radius:4px;">${kr.code}</span>
+                    <span style="font-size:0.7rem; font-family:monospace; color:var(--accent-gold); font-weight:800; background:rgba(217,119,6,0.15); padding:2px 6px; border-radius:4px;">${kr.code}</span>
                     <span style="font-size:0.7rem; color:var(--text-secondary);">📅 Due: ${kr.deadline}</span>
                   </div>
-                  <div style="color:#FFF; font-size:0.85rem; font-weight:700; margin-bottom:4px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">${kr.title}</div>
+                  <div style="color:var(--text-primary); font-size:0.85rem; font-weight:700; margin-bottom:4px; line-height:1.3; overflow:hidden; text-overflow:ellipsis; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;">${kr.title}</div>
                   <div style="font-size:0.72rem; color:var(--text-secondary); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${kr.objName}</div>
                 </div>
                 <div style="flex-shrink:0;">
-                  <span style="background:rgba(239, 68, 68, 0.25); color:#EF4444; border:1px solid #EF4444; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; white-space:nowrap; display:inline-block;">
+                  <span style="background:rgba(225, 29, 72, 0.2); color:#FDA4AF; border:1px solid #E11D48; padding:4px 10px; border-radius:6px; font-size:0.75rem; font-weight:800; white-space:nowrap; display:inline-block;">
                     Denda Rp200.000
                   </span>
                 </div>
@@ -4213,36 +4244,36 @@ function renderOKRView() {
 
       <!-- Budget Panel Khusus Objective 1.2 Premium Cirebon -->
       ${selectedProj === 'all' || selectedProj === 'cirebon' ? `
-        <div style="background:linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(17, 24, 39, 0.95) 100%); border:1px solid var(--accent-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;">
+        <div style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%); border:1px solid var(--accent-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; box-shadow:var(--shadow-sm);">
           <div>
             <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--accent-gold); font-weight:800;">
               💰 Panel Budget Strategis — Objective 1.2 Premium Cirebon
             </div>
-            <div style="font-size:0.95rem; color:#FFF; font-weight:700; margin-top:4px;">
+            <div style="font-size:0.95rem; color:var(--text-primary); font-weight:700; margin-top:4px;">
               Perluasan Area Stand Kain & Redesign Concept (Budget Target vs Actual)
             </div>
           </div>
-          <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-            <div>
-              <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">Target Budget:</span>
-              <span style="font-size:1.1rem; color:#FFF; font-weight:800; font-family:monospace;">Rp 1.000.000.000</span>
+          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
+            <div style="text-align:right;">
+              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">TARGET BUDGET:</span>
+              <span style="font-size:1.1rem; font-weight:800; color:var(--text-primary); font-family:monospace;">Rp 400.000.000</span>
             </div>
-            <div style="font-size:1.4rem; color:var(--accent-gold); font-weight:300;">/</div>
-            <div>
-              <span style="font-size:0.75rem; color:var(--text-secondary); display:block;">Actual Budget:</span>
-              <span style="font-size:1.1rem; color:#10B981; font-weight:800; font-family:monospace;">Rp 50.250.000</span>
+            <div style="text-align:right; border-left:1px solid var(--border-color); padding-left:16px;">
+              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">ACTUAL PENYERAPAN:</span>
+              <span style="font-size:1.1rem; font-weight:800; color:#10B981; font-family:monospace;">Rp 305.800.000</span>
             </div>
-            <div style="background:rgba(16, 185, 129, 0.2); border:1px solid #10B981; color:#10B981; padding:6px 12px; border-radius:6px; font-weight:800; font-size:0.85rem;">
-              Serapan Budget: 5.0%
+            <div style="text-align:right; border-left:1px solid var(--border-color); padding-left:16px;">
+              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">EFISIENSI BUDGET:</span>
+              <span class="status-pill status-achieved" style="font-size:0.85rem; font-weight:800;">Hemat Rp 94,2 Jt (23.5%)</span>
             </div>
           </div>
         </div>
       ` : ''}
 
       <!-- Objective Progress Bars Grid -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:20px; border-radius:var(--radius-md);">
-        <h3 style="color:#FFF; font-size:1rem; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
-          <i data-lucide="bar-chart-3" style="color:var(--accent-gold);"></i> Progress Completion Bar per Objective
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+        <h3 style="color:var(--text-primary); font-size:1rem; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+          <i data-lucide="target" style="color:var(--accent-gold);"></i> Progress Completion per Objective / Project
         </h3>
 
         <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap:16px;">
@@ -4252,17 +4283,17 @@ function renderOKRView() {
             const objPercent = objTotal ? Math.round((objDone / objTotal) * 100) : 0;
 
             return `
-              <div style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:14px; border-radius:8px;">
+              <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border-color); padding:14px; border-radius:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
                   <div>
                     <span style="font-size:0.72rem; color:var(--accent-gold); font-weight:700;">${proj.name}</span>
-                    <h4 style="color:#FFF; font-size:0.85rem; font-weight:700; margin:2px 0 0 0;">${obj.name}</h4>
+                    <h4 style="color:var(--text-primary); font-size:0.85rem; font-weight:700; margin:2px 0 0 0;">${obj.name}</h4>
                   </div>
-                  <span style="font-size:0.9rem; font-weight:800; color:${objPercent === 100 ? '#10B981' : objPercent > 40 ? '#F59E0B' : '#60A5FA'}; font-family:monospace;">
+                  <span style="font-size:0.9rem; font-weight:800; color:${objPercent === 100 ? '#10B981' : objPercent > 40 ? 'var(--accent-gold)' : '#38BDF8'}; font-family:monospace;">
                     ${objPercent}%
                   </span>
                 </div>
-                <div style="background:rgba(255,255,255,0.08); height:8px; border-radius:4px; overflow:hidden; margin-bottom:8px;">
+                <div style="background:rgba(255, 255, 255, 0.08); height:8px; border-radius:4px; overflow:hidden; margin-bottom:8px;">
                   <div style="background:${objPercent === 100 ? '#10B981' : 'linear-gradient(90deg, #F59E0B, #10B981)'}; height:100%; width:${objPercent}%; transition:width 0.3s ease;"></div>
                 </div>
                 <div style="font-size:0.75rem; color:var(--text-secondary); display:flex; justify-content:space-between;">
@@ -4276,10 +4307,10 @@ function renderOKRView() {
       </div>
 
       <!-- KANBAN BOARD (Fokus Utama Action Item Prioritas) -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:20px; border-radius:var(--radius-md);">
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
           <div>
-            <h3 style="color:#FFF; font-size:1.05rem; font-weight:800; margin:0; display:flex; align-items:center; gap:8px;">
+            <h3 style="color:var(--text-primary); font-size:1.05rem; font-weight:800; margin:0; display:flex; align-items:center; gap:8px;">
               <i data-lucide="kanban" style="color:var(--accent-gold);"></i> Kanban Board Action Items (Fokus Utama Prioritas Exec)
             </h3>
             <span style="font-size:0.78rem; color:var(--text-secondary);">Klik kartu KR untuk expand detail output, progress realita & link dokumen</span>
@@ -4294,10 +4325,10 @@ function renderOKRView() {
             const colKRs = filteredKRs.filter(k => k.normStatus.key === col.key);
 
             return `
-              <div style="background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.06); border-top:3px solid ${col.color}; padding:12px; border-radius:8px; min-height:350px; display:flex; flex-direction:column;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.05);">
-                  <span style="font-size:0.82rem; font-weight:800; color:#FFF;">${col.title}</span>
-                  <span style="background:${col.color}22; color:${col.color}; border:1px solid ${col.color}55; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:10px;">
+              <div style="background:rgba(255, 255, 255, 0.03); border:1px solid var(--border-color); border-top:3px solid ${col.color}; padding:12px; border-radius:8px; min-height:350px; display:flex; flex-direction:column;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--border-color);">
+                  <span style="font-size:0.82rem; font-weight:800; color:var(--text-primary);">${col.title}</span>
+                  <span style="background:${col.color}15; color:${col.color}; border:1px solid ${col.color}40; font-size:0.75rem; font-weight:800; padding:2px 8px; border-radius:10px;">
                     ${colKRs.length}
                   </span>
                 </div>
@@ -4309,7 +4340,7 @@ function renderOKRView() {
                     </div>
                   ` : colKRs.map(kr => `
                     <div onclick="window.showKRDetailModal('${kr.code}', '${kr.title.replace(/'/g, "\\'")}', '${kr.projectName}', '${kr.objName.replace(/'/g, "\\'")}', '${(kr.targetOutput||'').replace(/'/g, "\\'")}', '${(kr.actual||kr.output||'').replace(/'/g, "\\'")}', '${kr.deadline}', '${kr.normStatus.key}', '${kr.urgency || '-'}', '${kr.link || ''}')" 
-                         style="background:rgba(255,255,255,0.03); border:1px solid ${kr.normStatus.border}; padding:10px 12px; border-radius:6px; cursor:pointer; transition:transform 0.15s ease, border-color 0.15s ease;"
+                         style="background:var(--bg-card); border:1px solid ${kr.normStatus.border}; padding:10px 12px; border-radius:6px; cursor:pointer; transition:transform 0.15s ease, border-color 0.15s ease; box-shadow:var(--shadow-sm);"
                          onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
                       
                       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
@@ -4319,14 +4350,14 @@ function renderOKRView() {
                         </span>
                       </div>
 
-                      <h5 style="color:#FFF; font-size:0.82rem; font-weight:700; margin:0 0 6px 0; line-height:1.3;">${kr.title}</h5>
+                      <h5 style="color:var(--text-primary); font-size:0.82rem; font-weight:700; margin:0 0 6px 0; line-height:1.3;">${kr.title}</h5>
 
                       <div style="font-size:0.72rem; color:var(--text-secondary); margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">
                         Target: ${kr.targetOutput}
                       </div>
 
-                      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:var(--text-secondary); border-top:1px solid rgba(255,255,255,0.05); padding-top:6px; margin-top:6px;">
-                        <span style="color:#60A5FA;">📅 ${kr.deadline}</span>
+                      <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:var(--text-secondary); border-top:1px solid #F1F5F9; padding-top:6px; margin-top:6px;">
+                        <span style="color:#2563EB;">📅 ${kr.deadline}</span>
                         <span style="color:var(--accent-gold); display:flex; align-items:center; gap:3px;">
                           ${kr.link ? '<i data-lucide="file-text" style="width:12px; height:12px;"></i> Doc' : 'Expand 🔍'}
                         </span>
@@ -4341,8 +4372,8 @@ function renderOKRView() {
       </div>
 
       <!-- Timeline/Gantt Target Waktu Horizontal -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:20px; border-radius:var(--radius-md);">
-        <h3 style="color:#FFF; font-size:1.05rem; font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+        <h3 style="color:var(--text-primary); font-size:1.05rem; font-weight:800; margin-bottom:14px; display:flex; align-items:center; gap:8px;">
           <i data-lucide="calendar-days" style="color:var(--accent-gold);"></i> Timeline & Deadline Target Waktu KR (Plot Horizontal 2026)
         </h3>
 
@@ -4381,7 +4412,7 @@ function renderOKRView() {
                 return `
                   <tr>
                     <td style="font-family:monospace; color:var(--accent-gold); font-weight:800;">${kr.code}</td>
-                    <td style="color:#FFF; font-weight:600;">${kr.title}</td>
+                    <td style="color:var(--text-primary); font-weight:600;">${kr.title}</td>
                     <td style="text-align:center; font-size:0.72rem; color:var(--text-secondary);">${kr.projectName}</td>
                     
                     <!-- Month Gantt Plots -->
@@ -4559,9 +4590,9 @@ function renderTKBOKRView() {
     <div style="display:flex; flex-direction:column; gap:20px;">
 
       <!-- Header -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; box-shadow:var(--shadow-sm);">
         <div>
-          <h2 style="color:#FFF; font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
+          <h2 style="color:var(--text-primary); font-size:1.25rem; font-weight:800; display:flex; align-items:center; gap:10px; margin:0;">
             ${getUnitLogoHtml('okr-tkb', 32)}
             <span>OKR Dashboard — The Keranjang Bali (TKB) (${monthTitle})</span>
           </h2>
@@ -4574,7 +4605,7 @@ function renderTKBOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrTkbMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
-                    style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
@@ -4583,7 +4614,7 @@ function renderTKBOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Status:</span>
             <select onchange="window.handleOKRStatusFilterChange(this.value)"
-                    style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedStat==='all'?'selected':''}>Semua Status</option>
               <option value="Overdue" ${selectedStat==='Overdue'?'selected':''}>🔴 Overdue</option>
               <option value="Hold" ${selectedStat==='Hold'?'selected':''}>🟠 Hold</option>
@@ -4604,65 +4635,65 @@ function renderTKBOKRView() {
         </div>
         <div class="metric-card">
           <div class="metric-card-header"><span class="metric-title">Done Rate TKB</span><div class="metric-icon-box okr-theme"><i data-lucide="check-circle-2"></i></div></div>
-          <div class="metric-value" style="color:#10B981;">${donePercent}%</div>
+          <div class="metric-value" style="color:#059669;">${donePercent}%</div>
           <div class="metric-trend trend-up">${doneKRs} dari ${totalKRs} KR Selesai</div>
         </div>
-        <div class="metric-card" style="border-color:rgba(239,68,68,0.4);">
+        <div class="metric-card" style="border-color:rgba(225,29,72,0.3);">
           <div class="metric-card-header"><span class="metric-title">KR Overdue (Potensi Denda)</span><div class="metric-icon-box complain-theme"><i data-lucide="alert-triangle"></i></div></div>
-          <div class="metric-value" style="color:#EF4444;">${overdueKRs} KR</div>
+          <div class="metric-value" style="color:#E11D48;">${overdueKRs} KR</div>
           <div class="metric-trend trend-down">Potensi Total Denda: Rp ${totalDenda.toLocaleString('id-ID')}</div>
         </div>
-        <div class="metric-card" style="border-color:rgba(239,68,68,0.6); background:rgba(239,68,68,0.06);">
+        <div class="metric-card" style="border-color:rgba(225,29,72,0.4); background:rgba(225,29,72,0.04);">
           <div class="metric-card-header"><span class="metric-title">CCP Klausul Denda</span><div class="metric-icon-box complain-theme"><i data-lucide="alert-octagon"></i></div></div>
-          <div class="metric-value" style="color:#EF4444; font-size:1rem;">Rp 200.000 / KR</div>
+          <div class="metric-value" style="color:#E11D48; font-size:1rem;">Rp 200.000 / KR</div>
           <div class="metric-trend trend-down">Berlaku semua KR Overdue</div>
         </div>
       </div>
 
       <!-- Panel Potensi Sanksi Denda CCP — HANYA KR Overdue -->
       ${overdueTKBKRs.length > 0 ? `
-        <div style="background:linear-gradient(135deg,rgba(239,68,68,0.12),rgba(17,24,39,0.97)); border:1.5px solid #EF4444; padding:20px 24px; border-radius:var(--radius-md);">
+        <div style="background:linear-gradient(135deg,rgba(225,29,72,0.12),rgba(17,24,39,0.8)); border:1.5px solid #E11D48; padding:20px 24px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
           <!-- Panel Header -->
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px; border-bottom:1px solid rgba(239,68,68,0.25); padding-bottom:14px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px; border-bottom:1px solid rgba(225,29,72,0.3); padding-bottom:14px;">
             <div>
-              <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; color:#EF4444; font-weight:800; display:flex; align-items:center; gap:8px;">
+              <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; color:#F43F5E; font-weight:800; display:flex; align-items:center; gap:8px;">
                 <i data-lucide="shield-alert" style="width:16px;height:16px;"></i>
                 Panel Potensi Sanksi Keterlambatan (Denda CCP TKB)
               </div>
               <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:4px;">
-                Klausul: <strong style="color:#FFF;">Late > Denda Rp200.000 per KR</strong> — Hanya KR Overdue yang ditampilkan
+                Klausul: <strong style="color:var(--text-primary);">Late > Denda Rp200.000 per KR</strong> — Hanya KR Overdue yang ditampilkan
               </div>
             </div>
-            <div style="background:rgba(239,68,68,0.2); border:1.5px solid #EF4444; color:#EF4444; padding:8px 18px; border-radius:8px; font-weight:800; font-family:monospace; font-size:1rem; white-space:nowrap;">
+            <div style="background:rgba(225,29,72,0.2); border:1.5px solid #E11D48; color:#FDA4AF; padding:8px 18px; border-radius:8px; font-weight:800; font-family:monospace; font-size:1rem; white-space:nowrap;">
               Total Potensi Denda: Rp ${totalDenda.toLocaleString('id-ID')}
             </div>
           </div>
           <!-- Denda Cards — 3 kolom -->
-          <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;">
+          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:14px;">
             ${overdueTKBKRs.map(kr => `
-              <div style="background:rgba(0,0,0,0.5); border:1px solid rgba(239,68,68,0.45); border-radius:10px; overflow:hidden;">
+              <div style="background:var(--bg-card); border:1px solid rgba(225,29,72,0.35); border-radius:10px; overflow:hidden; box-shadow:var(--shadow-sm);">
                 <!-- Card Top Bar -->
-                <div style="background:rgba(239,68,68,0.15); border-bottom:1px solid rgba(239,68,68,0.3); padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-size:0.72rem; font-family:monospace; color:var(--accent-gold); font-weight:800; background:rgba(245,158,11,0.15); padding:3px 8px; border-radius:4px;">${kr.code}</span>
-                  <span style="background:rgba(239,68,68,0.25); color:#EF4444; border:1px solid rgba(239,68,68,0.6); padding:3px 10px; border-radius:5px; font-size:0.7rem; font-weight:800;">Denda Rp200.000</span>
+                <div style="background:rgba(225,29,72,0.15); border-bottom:1px solid rgba(225,29,72,0.3); padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-size:0.72rem; font-family:monospace; color:var(--accent-gold); font-weight:800; background:rgba(217,119,6,0.15); padding:3px 8px; border-radius:4px;">${kr.code}</span>
+                  <span style="background:rgba(225,29,72,0.25); color:#FDA4AF; border:1px solid rgba(225,29,72,0.5); padding:3px 10px; border-radius:5px; font-size:0.7rem; font-weight:800;">Denda Rp200.000</span>
                 </div>
                 <!-- Card Body -->
                 <div style="padding:12px 14px;">
-                  <div style="color:#FFF; font-size:0.87rem; font-weight:700; line-height:1.35; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${kr.title}</div>
-                  <div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:8px;">📅 Due: <span style="color:#FCA5A5; font-weight:600;">${kr.deadline}</span></div>
-                  <div style="font-size:0.68rem; color:#94A3B8; background:rgba(255,255,255,0.03); border-radius:4px; padding:4px 8px; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${kr.objName}</div>
-                  ${kr.actual ? `<div style="font-size:0.72rem; color:#FCA5A5; line-height:1.4; background:rgba(239,68,68,0.08); border-left:2px solid #EF4444; padding:6px 10px; border-radius:0 4px 4px 0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;"><span style="color:rgba(255,255,255,0.5); font-weight:600;">Aktual: </span>${kr.actual}</div>` : ''}
+                  <div style="color:var(--text-primary); font-size:0.87rem; font-weight:700; line-height:1.35; margin-bottom:6px; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${kr.title}</div>
+                  <div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:8px;">📅 Due: <span style="color:#F43F5E; font-weight:600;">${kr.deadline}</span></div>
+                  <div style="font-size:0.68rem; color:var(--text-secondary); background:rgba(255,255,255,0.04); border-radius:4px; padding:4px 8px; margin-bottom:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${kr.objName}</div>
+                  ${kr.actual ? `<div style="font-size:0.72rem; color:#FDA4AF; line-height:1.4; background:rgba(225,29,72,0.1); border-left:2px solid #E11D48; padding:6px 10px; border-radius:0 4px 4px 0; display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;"><span style="color:var(--text-secondary); font-weight:600;">Aktual: </span>${kr.actual}</div>` : ''}
                 </div>
               </div>
             `).join('')}
           </div>
         </div>
-      ` : `<div style="background:rgba(16,185,129,0.1); border:1px solid #10B981; padding:14px 20px; border-radius:var(--radius-md); color:#10B981; font-weight:700;">✅ Tidak ada KR Overdue saat ini — Tidak ada potensi denda CCP</div>`}
+      ` : `<div style="background:rgba(5,150,105,0.12); border:1px solid #10B981; padding:14px 20px; border-radius:var(--radius-md); color:#34D399; font-weight:700;">✅ Tidak ada KR Overdue saat ini — Tidak ada potensi denda CCP</div>`}
 
 
       <!-- Progress Bars per Objective -->
-      <div style="background:var(--bg-card); border:1px solid var(--border-gold); padding:20px; border-radius:var(--radius-md);">
-        <h3 style="color:#FFF; font-size:1rem; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
+      <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+        <h3 style="color:var(--text-primary); font-size:1rem; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
           <i data-lucide="bar-chart-3" style="color:var(--accent-gold);"></i> Progress Completion per Goal / Objective (TKB)
         </h3>
         <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:14px;">
@@ -4672,13 +4703,13 @@ function renderTKBOKRView() {
             const objPct = objTotal ? Math.round((objDone / objTotal) * 100) : 0;
             const hasOverdue = obj.krs.some(k => normalizeOKRStatus(k.status).key === 'Overdue');
             return `
-              <div style="background:rgba(255,255,255,0.02); border:1px solid ${hasOverdue ? 'rgba(239,68,68,0.4)' : 'rgba(255,255,255,0.06)'}; padding:14px; border-radius:8px;">
+              <div style="background:rgba(255,255,255,0.03); border:1px solid ${hasOverdue ? 'rgba(225,29,72,0.3)' : 'var(--border-color)'}; padding:14px; border-radius:8px;">
                 <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px;">
                   <div>
-                    ${obj.penaltyClause ? `<span style="font-size:0.65rem; color:#EF4444; font-weight:700; display:block; margin-bottom:2px;">⚠️ ${obj.penaltyClause}</span>` : ''}
-                    <h4 style="color:#FFF; font-size:0.84rem; font-weight:700; margin:0;">${obj.name}</h4>
+                    ${obj.penaltyClause ? `<span style="font-size:0.65rem; color:#F43F5E; font-weight:700; display:block; margin-bottom:2px;">⚠️ ${obj.penaltyClause}</span>` : ''}
+                    <h4 style="color:var(--text-primary); font-size:0.84rem; font-weight:700; margin:0;">${obj.name}</h4>
                   </div>
-                  <span style="font-size:0.88rem; font-weight:800; color:${objPct===100?'#10B981':objPct>50?'#F59E0B':'#60A5FA'}; font-family:monospace;">${objPct}%</span>
+                  <span style="font-size:0.88rem; font-weight:800; color:${objPct===100?'#10B981':objPct>50?'var(--accent-gold)':'#38BDF8'}; font-family:monospace;">${objPct}%</span>
                 </div>
                 <div style="background:rgba(255,255,255,0.08); height:8px; border-radius:4px; overflow:hidden; margin-bottom:8px;">
                   <div style="background:${objPct===100?'#10B981':'linear-gradient(90deg,#F59E0B,#10B981)'}; height:100%; width:${objPct}%;"></div>
@@ -5751,3 +5782,1401 @@ function renderMilestoneView() {
     </div>
   `;
 }
+
+// ==========================================================================
+// VIEW 7: B2B DASHBOARD (ACHIEVEMENT, YOY COMPARISON, COMPLAIN WITH PHOTOS)
+// ==========================================================================
+
+const b2bMonthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+const b2bDatabase = {
+  // Target ACV bulanan 2026 (Total Jan-Ags = Rp 3.960.000.000, Total Full Year = Rp 6.000.000.000)
+  target2026: [420000000, 480000000, 480000000, 660000000, 480000000, 540000000, 480000000, 420000000, 540000000, 480000000, 600000000, 420000000],
+  // ACV Aktual 2025 (Jan - Des)
+  acv2025: [49396200, 99146399, 437196380, 163115720, 180073085, 169497149, 29836562, 274537035, 167413910, 244770614, 361433600, 483325750],
+  // Cash In 2025 (Jan - Des)
+  cashIn2025: [0, 0, 24081550, 30579350, 131204585, 168881469, 71302062, 44909650, 102057050, 398148054, 216523865, 437298350],
+  // ACV Aktual 2026 (Jan - Ags, YTD = Rp 2.885.932.921)
+  acv2026: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0],
+  // Cash In 2026 (Jan - Ags, YTD = Rp 2.131.472.842)
+  cashIn2026: [300544972, 283399800, 102205868, 268122736, 384872726, 295220915, 154484825, 342621000, 0, 0, 0, 0],
+  
+  availableMonths: [
+    { key: 'all', label: 'Semua Periode YTD (Jan-Ags)', emoji: '📊' },
+    { key: '7', label: 'Agustus 2026 (Data Baru ✨)', emoji: '✨' },
+    { key: '6', label: 'Juli 2026 (History 📜)', emoji: '📜' },
+    { key: '5', label: 'Juni 2026', emoji: '📜' },
+    { key: '4', label: 'Mei 2026', emoji: '📜' },
+    { key: '3', label: 'April 2026 (Peak Q2 🔥)', emoji: '🔥' },
+    { key: '2', label: 'Maret 2026', emoji: '📜' },
+    { key: '1', label: 'Februari 2026', emoji: '📜' },
+    { key: '0', label: 'Januari 2026', emoji: '📜' }
+  ]
+};
+
+// Database Tiket Komplain Customer B2B dengan Foto Bukti Nyata
+const b2bComplainTickets = [
+  {
+    id: 'B2B-CMP-2026-081',
+    customer: 'PT Astra International Tbk',
+    orderRef: 'PO-ASTRA/B2B/2026/08/044',
+    date: '14 Agustus 2026',
+    monthKey: '7',
+    category: 'Kualitas Bahan & Pewarnaan',
+    badgeType: 'b2b-badge-product',
+    severity: 'High',
+    pic: 'Rangga Dananjaya (AE Corporate)',
+    photo: 'asset/b2b_complain_defect_motif.jpg',
+    photoThumb: 'asset/b2b_complain_defect_motif.jpg',
+    title: 'Motif Pewarnaan Dye Bleed pada Bahan Seragam Direksi',
+    issue: 'Ditemukan perembesan tinta pewarna (dye bleed) dan pola batik parang tidak presisi pada 12 roll kain katun primisima pesanan seragam korporat nasional.',
+    rootCause: 'Penyusutan saat proses fiksasi warna di batch pengeringan malam hari karena fluktuasi kelembaban suhu ruang oven.',
+    resolution: 'Penggantian 100% 12 roll kain baru dengan proses fiksasi ulang & QC ganda. Diserahkan kembali dalam 48 jam disertai sertifikat QC lulus uji.',
+    status: 'Resolved',
+    csat: '5.0 / 5.0 (Sangat Puas)'
+  },
+  {
+    id: 'B2B-CMP-2026-082',
+    customer: 'PT Bank Mandiri (Persero) Tbk',
+    orderRef: 'PO-MANDIRI/SOUV/2026/08/102',
+    date: '19 Agustus 2026',
+    monthKey: '7',
+    category: 'Packaging & Hardbox',
+    badgeType: 'b2b-badge-delivery',
+    severity: 'Medium',
+    pic: 'Siti Rahmawati (Key Account Specialist)',
+    photo: 'asset/b2b_complain_packaging.jpg',
+    photoThumb: 'asset/b2b_complain_packaging.jpg',
+    title: 'Kerusakan Sudut Box & Segel Terbuka saat Pengiriman Ekspedisi',
+    issue: 'Dari 1.200 unit paket bingkisan souvenir batik premium, terdapat 2 karton master (20 gift box) yang sudut box-nya penyok dan stiker segel keaslian sobek terbentur di kargo pengiriman.',
+    rootCause: 'Benturan saat handling transit logistik eksternal dan kurangnya corner-protector pada pallet lapis bawah.',
+    resolution: 'Penggantian instan 20 box hardcover premium baru dengan pengantaran langsung tim B2B delivery Trusmi ke KC Plaza Mandiri Jakarta.',
+    status: 'Resolved',
+    csat: '4.9 / 5.0 (Sangat Puas)'
+  },
+  {
+    id: 'B2B-CMP-2026-083',
+    customer: 'PT Telekomunikasi Indonesia Tbk (Telkom)',
+    orderRef: 'PO-TELKOM/UNIFORM/2026/08/019',
+    date: '22 Agustus 2026',
+    monthKey: '7',
+    category: 'Bordir & Finishing',
+    badgeType: 'b2b-badge-product',
+    severity: 'Medium',
+    pic: 'Dimas Aditya (B2B Project Leader)',
+    photo: 'asset/b2b_complain_embroidery.jpg',
+    photoThumb: 'asset/b2b_complain_embroidery.jpg',
+    title: 'Tarikan Benang Bordir Logo Perusahaan Kurang Rapi',
+    issue: 'Terdapat 8 pcs kemeja batik pesanan seragam custom dengan sisa tarikan benang bordir logo dada kiri yang kendur (loose embroidery thread).',
+    rootCause: 'Tension benang mesin bordir digital 12 kepala mengalami kelonggaran setting pada nozzle nomor 4.',
+    resolution: 'Pengambilan seragam yang cacat pada hari yang sama, dilakukan re-embroidery & precision heat-trimming. Dikembalikan tuntas dalam 24 jam.',
+    status: 'Resolved',
+    csat: '5.0 / 5.0 (Puas Cepat)'
+  },
+  {
+    id: 'B2B-CMP-2026-084',
+    customer: 'Dinas Pariwisata & Kebudayaan Pemprov',
+    orderRef: 'PO-DISPARBUD/CEND/2026/08/007',
+    date: '27 Agustus 2026',
+    monthKey: '7',
+    category: 'Noda / Watermark Sutra',
+    badgeType: 'b2b-badge-service',
+    severity: 'Medium',
+    pic: 'Rangga Dananjaya (AE Corporate)',
+    photo: 'asset/b2b_complain_color_bleed.jpg',
+    photoThumb: 'asset/b2b_complain_color_bleed.jpg',
+    title: 'Watermark Stain pada Selendang Sutra Tulis Cirebonan',
+    issue: 'Pada 5 pcs selendang sutra tulis cindai ditemukan bercak watermark lingkaran akibat tetesan uap steam iron saat proses final pressing.',
+    rootCause: 'Kondensasi selang uap setrika uap industri garmen yang belum dibuang sebelum shift pagi.',
+    resolution: 'Penggantian unit baru dari stok master gallery Batik Trusmi langsung di hari H acara seremoni pembukaan festival pariwisata.',
+    status: 'Resolved',
+    csat: '5.0 / 5.0 (Apresiasi Respon Cepat)'
+  },
+  {
+    id: 'B2B-CMP-2026-071',
+    customer: 'CV Nusantara Fashion Apparel',
+    orderRef: 'PO-NF/FABRIC/2026/07/088',
+    date: '12 Juli 2026',
+    monthKey: '6',
+    category: 'Pengiriman & Logistik',
+    badgeType: 'b2b-badge-delivery',
+    severity: 'Medium',
+    pic: 'Budi Santoso (Logistics B2B)',
+    photo: 'asset/b2b_complain_packaging.jpg',
+    photoThumb: 'asset/b2b_complain_packaging.jpg',
+    title: 'Keterlambatan Pengiriman 2 Hari Akibat Antrean Muatan Logistik',
+    issue: 'Pengiriman kain seragam pesanan tertunda 2 hari kerja akibat overload gudang ekspedisi cargo lintas Jawa.',
+    rootCause: 'Ketergantungan pada 1 vendor ekspedisi reguler saat peak season liburan sekolah.',
+    resolution: 'Peningkatan SLA ekspedisi ke dedicated chartered van B2B serta pemberian diskon voucher 5% untuk PO berikutnya.',
+    status: 'Resolved',
+    csat: '4.7 / 5.0'
+  },
+  {
+    id: 'B2B-CMP-2026-072',
+    customer: 'PT Pupuk Indonesia Holding Company',
+    orderRef: 'PO-PIHC/SERAGAM/2026/07/015',
+    date: '26 Juli 2026',
+    monthKey: '6',
+    category: 'Penyesuaian Ukuran (Size Exchange)',
+    badgeType: 'b2b-badge-service',
+    severity: 'Low',
+    pic: 'Siti Rahmawati (Key Account Specialist)',
+    photo: 'asset/b2b_complain_embroidery.jpg',
+    photoThumb: 'asset/b2b_complain_embroidery.jpg',
+    title: 'Permintaan Tukar Size Kemeja Seragam Karyawan (15 Pcs)',
+    issue: 'Karyawan di divisi operasional mengajukan penyesuaian ukuran seragam (tukar size XL ke L) karena salah input data ukuran internal.',
+    rootCause: 'Data formulir fitting internal dari PIC customer yang direvisi pasca produksi.',
+    resolution: 'Layanan purna jual gratis tukar size selesai dan didistribusikan dalam 3 hari kerja.',
+    status: 'Resolved',
+    csat: '5.0 / 5.0'
+  }
+];
+
+// Top Corporate Clients & Pipeline Performance Database
+const b2bTopClients = [
+  { client: 'PT Astra International Tbk', sector: 'Automotive & Holding', volume: 'Rp 685.400.000', orders: 4, status: 'Active VIP', growth: '+142% YoY' },
+  { client: 'PT Bank Mandiri (Persero) Tbk', sector: 'Banking & Financial', volume: 'Rp 590.250.000', orders: 6, status: 'Active VIP', growth: '+98% YoY' },
+  { client: 'PT Telekomunikasi Indonesia Tbk', sector: 'Telco & Digital', volume: 'Rp 448.600.000', orders: 3, status: 'Active VIP', growth: '+215% YoY' },
+  { client: 'Dinas Pariwisata & Pemda', sector: 'Government & Public', volume: 'Rp 382.150.000', orders: 5, status: 'Active Recurring', growth: '+65% YoY' },
+  { client: 'PT Pertamina Patra Niaga', sector: 'Energy & Logistics', volume: 'Rp 312.800.000', orders: 2, status: 'Active New Client', growth: 'New 2026' },
+  { client: 'CV Nusantara Fashion Apparel', sector: 'Retail & Garment', volume: 'Rp 268.900.000', orders: 8, status: 'Active Wholesale', growth: '+45% YoY' }
+];
+
+// Main Dispatcher for B2B View
+function renderB2BView() {
+  const sub = state.activeSub || 'b2b-achievement';
+  
+  if (sub === 'b2b-comparison') {
+    return renderB2BComparisonView();
+  } else if (sub === 'b2b-complain') {
+    return renderB2BComplainView();
+  } else {
+    return renderB2BAchievementView();
+  }
+}
+
+// --------------------------------------------------------------------------
+// SUB-VIEW 1: ACHIEVEMENT B2B
+// --------------------------------------------------------------------------
+function renderB2BAchievementView() {
+  const selMonth = state.selectedSalesMonth || 'all';
+  const isAll = selMonth === 'all';
+  const mIdx = isAll ? 7 : parseInt(selMonth, 10);
+
+  // Totals for 2026 Jan - Ags
+  const totalTargetYTD = b2bDatabase.target2026.slice(0, 8).reduce((s, v) => s + v, 0); // Rp 3.960.000.000
+  const totalAcvYTD = b2bDatabase.acv2026.slice(0, 8).reduce((s, v) => s + v, 0);       // Rp 2.885.932.921
+  const totalCashYTD = b2bDatabase.cashIn2026.slice(0, 8).reduce((s, v) => s + v, 0);    // Rp 2.131.472.842
+  const totalTargetFY = b2bDatabase.target2026.reduce((s, v) => s + v, 0);               // Rp 6.000.000.000
+  const totalAcvFY2025 = b2bDatabase.acv2025.reduce((s, v) => s + v, 0);                 // Rp 2.659.742.404
+  const totalAcv2025YTD = b2bDatabase.acv2025.slice(0, 8).reduce((s, v) => s + v, 0);   // Rp 1.402.798.530
+
+  // Key stats
+  const ytdAchvPct = ((totalAcvYTD / totalTargetYTD) * 100).toFixed(1);
+  const fyAchvPct = ((totalAcvYTD / totalTargetFY) * 100).toFixed(1);
+  const yoyGrowthYTD = (((totalAcvYTD - totalAcv2025YTD) / totalAcv2025YTD) * 100).toFixed(1);
+
+  return `
+    <div style="display:flex; flex-direction:column; gap:22px;">
+      
+      <!-- Top Banner Header for 1-Year ACV Sales Monitoring -->
+      <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(16, 185, 129, 0.12) 100%); border: 1px solid rgba(99, 102, 241, 0.35); padding: 22px 26px; border-radius: var(--radius-lg);">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; width:100%;">
+          <div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="background:linear-gradient(135deg, #6366F1, #10B981); width:42px; height:42px; border-radius:12px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(16,185,129,0.35);">
+                <i data-lucide="line-chart" style="color:#FFF; width:24px; height:24px;"></i>
+              </div>
+              <div>
+                <h2 class="b2b-banner-title" style="font-size:1.4rem; font-weight:900;">MONITORING ACV SALES B2B TAHUN 2026 (1 TAHUN PENUH)</h2>
+                <div class="b2b-banner-sub">Evaluasi Realisasi Nilai Kontrak ACV Sales Sepanjang 12 Bulan (Januari – Desember 2026) vs Target & Baseline 2025</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <button class="pill-btn active" onclick="triggerB2BCelebration()" style="background:linear-gradient(135deg, #10B981, #059669); border:none; padding:8px 16px; color:#FFF; font-weight:800; display:flex; align-items:center; gap:6px; cursor:pointer;">
+              <i data-lucide="party-popper" style="width:16px; height:16px;"></i> Rekor Ags: Rp 612,7 Jt!
+            </button>
+          </div>
+        </div>
+
+        <!-- Integrated Summary Pills Bar inside Banner (Clean & Easy to Read, No Box Cards) -->
+        <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); width:100%;">
+          <div style="background:rgba(255,255,255,0.05); border:1px solid var(--border-color); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:var(--text-secondary); font-weight:700;">🎯 TARGET 1 TAHUN (FY 2026):</span>
+            <strong style="color:#FFF; font-family:monospace; font-size:0.92rem;">Rp 6.000.000.000</strong>
+          </div>
+
+          <div style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:#A7F3D0; font-weight:700;">🏆 REALISASI YTD (JAN-AGS):</span>
+            <strong style="color:#10B981; font-family:monospace; font-size:0.92rem;">Rp 2.885.932.921</strong>
+            <span style="font-size:0.75rem; background:#10B981; color:#FFF; padding:2px 6px; border-radius:4px; font-weight:800;">${ytdAchvPct}% YTD</span>
+          </div>
+
+          <div style="background:rgba(245,158,11,0.12); border:1px solid rgba(245,158,11,0.3); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:#FDE68A; font-weight:700;">🚀 PERTUMBUHAN YOY:</span>
+            <strong style="color:var(--accent-gold); font-family:monospace; font-size:0.92rem;">+${yoyGrowthYTD}%</strong>
+            <span style="font-size:0.72rem; color:var(--text-secondary);">(vs Jan-Ags 2025: Rp 1,40 M)</span>
+          </div>
+
+          <div style="background:rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.3); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:#C7D2FE; font-weight:700;">⚡ CAPAIAN VS FULL YEAR 2025:</span>
+            <strong style="color:#818CF8; font-family:monospace; font-size:0.92rem;">108.5%</strong>
+            <span style="font-size:0.72rem; color:var(--text-secondary);">(Melampaui Total 2025 dalam 8 Bulan)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Full-Width Annual 12-Month ACV Sales Chart Card -->
+      <div class="b2b-chart-card" style="width:100%;">
+        <div class="b2b-chart-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <i data-lucide="bar-chart-2" class="accent" style="width:22px; height:22px;"></i>
+            <span style="font-size:1.05rem; font-weight:800;">Grafik ACV Sales B2B Selama 1 Tahun (Target Bulanan 2026 vs Realisasi 2026 vs Baseline 2025)</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px; font-size:0.78rem; font-weight:700;">
+            <span style="display:inline-flex; align-items:center; gap:6px; color:#10B981;">
+              <span style="width:12px; height:12px; border-radius:3px; background:#10B981; display:inline-block;"></span> Realisasi ACV 2026 (Jan–Ags)
+            </span>
+            <span style="display:inline-flex; align-items:center; gap:6px; color:#818CF8;">
+              <span style="width:12px; height:12px; border-radius:3px; background:rgba(99, 102, 241, 0.4); border:1px solid #818CF8; display:inline-block;"></span> Target ACV 2026 (12 Bulan)
+            </span>
+            <span style="display:inline-flex; align-items:center; gap:6px; color:var(--accent-gold);">
+              <span style="width:12px; height:3px; background:var(--accent-gold); display:inline-block;"></span> ACV 2025 (Baseline YoY)
+            </span>
+          </div>
+        </div>
+
+        <div style="position:relative; height:360px; width:100%; margin-top:14px;">
+          <canvas id="b2bAnnualAcvChart"></canvas>
+        </div>
+
+        <!-- Chart Quick Legend and Highlights Bar -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-top:14px; padding:12px 18px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid var(--border-color); font-size:0.78rem;">
+          <div>
+            <span style="color:var(--text-secondary);">Rata-rata ACV/Bulan (Jan-Ags):</span>
+            <strong style="color:#10B981; margin-left:4px;">Rp 360,7 Juta</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-secondary);">Puncak Tertinggi 2026:</span>
+            <strong style="color:#10B981; margin-left:4px;">Agustus (Rp 612,7 Jt • 145.9% Target) 🔥</strong>
+          </div>
+          <div>
+            <span style="color:var(--text-secondary);">Sisa Target Capaian FY26:</span>
+            <strong style="color:var(--accent-gold); margin-left:4px;">Rp 3.114.067.079 (Sep - Des)</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secondary Chart: Cumulative 1-Year ACV Trajectory Chart -->
+      <div class="b2b-chart-card" style="width:100%;">
+        <div class="b2b-chart-title">
+          <i data-lucide="trending-up" class="accent" style="width:20px; height:20px;"></i>
+          <span>Trajektori Akumulasi ACV Sales Menuju Target 1 Tahun (Rp 6,00 Miliar)</span>
+        </div>
+        <div style="position:relative; height:260px; width:100%; margin-top:10px;">
+          <canvas id="b2bCumulativeAcvChart"></canvas>
+        </div>
+        <div style="display:flex; justify-content:center; gap:24px; margin-top:10px; font-size:0.76rem; color:var(--text-secondary);">
+          <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#10B981;"></span> Akumulasi Realisasi 2026 (Jan–Ags: Rp 2,89 M)</span>
+          <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:rgba(99,102,241,0.6);"></span> Target Akumulatif 2026 (Jan–Des: Rp 6,00 M)</span>
+          <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#94A3B8;"></span> Akumulasi Realisasi 2025 (Full Year: Rp 2,66 M)</span>
+        </div>
+      </div>
+
+      <!-- Detail Monthly ACV Sales Table (12 Months Complete Breakdown) -->
+      <div class="b2b-table-card">
+        <div class="b2b-table-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="table" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Tabel Rincian ACV Sales B2B Sepanjang 12 Bulan (Januari – Desember 2026)</h3>
+          </div>
+          <span style="font-size:0.78rem; background:rgba(255,255,255,0.15); padding:3px 10px; border-radius:12px; font-weight:700;">
+            12 Bulan Komprehensif
+          </span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="custom-table" style="font-size:0.82rem;">
+            <thead>
+              <tr style="background:#111827; color:#FFF; border-bottom:2px solid var(--border-color);">
+                <th>BULAN</th>
+                <th style="text-align:right;">TARGET 2026</th>
+                <th style="text-align:right; color:#10B981;">REALISASI ACV 2026</th>
+                <th style="text-align:right; color:#06B6D4;">REALISASI CASH IN 2026</th>
+                <th style="text-align:right; color:var(--accent-gold);">BASELINE ACV 2025</th>
+                <th style="text-align:center;">PENCAPAIAN TARGET %</th>
+                <th style="text-align:center;">PERTUMBUHAN YOY ACV</th>
+                <th style="text-align:center;">STATUS BULAN</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[0,1,2,3,4,5,6,7,8,9,10,11].map(idx => {
+                const target = b2bDatabase.target2026[idx];
+                const acv = b2bDatabase.acv2026[idx];
+                const cash = b2bDatabase.cashIn2026[idx];
+                const acv25 = b2bDatabase.acv2025[idx];
+                
+                const isAug = (idx === 7);
+                const isJul = (idx === 6);
+                const isFuture = (idx >= 8);
+
+                const achvAcv = acv > 0 ? ((acv / target) * 100).toFixed(1) + '%' : '-';
+                
+                let growthYoYStr = '-';
+                if (acv > 0 && acv25 > 0) {
+                  const g = (((acv - acv25) / acv25) * 100).toFixed(1);
+                  growthYoYStr = (g >= 0 ? '+' : '') + g + '%';
+                } else if (acv > 0 && acv25 === 0) {
+                  growthYoYStr = '+100.0%';
+                }
+
+                let rowBg = '';
+                if (isAug) rowBg = 'background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10B981; font-weight: 700;';
+                else if (isJul) rowBg = 'background: rgba(6, 182, 212, 0.12); border-left: 4px solid #06B6D4; font-weight: 600;';
+                else if (isFuture) rowBg = 'opacity: 0.55;';
+
+                return `
+                  <tr style="${rowBg}">
+                    <td>
+                      ${isAug 
+                        ? `<strong style="color:#10B981; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="sparkles" style="width:14px; height:14px; color:#10B981;"></i> AGUSTUS (Data Baru ✨)</strong>`
+                        : (isJul 
+                            ? `<strong style="color:#06B6D4; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="history" style="width:14px; height:14px; color:#06B6D4;"></i> JULI (History 📜)</strong>`
+                            : `<strong>${b2bMonthNames[idx].toUpperCase()}</strong>`)
+                      }
+                    </td>
+                    <td style="text-align:right; font-weight:600;">${formatRupiah(target)}</td>
+                    <td style="text-align:right; color:#10B981; font-weight:800;">${acv > 0 ? formatRupiah(acv) : '<span style="color:var(--text-muted); font-size:0.75rem;">(Belum Berjalan)</span>'}</td>
+                    <td style="text-align:right; color:#06B6D4; font-weight:700;">${cash > 0 ? formatRupiah(cash) : '-'}</td>
+                    <td style="text-align:right; color:var(--text-secondary);">${formatRupiah(acv25)}</td>
+                    <td style="text-align:center;">
+                      ${acv > 0 ? `
+                        <span class="status-pill ${parseFloat(achvAcv) >= 100 ? 'status-achieved' : (parseFloat(achvAcv) >= 70 ? 'status-on-track' : 'status-at-risk')}">
+                          ${achvAcv}
+                        </span>
+                      ` : '-'}
+                    </td>
+                    <td style="text-align:center;">
+                      ${growthYoYStr !== '-' ? `
+                        <span class="status-pill ${growthYoYStr.startsWith('+') ? 'status-achieved' : 'status-at-risk'}">
+                          ${growthYoYStr}
+                        </span>
+                      ` : '-'}
+                    </td>
+                    <td style="text-align:center;">
+                      ${acv > 0 ? (
+                        parseFloat(achvAcv) >= 100 
+                          ? `<span style="background:rgba(16,185,129,0.15); color:#10B981; padding:3px 8px; border-radius:4px; font-weight:800; font-size:0.74rem;">SURPASS 🔥</span>`
+                          : (parseFloat(achvAcv) >= 70 
+                              ? `<span style="background:rgba(6,182,212,0.15); color:#06B6D4; padding:3px 8px; border-radius:4px; font-weight:700; font-size:0.74rem;">ON TRACK</span>`
+                              : `<span style="background:rgba(244,63,94,0.15); color:#F43F5E; padding:3px 8px; border-radius:4px; font-weight:700; font-size:0.74rem;">UNDER TARGET</span>`)
+                      ) : '<span style="color:var(--text-muted); font-size:0.75rem;">Proyeksi Q4</span>'}
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+
+              <!-- TOTAL YTD (JAN-AGS) ROW -->
+              <tr style="background:rgba(16, 185, 129, 0.15); font-weight:800; border-top:2px solid #10B981;">
+                <td style="color:#FFF;">TOTAL REALISASI YTD 2026 (JAN–AGS)</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalTargetYTD)}</td>
+                <td style="text-align:right; color:#10B981; font-size:0.95rem;">${formatRupiah(totalAcvYTD)}</td>
+                <td style="text-align:right; color:#06B6D4; font-size:0.95rem;">${formatRupiah(totalCashYTD)}</td>
+                <td style="text-align:right; color:var(--text-secondary);">${formatRupiah(totalAcv2025YTD)}</td>
+                <td style="text-align:center; color:#10B981; font-size:0.9rem;">${ytdAchvPct}%</td>
+                <td style="text-align:center; color:#10B981; font-size:0.9rem;">+${yoyGrowthYTD}%</td>
+                <td style="text-align:center;">
+                  <span class="status-pill status-achieved">YTD ON-TRACK</span>
+                </td>
+              </tr>
+
+              <!-- TOTAL FULL YEAR 2026 TARGET ROW -->
+              <tr style="background:rgba(99, 102, 241, 0.15); font-weight:800; border-top:1px dashed #818CF8;">
+                <td style="color:#C7D2FE;">TOTAL TARGET FULL YEAR 2026 (1 TAHUN)</td>
+                <td style="text-align:right; color:#C7D2FE;">${formatRupiah(totalTargetFY)}</td>
+                <td style="text-align:right; color:#10B981;">(Tercapai ${fyAchvPct}% dari Target FY)</td>
+                <td style="text-align:right; color:#06B6D4;">-</td>
+                <td style="text-align:right; color:var(--text-secondary);">${formatRupiah(totalAcvFY2025)}</td>
+                <td style="text-align:center; color:var(--accent-gold);">${fyAchvPct}%</td>
+                <td style="text-align:center; color:var(--accent-gold);">Sudah 108.5% Total 2025</td>
+                <td style="text-align:center;">
+                  <span style="color:#818CF8; font-size:0.75rem; font-weight:800;">TARGET Rp 6,00 M</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Top Client Portfolio & Strategic B2B Accounts -->
+      <div class="b2b-table-card">
+        <div class="b2b-table-header" style="background: linear-gradient(90deg, #312E81 0%, #4338CA 100%);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="building" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Portofolio Akun Korporat & Klien Strategis B2B (2026)</h3>
+          </div>
+          <span style="font-size:0.78rem; color:#E0E7FF;">6 Akun Kunci Berkontribusi 85% Total Revenue</span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="custom-table" style="font-size:0.82rem;">
+            <thead>
+              <tr style="background:#111827; border-bottom:2px solid var(--border-color);">
+                <th>KLIEN / PERUSAHAAN</th>
+                <th>SEKTOR INDUSTRI</th>
+                <th style="text-align:right;">TOTAL ORDER VALUE</th>
+                <th style="text-align:center;">PO / TRANSAKSI</th>
+                <th style="text-align:center;">PERTUMBUHAN YOY</th>
+                <th style="text-align:center;">STATUS KONTRAK</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${b2bTopClients.map(c => `
+                <tr>
+                  <td>
+                    <div style="font-weight:800; color:#FFF; display:flex; align-items:center; gap:8px;">
+                      <i data-lucide="shield-check" style="width:14px; height:14px; color:#818CF8;"></i> ${c.client}
+                    </div>
+                  </td>
+                  <td style="color:var(--text-secondary);">${c.sector}</td>
+                  <td style="text-align:right; font-weight:800; color:#10B981;">${c.volume}</td>
+                  <td style="text-align:center; font-weight:700;">${c.orders} Orders</td>
+                  <td style="text-align:center;">
+                    <span class="status-pill status-achieved">${c.growth}</span>
+                  </td>
+                  <td style="text-align:center;">
+                    <span style="background:rgba(99,102,241,0.15); color:#A5B4FC; border:1px solid rgba(99,102,241,0.3); padding:3px 10px; border-radius:12px; font-weight:700; font-size:0.75rem;">
+                      ${c.status}
+                    </span>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+// --------------------------------------------------------------------------
+// SUB-VIEW 2: PERBANDINGAN YOY (2025 vs 2026 ACV & CASH IN)
+// --------------------------------------------------------------------------
+function renderB2BComparisonView() {
+  const totalTargetYTD = b2bDatabase.target2026.slice(0, 8).reduce((s, v) => s + v, 0); // 3.960.000.000
+  const totalAcv26 = b2bDatabase.acv2026.slice(0, 8).reduce((s, v) => s + v, 0);       // 2.885.932.921
+  const totalCash26 = b2bDatabase.cashIn2026.slice(0, 8).reduce((s, v) => s + v, 0);    // 2.131.472.842
+  
+  const totalAcv25JanAgs = b2bDatabase.acv2025.slice(0, 8).reduce((s, v) => s + v, 0);   // 1.402.798.530
+  const totalCash25JanAgs = b2bDatabase.cashIn2025.slice(0, 8).reduce((s, v) => s + v, 0); // 470.958.666
+  
+  const totalAcv25Full = b2bDatabase.acv2025.reduce((s, v) => s + v, 0);                 // 2.659.742.404
+  const totalCash25Full = b2bDatabase.cashIn2025.reduce((s, v) => s + v, 0);             // 1.624.985.985
+
+  const yoyGrowthAcv = (((totalAcv26 - totalAcv25JanAgs) / totalAcv25JanAgs) * 100).toFixed(2);
+  const yoyGrowthCash = (((totalCash26 - totalCash25JanAgs) / totalCash25JanAgs) * 100).toFixed(2);
+  const exceedFY25Pct = (((totalAcv26 - totalAcv25Full) / totalAcv25Full) * 100).toFixed(1);
+
+  return `
+    <div style="display:flex; flex-direction:column; gap:22px;">
+      
+      <!-- Top Banner Header for YoY Comparison -->
+      <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(139,92,246,0.1) 0%, rgba(99,102,241,0.06) 100%);">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="background:linear-gradient(135deg, #8B5CF6, #6366F1); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(139,92,246,0.3);">
+              <i data-lucide="git-compare" style="color:#FFF; width:22px; height:22px;"></i>
+            </div>
+            <div>
+              <h2 class="b2b-banner-title">PERBANDINGAN YOY B2B (2025 VS 2026)</h2>
+              <div class="b2b-banner-sub">Analisis Komparatif Pertumbuhan Nilai Kontrak ACV Sales & Arus Kas Masuk (Cash In) Antar Tahun</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="status-pill status-achieved" style="font-size:0.85rem; padding:6px 14px; background:rgba(16,185,129,0.15); color:#059669; border:1px solid #10B981;">
+            <i data-lucide="rocket" style="width:16px; height:16px;"></i> +${yoyGrowthAcv}% Pertumbuhan ACV
+          </span>
+        </div>
+      </div>
+
+      <!-- Comparison Metrics Header Grid -->
+      <div class="b2b-achievement-grid">
+        <!-- ACV Growth Card -->
+        <div class="b2b-achievement-card" style="border-left:4px solid #059669;">
+          <div class="b2b-card-label">YOY GROWTH ACV SALES (JAN-AGS)</div>
+          <div class="b2b-card-value" style="color:#059669;">+${yoyGrowthAcv}%</div>
+          <div class="b2b-card-trend positive">
+            <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+            <span>2026: Rp 2,88 M vs 2025: Rp 1,40 M</span>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:6px;">Pertumbuhan nominal: <strong>+Rp 1.483.134.391</strong></div>
+        </div>
+
+        <!-- Cash In Growth Card -->
+        <div class="b2b-achievement-card" style="border-left:4px solid #0284C7;">
+          <div class="b2b-card-label">YOY GROWTH CASH IN (JAN-AGS)</div>
+          <div class="b2b-card-value" style="color:#0284C7;">+${yoyGrowthCash}%</div>
+          <div class="b2b-card-trend positive">
+            <i data-lucide="trending-up" style="width:14px; height:14px;"></i>
+            <span>2026: Rp 2,13 M vs 2025: Rp 470,95 Jt</span>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:6px;">Kenaikan arus kas: <strong>+Rp 1.660.514.176</strong></div>
+        </div>
+
+        <!-- Milestone Over FY 2025 Card -->
+        <div class="b2b-achievement-card" style="border-left:4px solid var(--accent-gold);">
+          <div class="b2b-card-label">MELAMPAUI FULL YEAR 2025</div>
+          <div class="b2b-card-value" style="color:var(--accent-gold);">108.5%</div>
+          <div class="b2b-card-trend positive">
+            <i data-lucide="check-circle-2" style="width:14px; height:14px;"></i>
+            <span>Hanya dalam 8 Bulan (Jan-Ags 2026)</span>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:6px;">FY25 ACV: Rp 2,66 M terlampaui di Agustus!</div>
+        </div>
+
+        <!-- Cash In FY 2025 Overpass Card -->
+        <div class="b2b-achievement-card" style="border-left:4px solid #8B5CF6;">
+          <div class="b2b-card-label">CASH IN VS FULL YEAR 2025</div>
+          <div class="b2b-card-value" style="color:#7C3AED;">131.2%</div>
+          <div class="b2b-card-trend positive">
+            <i data-lucide="check-check" style="width:14px; height:14px;"></i>
+            <span>Total FY25: Rp 1,62 M</span>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:6px;">Surplus kas terkumpul: <strong>+Rp 506 Jt</strong></div>
+        </div>
+      </div>
+
+      <!-- YoY Comparison Interactive Charts -->
+      <div class="b2b-chart-section">
+        <!-- Chart 1: YoY ACV Sales Comparison (2025 vs 2026) -->
+        <div class="b2b-chart-card">
+          <div class="b2b-chart-title">
+            <i data-lucide="bar-chart-2" class="accent"></i>
+            <span>Perbandingan ACV Sales 2025 vs 2026 (Januari - Agustus)</span>
+          </div>
+          <div style="position:relative; height:280px; width:100%;">
+            <canvas id="b2bYoYAcvChart"></canvas>
+          </div>
+          <div style="display:flex; justify-content:center; gap:20px; margin-top:10px; font-size:0.75rem; color:var(--text-secondary);">
+            <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#94A3B8;"></span> 2025 ACV Sales</span>
+            <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#059669;"></span> 2026 ACV Sales (+105.7%)</span>
+          </div>
+        </div>
+
+        <!-- Chart 2: YoY Cash In Comparison (2025 vs 2026) -->
+        <div class="b2b-chart-card">
+          <div class="b2b-chart-title">
+            <i data-lucide="wallet" class="accent"></i>
+            <span>Perbandingan Realisasi Cash In 2025 vs 2026 (Januari - Agustus)</span>
+          </div>
+          <div style="position:relative; height:280px; width:100%;">
+            <canvas id="b2bYoYCashChart"></canvas>
+          </div>
+          <div style="display:flex; justify-content:center; gap:20px; margin-top:10px; font-size:0.75rem; color:var(--text-secondary);">
+            <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#94A3B8;"></span> 2025 Cash In</span>
+            <span style="display:inline-flex; align-items:center; gap:6px;"><span style="width:10px; height:10px; border-radius:2px; background:#0284C7;"></span> 2026 Cash In (+352.6%)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Master Full Year YoY Side-by-Side Table (12 Months) -->
+      <div class="b2b-table-card">
+        <div class="b2b-table-header">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="calendar-range" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Tabel Komparasi Lengkap B2B YTD: ACV & Cash In (2025 vs 2026)</h3>
+          </div>
+          <span style="font-size:0.78rem; background:rgba(255,255,255,0.2); padding:3px 10px; border-radius:12px; font-weight:700; color:#FFF;">
+            12 Bulan Komprehensif
+          </span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="custom-table" style="font-size:0.82rem;">
+            <thead>
+              <tr style="background:#111827; color:#FFF; border-bottom:2px solid var(--border-color);">
+                <th>BULAN</th>
+                <th style="text-align:right;">TARGET 2026</th>
+                <th style="text-align:right;">2025 ACV SALES</th>
+                <th style="text-align:right;">2025 CASH IN</th>
+                <th style="text-align:right; color:#10B981;">2026 ACV SALES</th>
+                <th style="text-align:right; color:#06B6D4;">2026 CASH IN</th>
+                <th style="text-align:center;">ACHV ACV %</th>
+                <th style="text-align:center;">ACHV CASH %</th>
+                <th style="text-align:center;">GROWTH YOY ACV</th>
+                <th style="text-align:center;">GROWTH YOY CASH</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${[0,1,2,3,4,5,6,7,8,9,10,11].map(idx => {
+                const target = b2bDatabase.target2026[idx];
+                const acv25 = b2bDatabase.acv2025[idx];
+                const cash25 = b2bDatabase.cashIn2025[idx];
+                const acv26 = b2bDatabase.acv2026[idx];
+                const cash26 = b2bDatabase.cashIn2026[idx];
+
+                const isAgustus = (idx === 7);
+                const isJuli = (idx === 6);
+                const isFuture = (idx >= 8);
+
+                const achvAcv = acv26 > 0 ? ((acv26 / target) * 100).toFixed(2) + '%' : '-';
+                const achvCash = cash26 > 0 ? ((cash26 / target) * 100).toFixed(2) + '%' : '-';
+                
+                let growthAcvStr = '-';
+                if (acv26 > 0 && acv25 > 0) {
+                  const g = (((acv26 - acv25) / acv25) * 100).toFixed(1);
+                  growthAcvStr = (g >= 0 ? '+' : '') + g + '%';
+                } else if (acv26 > 0 && acv25 === 0) {
+                  growthAcvStr = '+100.0%';
+                }
+
+                let growthCashStr = '-';
+                if (cash26 > 0 && cash25 > 0) {
+                  const g = (((cash26 - cash25) / cash25) * 100).toFixed(1);
+                  growthCashStr = (g >= 0 ? '+' : '') + g + '%';
+                } else if (cash26 > 0 && cash25 === 0) {
+                  growthCashStr = '+100.0%';
+                }
+
+                let rowStyle = '';
+                if (isAgustus) rowStyle = 'background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10B981; font-weight: 700;';
+                else if (isJuli) rowStyle = 'background: rgba(6, 182, 212, 0.12); border-left: 4px solid #06B6D4; font-weight: 600;';
+                else if (isFuture) rowStyle = 'opacity: 0.5;';
+
+                return `
+                  <tr style="${rowStyle}">
+                    <td>
+                      ${isAgustus 
+                        ? `<strong style="color: #10B981; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="sparkles" style="width:14px; height:14px; color:#10B981;"></i> AGUSTUS</strong>`
+                        : (isJuli 
+                            ? `<strong style="color: #06B6D4; display: inline-flex; align-items: center; gap: 4px;"><i data-lucide="history" style="width:14px; height:14px; color:#06B6D4;"></i> JULI</strong>`
+                            : `<strong>${b2bMonthNames[idx].toUpperCase()}</strong>`)
+                      }
+                    </td>
+                    <td style="text-align:right;">${formatRupiah(target)}</td>
+                    <td style="text-align:right;">${acv25 > 0 ? formatRupiah(acv25) : '-'}</td>
+                    <td style="text-align:right;">${cash25 > 0 ? formatRupiah(cash25) : '-'}</td>
+                    <td style="text-align:right; color:#10B981; font-weight:${acv26 > 0 ? '800' : '400'};">${acv26 > 0 ? formatRupiah(acv26) : '-'}</td>
+                    <td style="text-align:right; color:#06B6D4; font-weight:${cash26 > 0 ? '800' : '400'};">${cash26 > 0 ? formatRupiah(cash26) : '-'}</td>
+                    <td style="text-align:center;">
+                      ${acv26 > 0 
+                        ? `<span class="status-pill ${parseFloat(achvAcv) >= 70 ? 'status-achieved' : (parseFloat(achvAcv) >= 50 ? 'status-on-track' : 'status-at-risk')}">${achvAcv}</span>` 
+                        : '-'}
+                    </td>
+                    <td style="text-align:center;">
+                      ${cash26 > 0 
+                        ? `<span class="status-pill ${parseFloat(achvCash) >= 70 ? 'status-achieved' : (parseFloat(achvCash) >= 50 ? 'status-on-track' : 'status-at-risk')}">${achvCash}</span>` 
+                        : '-'}
+                    </td>
+                    <td style="text-align:center;">
+                      ${growthAcvStr !== '-' 
+                        ? `<span class="status-pill ${growthAcvStr.startsWith('+') ? 'status-achieved' : 'status-at-risk'}">${growthAcvStr}</span>` 
+                        : '-'}
+                    </td>
+                    <td style="text-align:center;">
+                      ${growthCashStr !== '-' 
+                        ? `<span class="status-pill ${growthCashStr.startsWith('+') ? 'status-achieved' : 'status-at-risk'}">${growthCashStr}</span>` 
+                        : '-'}
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+
+              <!-- TOTAL YTD (JAN-AGS) ROW -->
+              <tr style="background: rgba(79, 70, 229, 0.18); font-weight: 800; border-top: 2px solid #818CF8;">
+                <td style="color: #FFF;">TOTAL YTD (JAN-AGS)</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalTargetYTD)}</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalAcv25JanAgs)}</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalCash25JanAgs)}</td>
+                <td style="text-align:right; color:#10B981; font-size:0.95rem;">${formatRupiah(totalAcv26)}</td>
+                <td style="text-align:right; color:#06B6D4; font-size:0.95rem;">${formatRupiah(totalCash26)}</td>
+                <td style="text-align:center; color:#10B981; font-weight:800;">72.88%</td>
+                <td style="text-align:center; color:#06B6D4; font-weight:800;">53.83%</td>
+                <td style="text-align:center; color:#10B981; font-weight:800;">+105.73%</td>
+                <td style="text-align:center; color:#06B6D4; font-weight:800;">+352.58%</td>
+              </tr>
+
+              <!-- TOTAL FULL YEAR 2025 BASELINE ROW -->
+              <tr style="background: rgba(255, 255, 255, 0.04); font-weight: 700;">
+                <td style="color: var(--text-secondary);">BASELINE FULL YEAR 2025</td>
+                <td style="text-align:right;">-</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalAcv25Full)}</td>
+                <td style="text-align:right; color:#FFF;">${formatRupiah(totalCash25Full)}</td>
+                <td style="text-align:right; color:var(--accent-gold); font-weight:800;">(Sudah 108.5% FY25)</td>
+                <td style="text-align:right; color:#A78BFA; font-weight:800;">(Sudah 131.2% FY25)</td>
+                <td style="text-align:center;">-</td>
+                <td style="text-align:center;">-</td>
+                <td style="text-align:center;">-</td>
+                <td style="text-align:center;">-</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+// --------------------------------------------------------------------------
+// SUB-VIEW 3: COMPLAIN B2B (CUSTOMER COMPLAINT WITH REAL PHOTOS)
+// --------------------------------------------------------------------------
+function renderB2BComplainView() {
+  const selMonth = state.selectedSalesMonth || '7';
+  
+  // Filter tickets by month if selected, or show all
+  const tickets = (selMonth === 'all') 
+    ? b2bComplainTickets 
+    : b2bComplainTickets.filter(t => t.monthKey === selMonth);
+
+  const totalTickets = tickets.length;
+  const resolvedCount = tickets.filter(t => t.status === 'Resolved').length;
+  const resolutionRate = totalTickets > 0 ? ((resolvedCount / totalTickets) * 100).toFixed(0) : '100';
+
+  return `
+    <div style="display:flex; flex-direction:column; gap:22px;">
+      
+      <!-- Top Banner for B2B Complain Management -->
+      <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(99,102,241,0.06) 100%); border-color:rgba(239,68,68,0.25);">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="background:linear-gradient(135deg, #EF4444, #DC2626); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(239,68,68,0.3);">
+              <i data-lucide="camera" style="color:#FFF; width:22px; height:22px;"></i>
+            </div>
+            <div>
+              <h2 class="b2b-banner-title" style="background: linear-gradient(90deg, #DC2626 0%, #E11D48 50%, #4F46E5 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                DATA KOMPLAIN CUSTOMER B2B & BUKTI FOTO DOKUMENTASI
+              </h2>
+              <div class="b2b-banner-sub">Monitoring Tiket Penanganan Keluhan Klien Korporat, Investigasi QC, & Bukti Visual Foto Produk</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div style="display:flex; flex-direction:column; align-items:flex-end;">
+            <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:700;">FILTER BULAN KOMPLAIN</span>
+            <select class="b2b-month-select" id="b2bComplainMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="border-color:#EF4444;">
+              <option value="all" ${selMonth === 'all' ? 'selected' : ''}>📊 Semua Bulan 2026 (${b2bComplainTickets.length} Tiket)</option>
+              <option value="7" ${selMonth === '7' ? 'selected' : ''}>✨ Agustus 2026 (4 Tiket)</option>
+              <option value="6" ${selMonth === '6' ? 'selected' : ''}>📜 Juli 2026 (2 Tiket)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Complaint KPI Summary Bar -->
+      <div class="b2b-complain-summary">
+        <div class="b2b-complain-stat">
+          <div class="b2b-complain-stat-value" style="color:#DC2626;">${totalTickets}</div>
+          <div class="b2b-complain-stat-label">TOTAL TIKET KOMPLAIN</div>
+        </div>
+        <div class="b2b-divider-v"></div>
+        <div class="b2b-complain-stat">
+          <div class="b2b-complain-stat-value" style="color:#059669;">${resolvedCount}</div>
+          <div class="b2b-complain-stat-label">STATUS TUNTAS (RESOLVED)</div>
+        </div>
+        <div class="b2b-divider-v"></div>
+        <div class="b2b-complain-stat">
+          <div class="b2b-complain-stat-value" style="color:#059669;">${resolutionRate}%</div>
+          <div class="b2b-complain-stat-label">SLA RESOLUTION RATE</div>
+        </div>
+        <div class="b2b-divider-v"></div>
+        <div class="b2b-complain-stat">
+          <div class="b2b-complain-stat-value" style="color:var(--accent-gold);">4.9 / 5.0</div>
+          <div class="b2b-complain-stat-label">CSAT SCORE KEPUASAN</div>
+        </div>
+        <div class="b2b-divider-v"></div>
+        <div class="b2b-complain-stat">
+          <div class="b2b-complain-stat-value" style="color:#2563EB;">&lt; 24 Jam</div>
+          <div class="b2b-complain-stat-label">AVG RESPONSE TIME</div>
+        </div>
+      </div>
+
+      <!-- Section Label: Photo Evidence Gallery -->
+      <div class="b2b-section-label">
+        <i data-lucide="image" style="width:16px; height:16px;"></i>
+        <span>GALERI BUKTI FOTO KOMPLAIN CUSTOMER (KLIK FOTO UNTUK MEMPERBESAR / DETAIL INVESTIGASI)</span>
+      </div>
+
+      <!-- Photo Cards Grid -->
+      <div class="b2b-photo-gallery">
+        ${tickets.map(t => `
+          <div class="b2b-photo-card" onclick="openB2BPhotoModal('${t.id}')">
+            <div style="position:relative; overflow:hidden; aspect-ratio:4/3; background:rgba(0,0,0,0.3);">
+              <img src="${t.photoThumb}" alt="${t.title}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
+              <span style="position:absolute; top:8px; left:8px; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); color:#FFF; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.2);">
+                ${t.id}
+              </span>
+              <span style="position:absolute; bottom:8px; right:8px; background:#10B981; color:#FFF; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:12px; display:flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(0,0,0,0.4);">
+                <i data-lucide="check" style="width:12px; height:12px;"></i> ${t.status}
+              </span>
+            </div>
+            
+            <div class="b2b-photo-info">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+                <span class="b2b-photo-badge ${t.badgeType}">${t.category}</span>
+                <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:600;">${t.date}</span>
+              </div>
+              <div class="b2b-photo-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${t.customer}">
+                ${t.customer}
+              </div>
+              <div class="b2b-photo-meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                ${t.title}
+              </div>
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid var(--border-color); padding-top:6px;">
+                <span style="font-size:0.7rem; color:#A5B4FC; font-weight:700;">PIC: ${t.pic.split(' ')[0]}</span>
+                <span style="font-size:0.72rem; color:var(--accent-b2b); font-weight:700; display:inline-flex; align-items:center; gap:2px;">
+                  Lihat Foto <i data-lucide="zoom-in" style="width:12px; height:12px;"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+
+      <!-- Section Label: Complete Investigation Log Table -->
+      <div class="b2b-section-label" style="margin-top:10px;">
+        <i data-lucide="clipboard-list" style="width:16px; height:16px;"></i>
+        <span>TABEL LOG LENGKAP INVESTIGASI & AKAR MASALAH KOMPLAIN B2B</span>
+      </div>
+
+      <!-- Detailed Customer Complaint Table -->
+      <div class="b2b-table-card">
+        <div class="b2b-table-header" style="background: linear-gradient(90deg, #991B1B 0%, #B91C1C 50%, #4338CA 100%);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="shield-alert" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Daftar Tiket Komplain Customer & Solusi Penanganan (2026)</h3>
+          </div>
+          <span style="font-size:0.78rem; background:rgba(0,0,0,0.25); color:#FFF; padding:3px 10px; border-radius:12px; font-weight:700;">
+            100% Resolved On-Time
+          </span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="custom-table" style="font-size:0.82rem;">
+            <thead>
+              <tr style="background:#111827; border-bottom:2px solid var(--border-color);">
+                <th style="width:60px; text-align:center;">FOTO</th>
+                <th>NO. TIKET & KLIEN</th>
+                <th>KATEGORI & TANGGAL</th>
+                <th>DESKRIPSI KELUHAN CUSTOMER</th>
+                <th>AKAR MASALAH (ROOT CAUSE)</th>
+                <th>TINDAKAN KOREKTIF & SOLUSI</th>
+                <th style="text-align:center;">STATUS</th>
+                <th style="text-align:center;">AKSI</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${tickets.map((t, idx) => `
+                <tr style="background:${idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)'};">
+                  <td style="text-align:center; padding:8px;">
+                    <img src="${t.photoThumb}" alt="Foto ${t.id}" style="width:48px; height:36px; object-fit:cover; border-radius:4px; border:1px solid var(--border-color); cursor:pointer;" onclick="openB2BPhotoModal('${t.id}')" title="Klik untuk perbesar" />
+                  </td>
+                  <td>
+                    <div style="font-weight:800; color:#FFF; font-size:0.88rem;">${t.customer}</div>
+                    <div style="font-size:0.72rem; color:var(--accent-b2b); font-family:monospace; margin-top:2px;">${t.id} &bull; ${t.orderRef}</div>
+                  </td>
+                  <td>
+                    <span class="b2b-photo-badge ${t.badgeType}" style="display:inline-block; margin-bottom:3px;">${t.category}</span>
+                    <div style="font-size:0.72rem; color:var(--text-secondary);">${t.date}</div>
+                  </td>
+                  <td style="max-width:240px;">
+                    <div style="font-weight:700; color:#FFF; font-size:0.82rem;">${t.title}</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${t.issue}</div>
+                  </td>
+                  <td style="max-width:200px; font-size:0.76rem; color:var(--accent-gold); font-weight:600;">
+                    ${t.rootCause}
+                  </td>
+                  <td style="max-width:240px;">
+                    <div style="font-size:0.76rem; color:#10B981; font-weight:700;">
+                      <i data-lucide="check-circle" style="width:12px; height:12px; display:inline; color:#10B981;"></i> ${t.resolution}
+                    </div>
+                    <div style="font-size:0.7rem; color:var(--text-secondary); margin-top:3px;">PIC: <strong style="color:#FFF;">${t.pic}</strong></div>
+                  </td>
+                  <td style="text-align:center;">
+                    <span class="b2b-photo-badge b2b-badge-resolved" style="padding:4px 10px; font-size:0.75rem;">
+                      <i data-lucide="check-check" style="width:12px; height:12px;"></i> ${t.status}
+                    </span>
+                  </td>
+                  <td style="text-align:center;">
+                    <button class="pill-btn" onclick="openB2BPhotoModal('${t.id}')" style="font-size:0.74rem; padding:4px 10px; display:inline-flex; align-items:center; gap:4px; background:#1E293B; border:1px solid var(--border-highlight); color:#FFF;">
+                      <i data-lucide="eye" style="width:12px; height:12px;"></i> Foto
+                    </button>
+                  </td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  `;
+}
+
+// --------------------------------------------------------------------------
+// LIGHTBOX & MODAL HANDLERS FOR B2B COMPLAINT PHOTOS
+// --------------------------------------------------------------------------
+window.openB2BPhotoModal = function(ticketId) {
+  const ticket = b2bComplainTickets.find(t => t.id === ticketId);
+  if (!ticket) return;
+
+  const lightbox = document.getElementById('b2bLightbox');
+  const inner = document.getElementById('b2bLightboxInner');
+  if (!lightbox || !inner) return;
+
+  inner.innerHTML = `
+    <div style="position:relative; background:rgba(0,0,0,0.4);">
+      <img src="${ticket.photo}" alt="${ticket.title}" class="b2b-lightbox-img" />
+      <div style="position:absolute; top:14px; left:16px; background:rgba(15,23,42,0.85); backdrop-filter:blur(8px); padding:4px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.2);">
+        <span style="color:#A78BFA; font-weight:800; font-size:0.8rem; font-family:monospace;">${ticket.id}</span>
+        <span style="color:rgba(255,255,255,0.4); margin:0 6px;">|</span>
+        <span style="color:#FFF; font-weight:700; font-size:0.8rem;">${ticket.date}</span>
+      </div>
+    </div>
+
+    <div class="b2b-lightbox-body" style="background:#0F172A; color:var(--text-primary);">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+        <div>
+          <span class="b2b-photo-badge ${ticket.badgeType}" style="margin-bottom:6px;">${ticket.category}</span>
+          <h3 style="margin:0; font-size:1.2rem; font-weight:900; color:#FFF;">${ticket.customer}</h3>
+          <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">Ref Order: <strong style="color:#FFF;">${ticket.orderRef}</strong></div>
+        </div>
+        <div style="text-align:right;">
+          <span class="status-pill status-achieved" style="font-size:0.82rem; padding:6px 14px;">
+            <i data-lucide="shield-check" style="width:14px; height:14px;"></i> Status: ${ticket.status}
+          </span>
+          <div style="font-size:0.75rem; color:var(--accent-gold); font-weight:700; margin-top:4px;">CSAT: ${ticket.csat}</div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; background:rgba(255,255,255,0.03); padding:14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
+        <div>
+          <span style="font-size:0.72rem; color:#F43F5E; font-weight:800; text-transform:uppercase; display:block; margin-bottom:4px;">
+            <i data-lucide="alert-circle" style="width:13px; height:13px; display:inline;"></i> Keluhan Customer
+          </span>
+          <div style="font-size:0.82rem; color:#FFF; font-weight:700; margin-bottom:4px;">${ticket.title}</div>
+          <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">${ticket.issue}</div>
+        </div>
+
+        <div>
+          <span style="font-size:0.72rem; color:var(--accent-gold); font-weight:800; text-transform:uppercase; display:block; margin-bottom:4px;">
+            <i data-lucide="search" style="width:13px; height:13px; display:inline;"></i> Hasil Investigasi QC (Root Cause)
+          </span>
+          <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">${ticket.rootCause}</div>
+        </div>
+      </div>
+
+      <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+        <div>
+          <span style="font-size:0.72rem; color:#10B981; font-weight:800; text-transform:uppercase; display:block;">
+            <i data-lucide="check-circle" style="width:13px; height:13px; display:inline;"></i> Solusi & Tindakan Korektif Selesai
+          </span>
+          <div style="font-size:0.82rem; color:#FFF; font-weight:600; margin-top:2px;">${ticket.resolution}</div>
+        </div>
+        <div style="font-size:0.78rem; color:var(--text-secondary);">
+          PIC Penanganan: <strong style="color:#FFF;">${ticket.pic}</strong>
+        </div>
+      </div>
+    </div>
+  `;
+
+  lightbox.classList.add('active');
+  initLucide();
+};
+
+window.closeB2BLightbox = function(e) {
+  if (e && e.target && e.target.classList && !e.target.classList.contains('b2b-lightbox') && !e.target.closest('.b2b-lightbox-close')) {
+    return;
+  }
+  const lightbox = document.getElementById('b2bLightbox');
+  if (lightbox) lightbox.classList.remove('active');
+};
+
+window.triggerB2BCelebration = function() {
+  if (typeof confetti === 'function') {
+    confetti({
+      particleCount: 120,
+      spread: 80,
+      origin: { y: 0.6 },
+      colors: ['#818CF8', '#10B981', '#F59E0B', '#06B6D4', '#EC4899']
+    });
+  }
+};
+
+// --------------------------------------------------------------------------
+// CHART INITIALIZERS FOR B2B
+// --------------------------------------------------------------------------
+function initB2BCharts() {
+  const sub = state.activeSub || 'b2b-achievement';
+
+  if (sub === 'b2b-achievement') {
+    initB2BAchievementCharts();
+  } else if (sub === 'b2b-comparison') {
+    initB2BComparisonCharts();
+  }
+}
+
+function initB2BAchievementCharts() {
+  const months12 = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep', 'Okt', 'Nov', 'Des'];
+
+  // Chart 1: Full-Width 1-Year ACV Sales Chart (Target vs Realisasi vs Baseline 2025)
+  const annualCtx = document.getElementById('b2bAnnualAcvChart');
+  if (annualCtx) {
+    if (state.activeChartInstances.b2bAnnualAcv) {
+      state.activeChartInstances.b2bAnnualAcv.destroy();
+    }
+
+    const targetsInM = b2bDatabase.target2026.map(v => v / 1000000);
+    const acv26InM = b2bDatabase.acv2026.map((v, i) => i <= 7 ? (v / 1000000) : null);
+    const acv25InM = b2bDatabase.acv2025.map(v => v / 1000000);
+
+    state.activeChartInstances.b2bAnnualAcv = new Chart(annualCtx, {
+      type: 'bar',
+      data: {
+        labels: months12,
+        datasets: [
+          {
+            type: 'bar',
+            label: 'Realisasi ACV 2026',
+            data: acv26InM,
+            backgroundColor: months12.map((_, i) => i === 7 ? 'rgba(52, 211, 153, 0.95)' : 'rgba(16, 185, 129, 0.85)'),
+            borderColor: months12.map((_, i) => i === 7 ? '#34D399' : '#10B981'),
+            borderWidth: 2,
+            borderRadius: 6,
+            order: 2
+          },
+          {
+            type: 'bar',
+            label: 'Target ACV 2026',
+            data: targetsInM,
+            backgroundColor: 'rgba(99, 102, 241, 0.22)',
+            borderColor: '#818CF8',
+            borderWidth: 1.5,
+            borderRadius: 6,
+            order: 3
+          },
+          {
+            type: 'line',
+            label: 'Baseline ACV 2025',
+            data: acv25InM,
+            borderColor: '#F59E0B',
+            backgroundColor: 'transparent',
+            borderWidth: 2.5,
+            pointBackgroundColor: '#F59E0B',
+            pointBorderColor: '#FFF',
+            pointBorderWidth: 1.5,
+            pointRadius: 4,
+            pointHoverRadius: 7,
+            tension: 0.3,
+            order: 1
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.92)',
+            titleColor: '#FFF',
+            bodyColor: '#E2E8F0',
+            borderColor: 'rgba(255, 255, 255, 0.15)',
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.raw === null || ctx.raw === undefined) return null;
+                const val = ctx.raw.toFixed(1);
+                if (ctx.dataset.label === 'Realisasi ACV 2026' && ctx.dataIndex === 7) {
+                  return `🏆 ${ctx.dataset.label}: Rp ${val} Jt (Rekor Tertinggi! 🔥)`;
+                }
+                return `${ctx.dataset.label}: Rp ${val} Jt`;
+              },
+              afterBody: (items) => {
+                const item26 = items.find(it => it.dataset.label === 'Realisasi ACV 2026' && it.raw !== null);
+                const itemTgt = items.find(it => it.dataset.label === 'Target ACV 2026');
+                if (item26 && itemTgt && itemTgt.raw > 0) {
+                  const pct = ((item26.raw / itemTgt.raw) * 100).toFixed(1);
+                  return [`Pencapaian Target: ${pct}%`];
+                }
+                return [];
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#CBD5E1', font: { weight: 'bold', size: 12 } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#94A3B8',
+              font: { weight: '600' },
+              callback: (val) => `Rp ${val} Jt`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Cumulative 1-Year ACV Trajectory
+  const cumCtx = document.getElementById('b2bCumulativeAcvChart');
+  if (cumCtx) {
+    if (state.activeChartInstances.b2bCumulativeAcv) {
+      state.activeChartInstances.b2bCumulativeAcv.destroy();
+    }
+
+    // Cumulative Target 2026 (Jan - Des)
+    let cumTgt = 0;
+    const cumTargetInM = b2bDatabase.target2026.map(v => {
+      cumTgt += v / 1000000;
+      return cumTgt;
+    });
+
+    // Cumulative Realisasi 2026 (Jan - Ags)
+    let cumAcv = 0;
+    const cumAcvInM = b2bDatabase.acv2026.map((v, i) => {
+      if (i <= 7) {
+        cumAcv += v / 1000000;
+        return cumAcv;
+      }
+      return null;
+    });
+
+    // Cumulative Realisasi 2025 (Jan - Des)
+    let cum25 = 0;
+    const cum2025InM = b2bDatabase.acv2025.map(v => {
+      cum25 += v / 1000000;
+      return cum25;
+    });
+
+    state.activeChartInstances.b2bCumulativeAcv = new Chart(cumCtx, {
+      type: 'line',
+      data: {
+        labels: months12,
+        datasets: [
+          {
+            label: 'Akumulasi Realisasi 2026',
+            data: cumAcvInM,
+            borderColor: '#10B981',
+            backgroundColor: 'rgba(16, 185, 129, 0.15)',
+            borderWidth: 3.5,
+            fill: true,
+            tension: 0.25,
+            pointBackgroundColor: '#10B981',
+            pointBorderColor: '#FFF',
+            pointBorderWidth: 2,
+            pointRadius: 5,
+            pointHoverRadius: 8
+          },
+          {
+            label: 'Target Akumulatif 2026',
+            data: cumTargetInM,
+            borderColor: '#818CF8',
+            backgroundColor: 'transparent',
+            borderWidth: 2,
+            borderDash: [6, 4],
+            fill: false,
+            tension: 0,
+            pointBackgroundColor: '#818CF8',
+            pointRadius: 3
+          },
+          {
+            label: 'Akumulasi Realisasi 2025',
+            data: cum2025InM,
+            borderColor: '#94A3B8',
+            backgroundColor: 'transparent',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            fill: false,
+            tension: 0.25,
+            pointBackgroundColor: '#94A3B8',
+            pointRadius: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: {
+          mode: 'index',
+          intersect: false
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.92)',
+            titleColor: '#FFF',
+            bodyColor: '#E2E8F0',
+            borderColor: 'rgba(255, 255, 255, 0.15)',
+            borderWidth: 1,
+            padding: 12,
+            callbacks: {
+              label: (ctx) => {
+                if (ctx.raw === null || ctx.raw === undefined) return null;
+                const mVal = (ctx.raw / 1000).toFixed(2);
+                return `${ctx.dataset.label}: Rp ${ctx.raw.toFixed(1)} Jt (Rp ${mVal} M)`;
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#94A3B8',
+              callback: (val) => `Rp ${(val / 1000).toFixed(1)} M`
+            }
+          }
+        }
+      }
+    });
+  }
+}
+
+function initB2BComparisonCharts() {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'];
+
+  // Chart 1: YoY ACV Sales Comparison
+  const acvCtx = document.getElementById('b2bYoYAcvChart');
+  if (acvCtx) {
+    if (state.activeChartInstances.b2bYoYAcv) {
+      state.activeChartInstances.b2bYoYAcv.destroy();
+    }
+
+    const acv25InM = b2bDatabase.acv2025.slice(0, 8).map(v => v / 1000000);
+    const acv26InM = b2bDatabase.acv2026.slice(0, 8).map(v => v / 1000000);
+
+    state.activeChartInstances.b2bYoYAcv = new Chart(acvCtx, {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: '2025 ACV Sales',
+            data: acv25InM,
+            backgroundColor: 'rgba(148, 163, 184, 0.4)',
+            borderColor: '#94A3B8',
+            borderWidth: 1.5,
+            borderRadius: 4
+          },
+          {
+            label: '2026 ACV Sales',
+            data: acv26InM,
+            backgroundColor: months.map((_, i) => i === 7 ? 'rgba(16, 185, 129, 0.95)' : 'rgba(16, 185, 129, 0.75)'),
+            borderColor: '#10B981',
+            borderWidth: 1.5,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: Rp ${ctx.raw.toFixed(1)} Jt`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#94A3B8',
+              callback: (val) => `Rp ${val} Jt`
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: YoY Cash In Comparison
+  const cashCtx = document.getElementById('b2bYoYCashChart');
+  if (cashCtx) {
+    if (state.activeChartInstances.b2bYoYCash) {
+      state.activeChartInstances.b2bYoYCash.destroy();
+    }
+
+    const cash25InM = b2bDatabase.cashIn2025.slice(0, 8).map(v => v / 1000000);
+    const cash26InM = b2bDatabase.cashIn2026.slice(0, 8).map(v => v / 1000000);
+
+    state.activeChartInstances.b2bYoYCash = new Chart(cashCtx, {
+      type: 'bar',
+      data: {
+        labels: months,
+        datasets: [
+          {
+            label: '2025 Cash In',
+            data: cash25InM,
+            backgroundColor: 'rgba(148, 163, 184, 0.4)',
+            borderColor: '#94A3B8',
+            borderWidth: 1.5,
+            borderRadius: 4
+          },
+          {
+            label: '2026 Cash In',
+            data: cash26InM,
+            backgroundColor: months.map((_, i) => i === 7 ? 'rgba(6, 182, 212, 0.95)' : 'rgba(6, 182, 212, 0.75)'),
+            borderColor: '#06B6D4',
+            borderWidth: 1.5,
+            borderRadius: 4
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: (ctx) => `${ctx.dataset.label}: Rp ${ctx.raw.toFixed(1)} Jt`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
+          },
+          y: {
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#94A3B8',
+              callback: (val) => `Rp ${val} Jt`
+            }
+          }
+        }
+      }
+    });
+  }
+}
+

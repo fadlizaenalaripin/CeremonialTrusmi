@@ -1347,9 +1347,10 @@ const mockData = {
       '7': {
         monthName: 'Agustus 2026',
         'complain-bt': {
-          summary: { total: 5, offline: 1, online: 4, googleReview: 0 },
+          summary: { total: 6, offline: 2, online: 4, googleReview: 0 },
           offlineTickets: [
-            { category: 'Produk', stand: 'Stand 1', issue: 'Baju Rapuh', solusi: 'Pergantian produk baru ke customer', total: 1 }
+            { category: 'Produk', stand: 'Stand 1', issue: 'Baju Rapuh', solusi: 'Pergantian produk baru ke customer', total: 1 },
+            { category: 'B2B Corporate (Sanqua)', stand: 'Garment / B2B', issue: 'Seragam Sanqua: Ritsleting tidak terjahit ke bahan & jahitan dalam tidak rapi (Bukti Video)', solusi: 'Follow up oleh Bu Era BT Permeisari, penarikan & re-stitching prioritas', total: 1 }
           ],
           onlineStar1Tickets: [
             { product: 'BATIK TRUSMI Hem Batik Murah Batik Pria Kemeja Lengan Pendek Atasan Pria Batik Seragaman Motif Bunga Matahari', issue: '(Kualitas Barang): Kualitas buruk, Tidak sesuai deskripsi', solusi: 'Permintaan Maaf', total: 1 },
@@ -1451,6 +1452,7 @@ const mockData = {
 
 // Application Initialization
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   initClock();
   initLucide();
   bindNavigationEvents();
@@ -1620,7 +1622,7 @@ function bindHeaderControls() {
     });
   }
 
-  const btnRefresh = document.getElementById('btnRefreshData');
+    const btnRefresh = document.getElementById('btnRefreshData');
   if (btnRefresh) {
     btnRefresh.addEventListener('click', () => {
       btnRefresh.style.transform = 'rotate(360deg)';
@@ -1630,6 +1632,46 @@ function bindHeaderControls() {
       }, 500);
     });
   }
+}
+
+// --------------------------------------------------------------------------
+// THEME MANAGEMENT (Dark & Light Mode Feature)
+// --------------------------------------------------------------------------
+function initTheme() {
+  const savedTheme = localStorage.getItem('ceremonial_theme') || 'dark';
+  applyTheme(savedTheme);
+
+  const toggleBtn = document.getElementById('themeToggleBtn');
+  if (toggleBtn) {
+    toggleBtn.addEventListener('click', () => {
+      const isDark = document.body.classList.contains('dark-theme');
+      const newTheme = isDark ? 'light' : 'dark';
+      applyTheme(newTheme);
+      localStorage.setItem('ceremonial_theme', newTheme);
+      renderCurrentView();
+    });
+  }
+}
+
+function applyTheme(theme) {
+  const icon = document.getElementById('themeToggleIcon');
+  const text = document.getElementById('themeToggleText');
+  const toggleBtn = document.getElementById('themeToggleBtn');
+
+  if (theme === 'light') {
+    document.body.classList.remove('dark-theme');
+    document.body.classList.add('light-theme');
+    if (icon) icon.setAttribute('data-lucide', 'moon');
+    if (text) text.textContent = 'Dark';
+    if (toggleBtn) toggleBtn.setAttribute('title', 'Ganti ke Mode Gelap');
+  } else {
+    document.body.classList.remove('light-theme');
+    document.body.classList.add('dark-theme');
+    if (icon) icon.setAttribute('data-lucide', 'sun');
+    if (text) text.textContent = 'Light';
+    if (toggleBtn) toggleBtn.setAttribute('title', 'Ganti ke Mode Terang');
+  }
+  initLucide();
 }
 
 function triggerConfettiCelebration() {
@@ -1857,7 +1899,7 @@ function renderSalesYTD() {
         <span>Scorecard Sales Per Divisi / Channel (${filterTitle})</span>
       </div>
 
-      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:14px;">
+      <div class="sales-scorecard-grid">
         ${branchesWithShare.map(b => {
           const isSelected = selectedBranchId === b.id;
           const isPositive = b.growth >= 0;
@@ -1870,54 +1912,63 @@ function renderSalesYTD() {
                  style="background:${isSelected ? 'rgba(245, 158, 11, 0.1)' : 'var(--bg-card)'};
                         border: 2px solid ${isSelected ? 'var(--accent-gold)' : b.color + '60'};
                         box-shadow: ${isSelected ? '0 0 16px rgba(245, 158, 11, 0.25)' : 'var(--shadow-sm)'};
-                        border-radius: var(--radius-md); padding: 14px 16px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
+                        border-radius: var(--radius-md); padding: 12px 12px; cursor: pointer; transition: all 0.2s ease; position: relative; overflow: hidden;"
                  title="Klik untuk filter grafik divisi ${b.name}">
               
               <div style="position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: ${b.color};"></div>
               
               <!-- Header: Nama Divisi + Circular Donut Chart Visual untuk Growth % -->
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <div>
-                  <span style="font-weight: 800; font-size: 1.02rem; color: var(--text-primary); line-height: 1.2; display: block;">${b.name}</span>
-                  <span style="font-size: 0.73rem; color: var(--text-secondary); font-weight: 600;">${b.periodLabel}</span>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; gap: 6px;">
+                <div style="min-width: 0; flex: 1;">
+                  <span style="font-weight: 800; font-size: 0.95rem; color: var(--text-primary); line-height: 1.2; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${b.name}">${b.name}</span>
+                  <span style="font-size: 0.7rem; color: var(--text-secondary); font-weight: 600; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${b.periodLabel}</span>
                 </div>
 
-                <!-- Enlarged Circular Donut Chart Visual (74px x 74px) -->
-                <div style="position: relative; width: 74px; height: 74px; flex-shrink: 0;" title="Growth YoY: ${growthText}">
-                  <svg width="74" height="74" viewBox="0 0 74 74" style="transform: rotate(-90deg); filter: drop-shadow(0 0 4px ${growthColor}40);">
+                <!-- Balanced Circular Donut Chart Visual (56px x 56px) -->
+                <div style="position: relative; width: 56px; height: 56px; flex-shrink: 0;" title="Growth YoY: ${growthText}">
+                  <svg width="56" height="56" viewBox="0 0 74 74" style="transform: rotate(-90deg); filter: drop-shadow(0 0 4px ${growthColor}40);">
                     <circle cx="37" cy="37" r="28" fill="none" stroke="#E2E8F0" stroke-width="5.5" />
                     <circle cx="37" cy="37" r="28" fill="none" stroke="${growthColor}" stroke-width="5.5"
                             stroke-dasharray="175.93"
                             stroke-dashoffset="${(175.93 * (1 - Math.max(absGrowth, 15) / 100)).toFixed(2)}"
                             stroke-linecap="round" />
                   </svg>
-                  <div style="position: absolute; top: 0; left: 0; width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; font-size: ${growthText.length >= 7 ? '0.67rem' : (growthText.length >= 6 ? '0.72rem' : '0.82rem')}; font-weight: 800; color: ${growthColor}; font-family: monospace; white-space: nowrap; letter-spacing: -0.5px; line-height: 1;">
+                  <div style="position: absolute; top: 0; left: 0; width: 56px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: ${growthText.length >= 7 ? '0.62rem' : (growthText.length >= 6 ? '0.68rem' : '0.74rem')}; font-weight: 800; color: ${growthColor}; font-family: monospace; white-space: nowrap; letter-spacing: -0.5px; line-height: 1;">
                     ${growthText}
                   </div>
                 </div>
               </div>
 
               <!-- Angka Total Sales Real 2026 Berdasarkan Filter -->
-              <div style="font-size: 1.35rem; font-weight: 800; color: ${b.color}; font-family: monospace; margin-bottom: 6px;">
+              <div style="font-size: 1.18rem; font-weight: 800; color: ${b.color}; font-family: monospace; margin-bottom: 8px; letter-spacing: -0.4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${formatRupiah(b.val2026)}">
                 ${formatRupiah(b.val2026)}
               </div>
 
-              <!-- Realisasi Bulan Aktif -->
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; font-size:0.78rem; background:rgba(5, 150, 105, 0.08); padding:6px 10px; border-radius:6px; border:1px solid rgba(5, 150, 105, 0.25);">
-                <span style="color:#059669; font-weight:700; display:flex; align-items:center; gap:4px;">
-                  <i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> ${b.activeMonthLabel}:
-                </span>
-                <strong style="color:#064E3B; font-family:monospace; font-weight:800; font-size:0.85rem;">${formatRupiah(b.activeMonthVal)}</strong>
+              <!-- Realisasi Bulan Aktif (Tanpa Overflow) -->
+              <div class="scorecard-mini-box">
+                <div class="scorecard-mini-header">
+                  <span class="scorecard-mini-label">
+                    <i data-lucide="check-circle-2" style="width:11px; height:11px; flex-shrink:0;"></i>
+                    <span>${b.activeMonthLabel}</span>
+                  </span>
+                </div>
+                <div class="scorecard-mini-value">
+                  ${formatRupiah(b.activeMonthVal)}
+                </div>
               </div>
 
-              <!-- Baseline Sales 2025 -->
-              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed #CBD5E1; padding-top: 8px; font-size: 0.78rem;">
-                <span style="color: var(--text-secondary);">
-                  Baseline 2025: <strong style="color: #0284C7; font-family:monospace;">${formatRupiah(b.val2025)}</strong>
-                </span>
-                <span style="color: var(--text-muted); font-size: 0.72rem; font-weight: 600;">
-                  <i data-lucide="calendar" style="width: 11px; height: 11px; display: inline;"></i> ${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]}
-                </span>
+              <!-- Baseline Sales 2025 (Tanpa Bentrok Badge) -->
+              <div class="scorecard-baseline-row">
+                <div class="scorecard-baseline-header">
+                  <span class="scorecard-baseline-label">Baseline 2025</span>
+                  <span class="scorecard-baseline-badge">
+                    <i data-lucide="calendar" style="width: 10px; height: 10px; display: inline;"></i>
+                    <span>${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]}</span>
+                  </span>
+                </div>
+                <div class="scorecard-baseline-value">
+                  ${formatRupiah(b.val2025)}
+                </div>
               </div>
 
             </div>
@@ -2045,7 +2096,7 @@ function renderSalesYTD() {
       <div class="chart-card-header" style="background: rgba(79, 70, 229, 0.08); padding: 14px 18px; border-bottom: 1px solid rgba(79, 70, 229, 0.2); display:flex; justify-content:space-between; align-items:center;">
         <div class="chart-card-title">
           <i data-lucide="badge-dollar-sign" style="color: #818CF8; width: 22px; height: 22px;"></i>
-          <span style="font-size: 1.05rem; font-weight: 800; color: #FFF;">Detail Laporan B2B YTD: ACV Sales & Cash In (2025 vs 2026)</span>
+          <span style="font-size: 1.05rem; font-weight: 800; color: var(--text-primary);">Detail Laporan B2B YTD: ACV Sales & Cash In (2025 vs 2026)</span>
         </div>
         <span class="status-pill status-achieved" style="font-size: 0.78rem; background: rgba(79, 70, 229, 0.15); color: #A5B4FC; border: 1px solid #6366F1;">
           <i data-lucide="trending-up" style="width:13px; height:13px; display:inline;"></i> +105.7% YoY Growth ACV
@@ -2053,10 +2104,10 @@ function renderSalesYTD() {
       </div>
 
       <!-- B2B KPI Executive Scorecard Bar -->
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 16px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color);">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; padding: 16px; background: var(--control-bg); border-bottom: 1px solid var(--border-color);">
         <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid #818CF8;">
           <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">TARGET SALES B2B 2026 (JAN-AGS)</span>
-          <span style="font-size: 1.15rem; font-weight: 800; color: #FFF; font-family: monospace;">Rp 3.960.000.000</span>
+          <span style="font-size: 1.15rem; font-weight: 800; color: var(--text-primary); font-family: monospace;">Rp 3.960.000.000</span>
         </div>
         <div style="background: var(--bg-card); padding: 12px 14px; border-radius: 8px; border: 1px solid var(--border-color); border-left: 4px solid #10B981;">
           <span style="font-size: 0.72rem; color: var(--text-secondary); font-weight: 700; display: block;">REALISASI ACV SALES 2026</span>
@@ -2078,7 +2129,7 @@ function renderSalesYTD() {
       <div style="overflow-x:auto;">
         <table class="custom-table" style="font-size: 0.82rem;">
           <thead>
-            <tr style="background: #111827; color: #FFF;">
+            <tr style="background: var(--control-bg); color: var(--text-primary);">
               <th>BULAN</th>
               <th style="text-align:right;">TARGET 2026</th>
               <th style="text-align:right;">2025 ACV SALES</th>
@@ -2155,10 +2206,10 @@ function renderSalesYTD() {
 
             <!-- TOTAL YTD (JAN-AGS) SUMMARY ROW -->
             <tr style="background: rgba(79, 70, 229, 0.18); font-weight: 800; border-top: 2px solid #818CF8;">
-              <td style="color: #FFF;">TOTAL YTD (JAN-AGS)</td>
-              <td style="text-align:right; color:#FFF;">Rp 3.960.000.000</td>
-              <td style="text-align:right; color:#FFF;">Rp 1.402.798.530</td>
-              <td style="text-align:right; color:#FFF;">Rp 470.958.666</td>
+              <td style="color: var(--text-primary);">TOTAL YTD (JAN-AGS)</td>
+              <td style="text-align:right; color:var(--text-primary);">Rp 3.960.000.000</td>
+              <td style="text-align:right; color:var(--text-primary);">Rp 1.402.798.530</td>
+              <td style="text-align:right; color:var(--text-primary);">Rp 470.958.666</td>
               <td style="text-align:right; color:#10B981;">Rp 2.885.932.921</td>
               <td style="text-align:right; color:#06B6D4;">Rp 2.131.472.842</td>
               <td style="text-align:center; color:#10B981;">72.88%</td>
@@ -2497,7 +2548,6 @@ function renderKPIPerformance() {
   return `
     <!-- TOP HEADER SCORECARD (7 Kartu Departemen Interaktif) -->
     <div style="margin-bottom:20px;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:12px;">
         <div>
           <h2 style="font-size:1.25rem; font-weight:800; color:var(--text-primary); display:flex; align-items:center; gap:10px; margin:0;">
@@ -4133,7 +4183,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
-                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
@@ -4143,7 +4193,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Project:</span>
             <select id="okrProjSelect" onchange="window.handleOKRProjectFilterChange(this.value)" 
-                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedProj === 'all' ? 'selected' : ''}>🏙️ Premium Jakarta (1 Proyek Aktif)</option>
             </select>
           </div>
@@ -4152,7 +4202,7 @@ function renderOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Status:</span>
             <select id="okrStatSelect" onchange="window.handleOKRStatusFilterChange(this.value)" 
-                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedStat === 'all' ? 'selected' : ''}>Semua Status (5 Kategori)</option>
               <option value="Overdue" ${selectedStat === 'Overdue' ? 'selected' : ''}>🔴 Overdue</option>
               <option value="Hold" ${selectedStat === 'Hold' ? 'selected' : ''}>🟠 Hold</option>
@@ -4205,7 +4255,7 @@ function renderOKRView() {
 
       <!-- Dedicated Panel Potensi Sanksi Keterlambatan Denda CCP TKB -->
       ${(selectedProj === 'all' || selectedProj === 'tkb') && overdueTKBKRs.length > 0 ? `
-        <div style="background:linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%); border:1.5px solid #E11D48; padding:18px 20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
+        <div style="background:linear-gradient(135deg, rgba(225, 29, 72, 0.12) 0%, var(--bg-card) 100%); border:1.5px solid #E11D48; padding:18px 20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
           <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:12px; border-bottom:1px solid rgba(225, 29, 72, 0.3); padding-bottom:10px;">
             <div>
               <div style="font-size:0.8rem; text-transform:uppercase; letter-spacing:1px; color:#F43F5E; font-weight:800; display:flex; align-items:center; gap:6px;">
@@ -4244,7 +4294,7 @@ function renderOKRView() {
 
       <!-- Budget Panel Khusus Objective 1.2 Premium Cirebon -->
       ${selectedProj === 'all' || selectedProj === 'cirebon' ? `
-        <div style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, rgba(17, 24, 39, 0.8) 100%); border:1px solid var(--accent-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; box-shadow:var(--shadow-sm);">
+        <div style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, var(--bg-card) 100%); border:1px solid var(--accent-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; box-shadow:var(--shadow-sm);">
           <div>
             <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--accent-gold); font-weight:800;">
               💰 Panel Budget Strategis — Objective 1.2 Premium Cirebon
@@ -4605,7 +4655,7 @@ function renderTKBOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrTkbMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
-                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
@@ -4614,7 +4664,7 @@ function renderTKBOKRView() {
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Status:</span>
             <select onchange="window.handleOKRStatusFilterChange(this.value)"
-                    style="background:#FFFFFF; border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
+                    style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
               <option value="all" ${selectedStat==='all'?'selected':''}>Semua Status</option>
               <option value="Overdue" ${selectedStat==='Overdue'?'selected':''}>🔴 Overdue</option>
               <option value="Hold" ${selectedStat==='Hold'?'selected':''}>🟠 Hold</option>
@@ -5814,121 +5864,87 @@ const b2bDatabase = {
   ]
 };
 
-// Database Tiket Komplain Customer B2B dengan Foto Bukti Nyata
+// Database Tiket Komplain Customer B2B dengan Foto & Video Bukti Nyata
 const b2bComplainTickets = [
   {
-    id: 'B2B-CMP-2026-081',
-    customer: 'PT Astra International Tbk',
-    orderRef: 'PO-ASTRA/B2B/2026/08/044',
-    date: '14 Agustus 2026',
+    id: 'B2B-CMP-2026-085',
+    customer: 'PT Sanqua Multi Makmur (Sanqua)',
+    orderRef: 'Seragam Karyawan Sanqua',
+    date: '29 Agustus 2026',
     monthKey: '7',
-    category: 'Kualitas Bahan & Pewarnaan',
+    category: 'Seragam Karyawan',
     badgeType: 'b2b-badge-product',
     severity: 'High',
-    pic: 'Rangga Dananjaya (AE Corporate)',
-    photo: 'asset/b2b_complain_defect_motif.jpg',
-    photoThumb: 'asset/b2b_complain_defect_motif.jpg',
-    title: 'Motif Pewarnaan Dye Bleed pada Bahan Seragam Direksi',
-    issue: 'Ditemukan perembesan tinta pewarna (dye bleed) dan pola batik parang tidak presisi pada 12 roll kain katun primisima pesanan seragam korporat nasional.',
-    rootCause: 'Penyusutan saat proses fiksasi warna di batch pengeringan malam hari karena fluktuasi kelembaban suhu ruang oven.',
-    resolution: 'Penggantian 100% 12 roll kain baru dengan proses fiksasi ulang & QC ganda. Diserahkan kembali dalam 48 jam disertai sertifikat QC lulus uji.',
-    status: 'Resolved',
-    csat: '5.0 / 5.0 (Sangat Puas)'
+    pic: '-',
+    photo: 'asset/complain sanqua.mp4',
+    photoThumb: 'asset/complain sanqua.mp4',
+    mediaType: 'video',
+    title: 'Ritsleting Tidak Terjahit ke Bahan Baju & Jahitan Bagian Dalam Tidak Rapi',
+    issue: 'Untuk seragam sudah kita bagikan ke karyawan, namun ada complain terkait sleting yg tidak terjahit ke bahan baju dan seperti yg saya komplain sebelumnya terkait bagian dalam sleting yg tidak rapi penjahitannya bu🙏',
+    rootCause: '-',
+    resolution: '-',
+    status: 'Komplain Masuk',
+    csat: '-'
   },
   {
-    id: 'B2B-CMP-2026-082',
-    customer: 'PT Bank Mandiri (Persero) Tbk',
-    orderRef: 'PO-MANDIRI/SOUV/2026/08/102',
-    date: '19 Agustus 2026',
+    id: 'B2B-CMP-2026-086',
+    customer: 'Kak Dewi (Klien)',
+    orderRef: 'Celana Batik Seragam',
+    date: '30 Agustus 2026',
     monthKey: '7',
-    category: 'Packaging & Hardbox',
-    badgeType: 'b2b-badge-delivery',
-    severity: 'Medium',
-    pic: 'Siti Rahmawati (Key Account Specialist)',
-    photo: 'asset/b2b_complain_packaging.jpg',
-    photoThumb: 'asset/b2b_complain_packaging.jpg',
-    title: 'Kerusakan Sudut Box & Segel Terbuka saat Pengiriman Ekspedisi',
-    issue: 'Dari 1.200 unit paket bingkisan souvenir batik premium, terdapat 2 karton master (20 gift box) yang sudut box-nya penyok dan stiker segel keaslian sobek terbentur di kargo pengiriman.',
-    rootCause: 'Benturan saat handling transit logistik eksternal dan kurangnya corner-protector pada pallet lapis bawah.',
-    resolution: 'Penggantian instan 20 box hardcover premium baru dengan pengantaran langsung tim B2B delivery Trusmi ke KC Plaza Mandiri Jakarta.',
-    status: 'Resolved',
-    csat: '4.9 / 5.0 (Sangat Puas)'
-  },
-  {
-    id: 'B2B-CMP-2026-083',
-    customer: 'PT Telekomunikasi Indonesia Tbk (Telkom)',
-    orderRef: 'PO-TELKOM/UNIFORM/2026/08/019',
-    date: '22 Agustus 2026',
-    monthKey: '7',
-    category: 'Bordir & Finishing',
+    category: 'Jahitan & Cutting Celana',
     badgeType: 'b2b-badge-product',
-    severity: 'Medium',
-    pic: 'Dimas Aditya (B2B Project Leader)',
-    photo: 'asset/b2b_complain_embroidery.jpg',
-    photoThumb: 'asset/b2b_complain_embroidery.jpg',
-    title: 'Tarikan Benang Bordir Logo Perusahaan Kurang Rapi',
-    issue: 'Terdapat 8 pcs kemeja batik pesanan seragam custom dengan sisa tarikan benang bordir logo dada kiri yang kendur (loose embroidery thread).',
-    rootCause: 'Tension benang mesin bordir digital 12 kepala mengalami kelonggaran setting pada nozzle nomor 4.',
-    resolution: 'Pengambilan seragam yang cacat pada hari yang sama, dilakukan re-embroidery & precision heat-trimming. Dikembalikan tuntas dalam 24 jam.',
-    status: 'Resolved',
-    csat: '5.0 / 5.0 (Puas Cepat)'
+    severity: 'High',
+    pic: '-',
+    photo: 'asset/complain kak dewi.jpeg',
+    photoThumb: 'asset/complain kak dewi.jpeg',
+    mediaType: 'image',
+    title: 'Jahitan Celana Tidak Sesuai Cutting (Minta Perbaikan, Proses Kirim)',
+    issue: 'Bu izin untuk jahitan celana yang seperti ini, tidak sesuai cuttingnya. Dari pihak klien minta perbaikan ya bu, celananya dalam proses kirim.',
+    rootCause: '-',
+    resolution: 'Dalam proses kirim untuk perbaikan cutting & penjahitan ulang',
+    status: 'Komplain Masuk',
+    csat: '-'
   },
   {
-    id: 'B2B-CMP-2026-084',
-    customer: 'Dinas Pariwisata & Kebudayaan Pemprov',
-    orderRef: 'PO-DISPARBUD/CEND/2026/08/007',
-    date: '27 Agustus 2026',
+    id: 'B2B-CMP-2026-087',
+    customer: 'Kolese Jesuit',
+    orderRef: 'Kain Seragam Kolese Jesuit',
+    date: '25 Agustus 2026',
     monthKey: '7',
-    category: 'Noda / Watermark Sutra',
-    badgeType: 'b2b-badge-service',
-    severity: 'Medium',
-    pic: 'Rangga Dananjaya (AE Corporate)',
-    photo: 'asset/b2b_complain_color_bleed.jpg',
-    photoThumb: 'asset/b2b_complain_color_bleed.jpg',
-    title: 'Watermark Stain pada Selendang Sutra Tulis Cirebonan',
-    issue: 'Pada 5 pcs selendang sutra tulis cindai ditemukan bercak watermark lingkaran akibat tetesan uap steam iron saat proses final pressing.',
-    rootCause: 'Kondensasi selang uap setrika uap industri garmen yang belum dibuang sebelum shift pagi.',
-    resolution: 'Penggantian unit baru dari stok master gallery Batik Trusmi langsung di hari H acara seremoni pembukaan festival pariwisata.',
-    status: 'Resolved',
-    csat: '5.0 / 5.0 (Apresiasi Respon Cepat)'
+    category: 'Kualitas Kain & Shading Warna',
+    badgeType: 'b2b-badge-product',
+    severity: 'High',
+    pic: '-',
+    photo: 'asset/kolese jesuit.jpeg',
+    photoThumb: 'asset/kolese jesuit.jpeg',
+    mediaType: 'image',
+    title: 'Perbedaan Tone Warna (Shading/Belang) Antar Potongan Kain Seragam',
+    issue: 'Terdapat ketidaksesuaian tone warna (shading/belang) antar potongan kain seragam yang dikirim antar roll/lot bahan.',
+    rootCause: '-',
+    resolution: 'Pengecekan lot kain & penggantian bahan dengan lot warna yang seragam',
+    status: 'Komplain Masuk',
+    csat: '-'
   },
   {
-    id: 'B2B-CMP-2026-071',
-    customer: 'CV Nusantara Fashion Apparel',
-    orderRef: 'PO-NF/FABRIC/2026/07/088',
-    date: '12 Juli 2026',
+    id: 'B2B-CMP-2026-073',
+    customer: 'RSU Asia Padang (RSU Aisyah)',
+    orderRef: 'Seragam Batik Rumah Sakit',
+    date: '14 Juli 2026',
     monthKey: '6',
-    category: 'Pengiriman & Logistik',
-    badgeType: 'b2b-badge-delivery',
-    severity: 'Medium',
-    pic: 'Budi Santoso (Logistics B2B)',
-    photo: 'asset/b2b_complain_packaging.jpg',
-    photoThumb: 'asset/b2b_complain_packaging.jpg',
-    title: 'Keterlambatan Pengiriman 2 Hari Akibat Antrean Muatan Logistik',
-    issue: 'Pengiriman kain seragam pesanan tertunda 2 hari kerja akibat overload gudang ekspedisi cargo lintas Jawa.',
-    rootCause: 'Ketergantungan pada 1 vendor ekspedisi reguler saat peak season liburan sekolah.',
-    resolution: 'Peningkatan SLA ekspedisi ke dedicated chartered van B2B serta pemberian diskon voucher 5% untuk PO berikutnya.',
-    status: 'Resolved',
-    csat: '4.7 / 5.0'
-  },
-  {
-    id: 'B2B-CMP-2026-072',
-    customer: 'PT Pupuk Indonesia Holding Company',
-    orderRef: 'PO-PIHC/SERAGAM/2026/07/015',
-    date: '26 Juli 2026',
-    monthKey: '6',
-    category: 'Penyesuaian Ukuran (Size Exchange)',
-    badgeType: 'b2b-badge-service',
-    severity: 'Low',
-    pic: 'Siti Rahmawati (Key Account Specialist)',
-    photo: 'asset/b2b_complain_embroidery.jpg',
-    photoThumb: 'asset/b2b_complain_embroidery.jpg',
-    title: 'Permintaan Tukar Size Kemeja Seragam Karyawan (15 Pcs)',
-    issue: 'Karyawan di divisi operasional mengajukan penyesuaian ukuran seragam (tukar size XL ke L) karena salah input data ukuran internal.',
-    rootCause: 'Data formulir fitting internal dari PIC customer yang direvisi pasca produksi.',
-    resolution: 'Layanan purna jual gratis tukar size selesai dan didistribusikan dalam 3 hari kerja.',
-    status: 'Resolved',
-    csat: '5.0 / 5.0'
+    category: 'Pewarnaan & Tone Motif Batik',
+    badgeType: 'b2b-badge-product',
+    severity: 'High',
+    pic: '-',
+    photo: 'asset/rsu asia padang.jpeg',
+    photoThumb: 'asset/rsu asia padang.jpeg',
+    mediaType: 'image',
+    title: 'Perbedaan Warna Motif Seragam (Ada yang Kuning dan Hijau)',
+    issue: 'Bajunya sudah diterima, tapi warnanya beda-beda yaa. Ada yang kuning dan ada yang hijau pada motif bagian depan seragam.',
+    rootCause: '-',
+    resolution: 'Pengecekan lot pencelupan & penyeragaman batch warna seragam',
+    status: 'Komplain Masuk',
+    csat: '-'
   }
 ];
 
@@ -6210,54 +6226,6 @@ function renderB2BAchievementView() {
         </div>
       </div>
 
-      <!-- Top Client Portfolio & Strategic B2B Accounts -->
-      <div class="b2b-table-card">
-        <div class="b2b-table-header" style="background: linear-gradient(90deg, #312E81 0%, #4338CA 100%);">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <i data-lucide="building" style="color:#FFF; width:20px; height:20px;"></i>
-            <h3>Portofolio Akun Korporat & Klien Strategis B2B (2026)</h3>
-          </div>
-          <span style="font-size:0.78rem; color:#E0E7FF;">6 Akun Kunci Berkontribusi 85% Total Revenue</span>
-        </div>
-
-        <div style="overflow-x:auto;">
-          <table class="custom-table" style="font-size:0.82rem;">
-            <thead>
-              <tr style="background:#111827; border-bottom:2px solid var(--border-color);">
-                <th>KLIEN / PERUSAHAAN</th>
-                <th>SEKTOR INDUSTRI</th>
-                <th style="text-align:right;">TOTAL ORDER VALUE</th>
-                <th style="text-align:center;">PO / TRANSAKSI</th>
-                <th style="text-align:center;">PERTUMBUHAN YOY</th>
-                <th style="text-align:center;">STATUS KONTRAK</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${b2bTopClients.map(c => `
-                <tr>
-                  <td>
-                    <div style="font-weight:800; color:#FFF; display:flex; align-items:center; gap:8px;">
-                      <i data-lucide="shield-check" style="width:14px; height:14px; color:#818CF8;"></i> ${c.client}
-                    </div>
-                  </td>
-                  <td style="color:var(--text-secondary);">${c.sector}</td>
-                  <td style="text-align:right; font-weight:800; color:#10B981;">${c.volume}</td>
-                  <td style="text-align:center; font-weight:700;">${c.orders} Orders</td>
-                  <td style="text-align:center;">
-                    <span class="status-pill status-achieved">${c.growth}</span>
-                  </td>
-                  <td style="text-align:center;">
-                    <span style="background:rgba(99,102,241,0.15); color:#A5B4FC; border:1px solid rgba(99,102,241,0.3); padding:3px 10px; border-radius:12px; font-weight:700; font-size:0.75rem;">
-                      ${c.status}
-                    </span>
-                  </td>
-                </tr>
-              `).join('')}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
     </div>
   `;
 }
@@ -6524,18 +6492,13 @@ function renderB2BComparisonView() {
 }
 
 // --------------------------------------------------------------------------
-// SUB-VIEW 3: COMPLAIN B2B (CUSTOMER COMPLAINT WITH REAL PHOTOS)
+// SUB-VIEW 3: COMPLAIN B2B (CUSTOMER COMPLAINT WITH REAL PHOTOS & VIDEOS)
 // --------------------------------------------------------------------------
 function renderB2BComplainView() {
-  const selMonth = state.selectedSalesMonth || '7';
-  
-  // Filter tickets by month if selected, or show all
-  const tickets = (selMonth === 'all') 
-    ? b2bComplainTickets 
-    : b2bComplainTickets.filter(t => t.monthKey === selMonth);
-
+  const tickets = b2bComplainTickets;
   const totalTickets = tickets.length;
   const resolvedCount = tickets.filter(t => t.status === 'Resolved').length;
+  const activeCount = totalTickets - resolvedCount;
   const resolutionRate = totalTickets > 0 ? ((resolvedCount / totalTickets) * 100).toFixed(0) : '100';
 
   return `
@@ -6543,52 +6506,35 @@ function renderB2BComplainView() {
       
       <!-- Top Banner for B2B Complain Management -->
       <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(99,102,241,0.06) 100%); border-color:rgba(239,68,68,0.25);">
-        <div>
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <div style="background:linear-gradient(135deg, #EF4444, #DC2626); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(239,68,68,0.3);">
-              <i data-lucide="camera" style="color:#FFF; width:22px; height:22px;"></i>
+              <i data-lucide="video" style="color:#FFF; width:22px; height:22px;"></i>
             </div>
             <div>
               <h2 class="b2b-banner-title" style="background: linear-gradient(90deg, #DC2626 0%, #E11D48 50%, #4F46E5 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
-                DATA KOMPLAIN CUSTOMER B2B & BUKTI FOTO DOKUMENTASI
+                DATA KOMPLAIN CUSTOMER B2B & BUKTI DOKUMENTASI (FOTO & VIDEO)
               </h2>
-              <div class="b2b-banner-sub">Monitoring Tiket Penanganan Keluhan Klien Korporat, Investigasi QC, & Bukti Visual Foto Produk</div>
+              <div class="b2b-banner-sub">Monitoring Tiket Penanganan Keluhan Klien Korporat, Investigasi QC, & Bukti Visual Foto/Video Produk</div>
             </div>
           </div>
-        </div>
-
-        <div style="display:flex; align-items:center; gap:12px;">
-          <div style="display:flex; flex-direction:column; align-items:flex-end;">
-            <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:700;">FILTER BULAN KOMPLAIN</span>
-            <select class="b2b-month-select" id="b2bComplainMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="border-color:#EF4444;">
-              <option value="all" ${selMonth === 'all' ? 'selected' : ''}>📊 Semua Bulan 2026 (${b2bComplainTickets.length} Tiket)</option>
-              <option value="7" ${selMonth === '7' ? 'selected' : ''}>✨ Agustus 2026 (4 Tiket)</option>
-              <option value="6" ${selMonth === '6' ? 'selected' : ''}>📜 Juli 2026 (2 Tiket)</option>
-            </select>
+          <div style="display:flex; align-items:center; gap:8px; background:rgba(239,68,68,0.15); padding:6px 14px; border-radius:8px; border:1px solid rgba(239,68,68,0.3);">
+            <i data-lucide="alert-circle" style="width:16px; height:16px; color:#EF4444;"></i>
+            <span style="font-size:0.8rem; font-weight:800; color:#FFF;">${totalTickets} Tiket Komplain Masuk</span>
           </div>
         </div>
       </div>
 
       <!-- Complaint KPI Summary Bar -->
-      <div class="b2b-complain-summary">
+      <div class="b2b-complain-summary" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
         <div class="b2b-complain-stat">
           <div class="b2b-complain-stat-value" style="color:#DC2626;">${totalTickets}</div>
-          <div class="b2b-complain-stat-label">TOTAL TIKET KOMPLAIN</div>
+          <div class="b2b-complain-stat-label">TOTAL DATA KOMPLAIN</div>
         </div>
         <div class="b2b-divider-v"></div>
         <div class="b2b-complain-stat">
-          <div class="b2b-complain-stat-value" style="color:#059669;">${resolvedCount}</div>
-          <div class="b2b-complain-stat-label">STATUS TUNTAS (RESOLVED)</div>
-        </div>
-        <div class="b2b-divider-v"></div>
-        <div class="b2b-complain-stat">
-          <div class="b2b-complain-stat-value" style="color:#059669;">${resolutionRate}%</div>
-          <div class="b2b-complain-stat-label">SLA RESOLUTION RATE</div>
-        </div>
-        <div class="b2b-divider-v"></div>
-        <div class="b2b-complain-stat">
-          <div class="b2b-complain-stat-value" style="color:var(--accent-gold);">4.9 / 5.0</div>
-          <div class="b2b-complain-stat-label">CSAT SCORE KEPUASAN</div>
+          <div class="b2b-complain-stat-value" style="color:#059669;">${totalTickets}</div>
+          <div class="b2b-complain-stat-label">DOKUMENTASI FOTO & VIDEO</div>
         </div>
         <div class="b2b-divider-v"></div>
         <div class="b2b-complain-stat">
@@ -6597,63 +6543,82 @@ function renderB2BComplainView() {
         </div>
       </div>
 
-      <!-- Section Label: Photo Evidence Gallery -->
+      <!-- Section Label: Photo & Video Evidence Gallery -->
       <div class="b2b-section-label">
-        <i data-lucide="image" style="width:16px; height:16px;"></i>
-        <span>GALERI BUKTI FOTO KOMPLAIN CUSTOMER (KLIK FOTO UNTUK MEMPERBESAR / DETAIL INVESTIGASI)</span>
+        <i data-lucide="clapperboard" style="width:16px; height:16px;"></i>
+        <span>GALERI BUKTI DOKUMENTASI KOMPLAIN (KLIK UNTUK LIHAT DETAIL KOMPLAIN)</span>
       </div>
 
-      <!-- Photo Cards Grid -->
+      <!-- Photo/Video Cards Grid -->
       <div class="b2b-photo-gallery">
-        ${tickets.map(t => `
+        ${tickets.length > 0 ? tickets.map(t => {
+          const isVideo = t.mediaType === 'video' || (t.photo && t.photo.endsWith('.mp4'));
+          return `
           <div class="b2b-photo-card" onclick="openB2BPhotoModal('${t.id}')">
-            <div style="position:relative; overflow:hidden; aspect-ratio:4/3; background:rgba(0,0,0,0.3);">
-              <img src="${t.photoThumb}" alt="${t.title}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
-              <span style="position:absolute; top:8px; left:8px; background:rgba(15,23,42,0.85); backdrop-filter:blur(6px); color:#FFF; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:4px; border:1px solid rgba(255,255,255,0.2);">
-                ${t.id}
-              </span>
-              <span style="position:absolute; bottom:8px; right:8px; background:#10B981; color:#FFF; font-size:0.68rem; font-weight:800; padding:2px 8px; border-radius:12px; display:flex; align-items:center; gap:4px; box-shadow:0 2px 6px rgba(0,0,0,0.4);">
-                <i data-lucide="check" style="width:12px; height:12px;"></i> ${t.status}
-              </span>
+            <div style="position:relative; overflow:hidden; aspect-ratio:4/3; background:rgba(0,0,0,0.4);">
+              ${isVideo ? `
+                <video src="${t.photo}" style="width:100%; height:100%; object-fit:cover;" muted autoplay loop playsinline></video>
+                <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); pointer-events:none;">
+                  <div style="background:rgba(220,38,38,0.9); width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(220,38,38,0.6);">
+                    <i data-lucide="play" style="width:18px; height:18px; color:#FFF; fill:#FFF; margin-left:2px;"></i>
+                  </div>
+                </div>
+              ` : `
+                <img src="${t.photoThumb}" alt="${t.title}" style="width:100%; height:100%; object-fit:cover; transition:transform 0.4s ease;" onmouseover="this.style.transform='scale(1.08)'" onmouseout="this.style.transform='scale(1)'" />
+              `}
+              ${isVideo ? `
+                <span style="position:absolute; top:8px; right:8px; background:#DC2626; color:#FFF; font-size:0.65rem; font-weight:800; padding:2px 6px; border-radius:4px; display:flex; align-items:center; gap:3px; box-shadow:0 2px 6px rgba(0,0,0,0.4);">
+                  <i data-lucide="video" style="width:11px; height:11px;"></i> VIDEO
+                </span>
+              ` : `
+                <span style="position:absolute; top:8px; right:8px; background:#4F46E5; color:#FFF; font-size:0.65rem; font-weight:800; padding:2px 6px; border-radius:4px; display:flex; align-items:center; gap:3px; box-shadow:0 2px 6px rgba(0,0,0,0.4);">
+                  <i data-lucide="image" style="width:11px; height:11px;"></i> FOTO
+                </span>
+              `}
             </div>
             
             <div class="b2b-photo-info">
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-                <span class="b2b-photo-badge ${t.badgeType}">${t.category}</span>
-                <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:600;">${t.date}</span>
+              <div style="margin-bottom:6px;">
+                <span style="font-size:0.68rem; color:#818CF8; font-weight:700; text-transform:uppercase;">Komplain Dari:</span>
+                <div class="b2b-photo-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis; font-weight:800;" title="${t.customer}">
+                  ${t.customer}
+                </div>
               </div>
-              <div class="b2b-photo-title" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${t.customer}">
-                ${t.customer}
+              <div>
+                <span style="font-size:0.68rem; color:#F43F5E; font-weight:700; text-transform:uppercase;">Keluhan:</span>
+                <div class="b2b-photo-meta" style="display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:0.76rem; line-height:1.35;" title="${t.title}">
+                  ${t.title}
+                </div>
               </div>
-              <div class="b2b-photo-meta" style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-                ${t.title}
-              </div>
-              <div style="display:flex; justify-content:space-between; align-items:center; margin-top:8px; border-top:1px solid var(--border-color); padding-top:6px;">
-                <span style="font-size:0.7rem; color:#A5B4FC; font-weight:700;">PIC: ${t.pic.split(' ')[0]}</span>
-                <span style="font-size:0.72rem; color:var(--accent-b2b); font-weight:700; display:inline-flex; align-items:center; gap:2px;">
-                  Lihat Foto <i data-lucide="zoom-in" style="width:12px; height:12px;"></i>
+              <div style="display:flex; justify-content:flex-end; align-items:center; margin-top:8px; border-top:1px solid var(--border-color); padding-top:6px;">
+                <span style="font-size:0.72rem; color:${isVideo ? '#F43F5E' : 'var(--accent-b2b)'}; font-weight:700; display:inline-flex; align-items:center; gap:3px;">
+                  ${isVideo ? 'Putar Video <i data-lucide="play" style="width:12px; height:12px;"></i>' : 'Lihat Foto <i data-lucide="zoom-in" style="width:12px; height:12px;"></i>'}
                 </span>
               </div>
             </div>
           </div>
-        `).join('')}
+        `;}).join('') : `
+          <div style="grid-column:1 / -1; padding:32px 20px; text-align:center; color:var(--text-secondary); background:var(--card-bg); border-radius:12px; border:1px dashed var(--border-color); font-weight:600;">
+            Tidak ada dokumentasi komplain.
+          </div>
+        `}
       </div>
 
       <!-- Section Label: Complete Investigation Log Table -->
       <div class="b2b-section-label" style="margin-top:10px;">
         <i data-lucide="clipboard-list" style="width:16px; height:16px;"></i>
-        <span>TABEL LOG LENGKAP INVESTIGASI & AKAR MASALAH KOMPLAIN B2B</span>
+        <span>TABEL DATA KOMPLAIN CUSTOMER</span>
       </div>
 
       <!-- Detailed Customer Complaint Table -->
       <div class="b2b-table-card">
         <div class="b2b-table-header" style="background: linear-gradient(90deg, #991B1B 0%, #B91C1C 50%, #4338CA 100%);">
           <div style="display:flex; align-items:center; gap:8px;">
-            <i data-lucide="shield-alert" style="color:#FFF; width:20px; height:20px;"></i>
-            <h3>Daftar Tiket Komplain Customer & Solusi Penanganan (2026)</h3>
+            <i data-lucide="message-square-warning" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Daftar Komplain Customer & Bukti Dokumentasi</h3>
           </div>
           <span style="font-size:0.78rem; background:rgba(0,0,0,0.25); color:#FFF; padding:3px 10px; border-radius:12px; font-weight:700;">
-            100% Resolved On-Time
+            ${tickets.length} Data Komplain
           </span>
         </div>
 
@@ -6661,55 +6626,50 @@ function renderB2BComplainView() {
           <table class="custom-table" style="font-size:0.82rem;">
             <thead>
               <tr style="background:#111827; border-bottom:2px solid var(--border-color);">
-                <th style="width:60px; text-align:center;">FOTO</th>
-                <th>NO. TIKET & KLIEN</th>
-                <th>KATEGORI & TANGGAL</th>
-                <th>DESKRIPSI KELUHAN CUSTOMER</th>
-                <th>AKAR MASALAH (ROOT CAUSE)</th>
-                <th>TINDAKAN KOREKTIF & SOLUSI</th>
-                <th style="text-align:center;">STATUS</th>
-                <th style="text-align:center;">AKSI</th>
+                <th style="width:60px; text-align:center;">BUKTI</th>
+                <th style="width:250px;">KOMPLAIN DARI (KLIEN)</th>
+                <th>KOMPLAINNYA APA (KELUHAN CUSTOMER)</th>
+                <th style="width:90px; text-align:center;">AKSI</th>
               </tr>
             </thead>
             <tbody>
-              ${tickets.map((t, idx) => `
+              ${tickets.length > 0 ? tickets.map((t, idx) => {
+                const isVideo = t.mediaType === 'video' || (t.photo && t.photo.endsWith('.mp4'));
+                return `
                 <tr style="background:${idx % 2 === 0 ? 'rgba(255,255,255,0.02)' : 'rgba(255,255,255,0.05)'};">
                   <td style="text-align:center; padding:8px;">
-                    <img src="${t.photoThumb}" alt="Foto ${t.id}" style="width:48px; height:36px; object-fit:cover; border-radius:4px; border:1px solid var(--border-color); cursor:pointer;" onclick="openB2BPhotoModal('${t.id}')" title="Klik untuk perbesar" />
+                    <div style="position:relative; width:48px; height:36px; display:inline-block; cursor:pointer;" onclick="openB2BPhotoModal('${t.id}')" title="Klik untuk ${isVideo ? 'putar video komplain' : 'perbesar foto'}">
+                      ${isVideo ? `
+                        <video src="${t.photo}" style="width:48px; height:36px; object-fit:cover; border-radius:4px; border:1px solid var(--border-color);"></video>
+                        <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.35); border-radius:4px;">
+                          <i data-lucide="play" style="width:14px; height:14px; color:#FFF; fill:#FFF;"></i>
+                        </div>
+                      ` : `
+                        <img src="${t.photoThumb}" alt="Foto ${t.id}" style="width:48px; height:36px; object-fit:cover; border-radius:4px; border:1px solid var(--border-color);" />
+                      `}
+                    </div>
                   </td>
                   <td>
                     <div style="font-weight:800; color:#FFF; font-size:0.88rem;">${t.customer}</div>
-                    <div style="font-size:0.72rem; color:var(--accent-b2b); font-family:monospace; margin-top:2px;">${t.id} &bull; ${t.orderRef}</div>
+                    <div style="font-size:0.72rem; color:var(--text-secondary); margin-top:2px;">${t.category}</div>
                   </td>
                   <td>
-                    <span class="b2b-photo-badge ${t.badgeType}" style="display:inline-block; margin-bottom:3px;">${t.category}</span>
-                    <div style="font-size:0.72rem; color:var(--text-secondary);">${t.date}</div>
-                  </td>
-                  <td style="max-width:240px;">
-                    <div style="font-weight:700; color:#FFF; font-size:0.82rem;">${t.title}</div>
-                    <div style="font-size:0.75rem; color:var(--text-secondary); margin-top:2px;">${t.issue}</div>
-                  </td>
-                  <td style="max-width:200px; font-size:0.76rem; color:var(--accent-gold); font-weight:600;">
-                    ${t.rootCause}
-                  </td>
-                  <td style="max-width:240px;">
-                    <div style="font-size:0.76rem; color:#10B981; font-weight:700;">
-                      <i data-lucide="check-circle" style="width:12px; height:12px; display:inline; color:#10B981;"></i> ${t.resolution}
-                    </div>
-                    <div style="font-size:0.7rem; color:var(--text-secondary); margin-top:3px;">PIC: <strong style="color:#FFF;">${t.pic}</strong></div>
+                    <div style="font-weight:700; color:#FFF; font-size:0.85rem; margin-bottom:3px;">${t.title}</div>
+                    <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">${t.issue}</div>
                   </td>
                   <td style="text-align:center;">
-                    <span class="b2b-photo-badge b2b-badge-resolved" style="padding:4px 10px; font-size:0.75rem;">
-                      <i data-lucide="check-check" style="width:12px; height:12px;"></i> ${t.status}
-                    </span>
-                  </td>
-                  <td style="text-align:center;">
-                    <button class="pill-btn" onclick="openB2BPhotoModal('${t.id}')" style="font-size:0.74rem; padding:4px 10px; display:inline-flex; align-items:center; gap:4px; background:#1E293B; border:1px solid var(--border-highlight); color:#FFF;">
-                      <i data-lucide="eye" style="width:12px; height:12px;"></i> Foto
+                    <button class="pill-btn" onclick="openB2BPhotoModal('${t.id}')" style="font-size:0.74rem; padding:5px 12px; display:inline-flex; align-items:center; gap:4px; background:${isVideo ? 'rgba(239,68,68,0.25)' : 'rgba(79,70,229,0.25)'}; border:1px solid ${isVideo ? '#EF4444' : '#6366F1'}; color:#FFF;">
+                      <i data-lucide="${isVideo ? 'video' : 'image'}" style="width:12px; height:12px;"></i> ${isVideo ? 'Video' : 'Foto'}
                     </button>
                   </td>
                 </tr>
-              `).join('')}
+              `;}).join('') : `
+                <tr>
+                  <td colspan="4" style="text-align:center; padding:32px; color:var(--text-secondary); font-weight:600;">
+                    Tidak ada data komplain.
+                  </td>
+                </tr>
+              `}
             </tbody>
           </table>
         </div>
@@ -6720,7 +6680,7 @@ function renderB2BComplainView() {
 }
 
 // --------------------------------------------------------------------------
-// LIGHTBOX & MODAL HANDLERS FOR B2B COMPLAINT PHOTOS
+// LIGHTBOX & MODAL HANDLERS FOR B2B COMPLAINT PHOTOS & VIDEOS (SIMPLE & DIRECT)
 // --------------------------------------------------------------------------
 window.openB2BPhotoModal = function(ticketId) {
   const ticket = b2bComplainTickets.find(t => t.id === ticketId);
@@ -6730,57 +6690,41 @@ window.openB2BPhotoModal = function(ticketId) {
   const inner = document.getElementById('b2bLightboxInner');
   if (!lightbox || !inner) return;
 
+  const isVideo = ticket.mediaType === 'video' || (ticket.photo && ticket.photo.endsWith('.mp4'));
+
   inner.innerHTML = `
-    <div style="position:relative; background:rgba(0,0,0,0.4);">
-      <img src="${ticket.photo}" alt="${ticket.title}" class="b2b-lightbox-img" />
-      <div style="position:absolute; top:14px; left:16px; background:rgba(15,23,42,0.85); backdrop-filter:blur(8px); padding:4px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.2);">
-        <span style="color:#A78BFA; font-weight:800; font-size:0.8rem; font-family:monospace;">${ticket.id}</span>
-        <span style="color:rgba(255,255,255,0.4); margin:0 6px;">|</span>
-        <span style="color:#FFF; font-weight:700; font-size:0.8rem;">${ticket.date}</span>
+    <div style="position:relative; background:#000; display:flex; align-items:center; justify-content:center;">
+      ${isVideo ? `
+        <video src="${ticket.photo}" controls autoplay playsinline style="width:100%; max-height:480px; object-fit:contain; background:#000;"></video>
+      ` : `
+        <img src="${ticket.photo}" alt="${ticket.title}" class="b2b-lightbox-img" style="width:100%; max-height:480px; object-fit:contain; background:#000;" />
+      `}
+      <div style="position:absolute; top:14px; left:16px; background:rgba(15,23,42,0.85); backdrop-filter:blur(8px); padding:4px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); display:flex; align-items:center; gap:8px;">
+        <span style="${isVideo ? 'color:#38BDF8;' : 'color:#818CF8;'} font-weight:800; font-size:0.78rem; display:flex; align-items:center; gap:4px;">
+          <i data-lucide="${isVideo ? 'video' : 'image'}" style="width:14px; height:14px;"></i> ${isVideo ? 'Bukti Video' : 'Bukti Foto'}
+        </span>
       </div>
     </div>
 
-    <div class="b2b-lightbox-body" style="background:#0F172A; color:var(--text-primary);">
-      <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
-        <div>
-          <span class="b2b-photo-badge ${ticket.badgeType}" style="margin-bottom:6px;">${ticket.category}</span>
-          <h3 style="margin:0; font-size:1.2rem; font-weight:900; color:#FFF;">${ticket.customer}</h3>
-          <div style="font-size:0.82rem; color:var(--text-secondary); margin-top:2px;">Ref Order: <strong style="color:#FFF;">${ticket.orderRef}</strong></div>
-        </div>
-        <div style="text-align:right;">
-          <span class="status-pill status-achieved" style="font-size:0.82rem; padding:6px 14px;">
-            <i data-lucide="shield-check" style="width:14px; height:14px;"></i> Status: ${ticket.status}
-          </span>
-          <div style="font-size:0.75rem; color:var(--accent-gold); font-weight:700; margin-top:4px;">CSAT: ${ticket.csat}</div>
-        </div>
+    <div class="b2b-lightbox-body" style="background:#0F172A; color:var(--text-primary); padding:20px 24px;">
+      <!-- Komplain Dari Siapa -->
+      <div style="margin-bottom:16px;">
+        <span style="font-size:0.72rem; color:#818CF8; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:4px;">
+          <i data-lucide="building-2" style="width:14px; height:14px; display:inline; vertical-align:middle;"></i> Komplain Dari:
+        </span>
+        <h3 style="margin:0; font-size:1.25rem; font-weight:900; color:#FFF;">${ticket.customer}</h3>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; background:rgba(255,255,255,0.03); padding:14px; border-radius:10px; border:1px solid var(--border-color); margin-bottom:14px;">
-        <div>
-          <span style="font-size:0.72rem; color:#F43F5E; font-weight:800; text-transform:uppercase; display:block; margin-bottom:4px;">
-            <i data-lucide="alert-circle" style="width:13px; height:13px; display:inline;"></i> Keluhan Customer
-          </span>
-          <div style="font-size:0.82rem; color:#FFF; font-weight:700; margin-bottom:4px;">${ticket.title}</div>
-          <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">${ticket.issue}</div>
+      <!-- Komplainnya Apa -->
+      <div style="background:rgba(255,255,255,0.04); padding:16px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+        <span style="font-size:0.72rem; color:#F43F5E; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; display:block; margin-bottom:6px;">
+          <i data-lucide="message-square-warning" style="width:14px; height:14px; display:inline; vertical-align:middle;"></i> Komplainnya:
+        </span>
+        <div style="font-size:0.95rem; color:#FFF; font-weight:700; margin-bottom:6px; line-height:1.4;">
+          ${ticket.title}
         </div>
-
-        <div>
-          <span style="font-size:0.72rem; color:var(--accent-gold); font-weight:800; text-transform:uppercase; display:block; margin-bottom:4px;">
-            <i data-lucide="search" style="width:13px; height:13px; display:inline;"></i> Hasil Investigasi QC (Root Cause)
-          </span>
-          <div style="font-size:0.78rem; color:var(--text-secondary); line-height:1.4;">${ticket.rootCause}</div>
-        </div>
-      </div>
-
-      <div style="background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-        <div>
-          <span style="font-size:0.72rem; color:#10B981; font-weight:800; text-transform:uppercase; display:block;">
-            <i data-lucide="check-circle" style="width:13px; height:13px; display:inline;"></i> Solusi & Tindakan Korektif Selesai
-          </span>
-          <div style="font-size:0.82rem; color:#FFF; font-weight:600; margin-top:2px;">${ticket.resolution}</div>
-        </div>
-        <div style="font-size:0.78rem; color:var(--text-secondary);">
-          PIC Penanganan: <strong style="color:#FFF;">${ticket.pic}</strong>
+        <div style="font-size:0.85rem; color:var(--text-secondary); line-height:1.6;">
+          ${ticket.issue}
         </div>
       </div>
     </div>
@@ -6790,12 +6734,21 @@ window.openB2BPhotoModal = function(ticketId) {
   initLucide();
 };
 
+window.updateB2BComplainFilter = function(val) {
+  state.b2bComplainMonthFilter = val;
+  renderCurrentView();
+};
+
 window.closeB2BLightbox = function(e) {
   if (e && e.target && e.target.classList && !e.target.classList.contains('b2b-lightbox') && !e.target.closest('.b2b-lightbox-close')) {
     return;
   }
   const lightbox = document.getElementById('b2bLightbox');
-  if (lightbox) lightbox.classList.remove('active');
+  if (lightbox) {
+    const video = lightbox.querySelector('video');
+    if (video) video.pause();
+    lightbox.classList.remove('active');
+  }
 };
 
 window.triggerB2BCelebration = function() {

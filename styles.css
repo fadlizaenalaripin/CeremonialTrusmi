@@ -10,6 +10,11 @@
   --bg-card-active: rgba(30, 41, 59, 0.9);
   --border-color: rgba(255, 255, 255, 0.08);
   --border-highlight: rgba(255, 255, 255, 0.18);
+  --header-bg: rgba(15, 23, 42, 0.75);
+  --sidebar-bg: rgba(15, 23, 42, 0.6);
+  --content-bg: rgba(9, 13, 22, 0.4);
+  --content-header-bg: rgba(15, 23, 42, 0.4);
+  --control-bg: rgba(255, 255, 255, 0.05);
 
   --text-primary: #F9FAFB;
   --text-secondary: #9CA3AF;
@@ -154,7 +159,7 @@ h4,
   align-items: center;
   justify-content: space-between;
   padding: 16px 28px;
-  background: rgba(15, 23, 42, 0.75);
+  background: var(--header-bg);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
@@ -264,14 +269,32 @@ h4,
   cursor: pointer;
 }
 
-.period-selector select option {
-  background: #1E293B;
-  color: #FFF;
+select {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  font-family: inherit;
 }
 
-select option {
+body:not(.light-theme) select {
+  background-color: #111827 !important;
+  color: #F9FAFB !important;
+}
+
+body:not(.light-theme) select option {
   background-color: #1E293B !important;
   color: #FFFFFF !important;
+  padding: 8px 12px;
+}
+
+body.light-theme select {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+body.light-theme select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
   padding: 8px 12px;
 }
 
@@ -335,7 +358,7 @@ select option {
 
 .sidebar-nav {
   width: 270px;
-  background: rgba(15, 23, 42, 0.6);
+  background: var(--sidebar-bg);
   backdrop-filter: blur(16px);
   border-right: 1px solid var(--border-color);
   padding: 20px 14px;
@@ -607,7 +630,7 @@ select option {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background: rgba(9, 13, 22, 0.4);
+  background: var(--content-bg);
 }
 
 .content-header-bar {
@@ -616,7 +639,7 @@ select option {
   justify-content: space-between;
   padding: 16px 28px;
   border-bottom: 1px solid var(--border-color);
-  background: rgba(15, 23, 42, 0.4);
+  background: var(--content-header-bg);
   gap: 16px;
 }
 
@@ -1295,6 +1318,126 @@ select option {
   gap: 10px;
 }
 
+.sales-scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 12px;
+}
+
+@media (max-width: 1480px) {
+  .sales-scorecard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 980px) {
+  .sales-scorecard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+}
+
+@media (max-width: 540px) {
+  .sales-scorecard-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Sales Scorecard Clean Mini Box & Baseline (prevents text overflow) */
+.scorecard-mini-box {
+  background: rgba(5, 150, 105, 0.08);
+  border: 1px solid rgba(5, 150, 105, 0.25);
+  border-radius: 6px;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+body.light-theme .scorecard-mini-box {
+  background: rgba(16, 185, 129, 0.08);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.scorecard-mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scorecard-mini-label {
+  color: #34D399;
+  font-size: 0.68rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+body.light-theme .scorecard-mini-label {
+  color: #047857;
+}
+
+.scorecard-mini-value {
+  color: #34D399;
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 0.86rem;
+  text-align: right;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+body.light-theme .scorecard-mini-value {
+  color: #065F46;
+}
+
+.scorecard-baseline-row {
+  border-top: 1px dashed var(--border-color);
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.scorecard-baseline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.scorecard-baseline-label {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.scorecard-baseline-badge {
+  color: var(--text-muted);
+  font-size: 0.68rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.scorecard-baseline-value {
+  color: #38BDF8;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 0.82rem;
+  text-align: right;
+  letter-spacing: -0.2px;
+  white-space: nowrap;
+}
+
+body.light-theme .scorecard-baseline-value {
+  color: #0284C7;
+}
+
 /* Scrollable chart wrapper - used for wide charts */
 .chart-scroll-wrapper {
   overflow-x: auto;
@@ -1875,6 +2018,18 @@ select option {
   border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
+.b2b-badge-investigation {
+  background: rgba(239, 68, 68, 0.15);
+  color: #F87171;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
+
+body.light-theme .b2b-badge-investigation {
+  background: rgba(239, 68, 68, 0.12);
+  color: #DC2626;
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
 .b2b-highlight-positive {
   color: #34D399;
   font-weight: 800;
@@ -2044,4 +2199,427 @@ select option {
   .b2b-banner {
     padding: 14px 16px;
   }
+}
+
+/* =====================================================================
+   THEME TOGGLE BUTTON & LIGHT THEME SYSTEM
+   ===================================================================== */
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  padding: 8px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--border-highlight);
+  transform: translateY(-1px);
+}
+
+.btn-theme-toggle:active {
+  transform: translateY(0);
+}
+
+body,
+.top-header,
+.sidebar-nav,
+.content-viewport,
+.content-header-bar,
+.metric-card,
+.chart-card,
+.table-card,
+.sidebar-summary-card,
+.search-box,
+.btn-refresh,
+.pill-btn,
+.nav-link,
+.sub-link,
+.btn-theme-toggle,
+.modal-card {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* --- LIGHT THEME OVERRIDES --- */
+body.light-theme {
+  --bg-dark: #F3F6F9;
+  --bg-card: rgba(255, 255, 255, 0.92);
+  --bg-card-hover: #FFFFFF;
+  --bg-card-active: #FFFFFF;
+  --border-color: rgba(203, 213, 225, 0.85);
+  --border-highlight: rgba(148, 163, 184, 0.85);
+  --header-bg: rgba(255, 255, 255, 0.92);
+  --sidebar-bg: rgba(255, 255, 255, 0.9);
+  --content-bg: rgba(241, 245, 249, 0.6);
+  --content-header-bg: rgba(255, 255, 255, 0.92);
+  --control-bg: rgba(0, 0, 0, 0.04);
+
+  --text-primary: #0F172A;
+  --text-secondary: #334155;
+  --text-muted: #64748B;
+
+  /* High contrast accents for light background */
+  --accent-gold: #B45309;
+  --accent-okr: #0369A1;
+  --accent-sales: #047857;
+  --accent-kpi: #6D28D9;
+  --accent-complain: #BE123C;
+  --accent-milestone: #B45309;
+  --accent-blue: #1D4ED8;
+
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 16px rgba(15, 23, 42, 0.07);
+  --shadow-lg: 0 10px 30px rgba(15, 23, 42, 0.1);
+}
+
+body.light-theme .bg-glow {
+  opacity: 0.16;
+  filter: blur(160px);
+}
+
+body.light-theme .btn-theme-toggle {
+  background: rgba(0, 0, 0, 0.04);
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .btn-theme-toggle:hover {
+  background: rgba(0, 0, 0, 0.08);
+  border-color: rgba(0, 0, 0, 0.18);
+}
+
+body.light-theme .brand-titles h1 {
+  background: linear-gradient(90deg, #0F172A 0%, #1E293B 60%, #334155 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.light-theme .brand-logos-container {
+  background: rgba(0, 0, 0, 0.03) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-theme .time-display,
+body.light-theme .period-selector {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1E293B;
+}
+
+body.light-theme .period-selector select {
+  color: #0F172A;
+}
+
+body.light-theme select option,
+body.light-theme .period-selector select option {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+}
+
+body.light-theme .nav-link {
+  color: #475569;
+}
+
+body.light-theme .nav-link:hover {
+  background: rgba(0, 0, 0, 0.04);
+  color: #0F172A;
+}
+
+body.light-theme .nav-link.active {
+  background: rgba(0, 0, 0, 0.06);
+  color: #0F172A;
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .nav-badge.direct {
+  background: rgba(0, 0, 0, 0.05);
+  color: #64748B;
+}
+
+body.light-theme .sub-link {
+  color: #64748B;
+}
+
+body.light-theme .sub-link:hover {
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .sub-link.active {
+  color: #0F172A;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .sub-nav-list::before {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .sidebar-summary-card {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .summary-progress-bar {
+  background: rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .sub-pills-bar {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .pill-btn {
+  color: #64748B;
+}
+
+body.light-theme .pill-btn:hover {
+  color: #0F172A;
+}
+
+body.light-theme .pill-btn.active {
+  background: #FFFFFF;
+  color: #0F172A;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .search-box {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .search-box input {
+  color: #0F172A;
+}
+
+body.light-theme .search-box input::placeholder {
+  color: #94A3B8;
+}
+
+body.light-theme .btn-refresh {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #475569;
+}
+
+body.light-theme .btn-refresh:hover {
+  background: rgba(0, 0, 0, 0.08);
+  color: #0F172A;
+}
+
+body.light-theme select.chart-filter,
+body.light-theme select.pill-btn,
+body.light-theme #salesMonthFilter,
+body.light-theme #branchChartFilter,
+body.light-theme #kpiMonthSelect,
+body.light-theme #kpiDeptSelect,
+body.light-theme #h2hMonthSelect,
+body.light-theme #okrMonthSelect,
+body.light-theme #produksiMonthSelect,
+body.light-theme #complainTKBMonthSelect {
+  background: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1px solid rgba(0, 0, 0, 0.15) !important;
+}
+
+body.light-theme .metric-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .chart-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .table-card {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+body.light-theme .custom-table th {
+  color: #64748B;
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .custom-table td {
+  color: #1E293B;
+  border-bottom-color: rgba(0, 0, 0, 0.06);
+}
+
+body.light-theme .custom-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+body.light-theme .custom-table strong[style*="color:#FFF"],
+body.light-theme .custom-table strong[style*="color: #FFF"],
+body.light-theme .custom-table strong[style*="color:#FFFFFF"],
+body.light-theme .custom-table strong[style*="color: #FFFFFF"],
+body.light-theme .table-card h3[style*="color:#FFF"],
+body.light-theme .table-card h4[style*="color:#FFF"],
+body.light-theme .table-card h5[style*="color:#FFF"],
+body.light-theme .table-card div[style*="color:#FFF"],
+body.light-theme .table-card span[style*="color:#FFF"],
+body.light-theme .table-card p[style*="color:#FFF"] {
+  color: #0F172A !important;
+}
+
+body.light-theme .modal-card {
+  background: #FFFFFF;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #0F172A;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+body.light-theme .modal-header {
+  border-bottom-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .modal-footer {
+  border-top-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-theme .btn-secondary {
+  background: rgba(0, 0, 0, 0.06);
+  color: #334155;
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-theme .btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #0F172A;
+}
+
+body.light-theme .kpi-scorecard-grid > div {
+  background: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+}
+
+body.light-theme .kpi-scorecard-grid > div[style*="rgba(245, 158, 11, 0.12)"] {
+  background: rgba(245, 158, 11, 0.12) !important;
+}
+
+/* High-contrast status pills for light theme */
+body.light-theme .status-on-track {
+  background: rgba(16, 185, 129, 0.14) !important;
+  color: #047857 !important;
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .status-achieved {
+  background: rgba(139, 92, 246, 0.14) !important;
+  color: #6D28D9 !important;
+  border-color: rgba(139, 92, 246, 0.4) !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .status-in-progress {
+  background: rgba(6, 182, 212, 0.14) !important;
+  color: #0369A1 !important;
+  border-color: rgba(6, 182, 212, 0.4) !important;
+  font-weight: 800 !important;
+}
+
+body.light-theme .status-at-risk {
+  background: rgba(244, 63, 94, 0.14) !important;
+  color: #BE123C !important;
+  border-color: rgba(244, 63, 94, 0.4) !important;
+  font-weight: 800 !important;
+}
+
+/* High-contrast text overrides for light backgrounds */
+body.light-theme [style*="#EAB308"],
+body.light-theme [style*="#eab308"] {
+  color: #A16207 !important;
+}
+
+body.light-theme [style*="#F59E0B"],
+body.light-theme [style*="#f59e0b"] {
+  color: #B45309 !important;
+}
+
+body.light-theme [style*="#38BDF8"],
+body.light-theme [style*="#38bdf8"] {
+  color: #0284C7 !important;
+}
+
+body.light-theme [style*="#FDA4AF"],
+body.light-theme [style*="#fda4af"] {
+  color: #BE123C !important;
+}
+
+body.light-theme [style*="#34D399"],
+body.light-theme [style*="#34d399"] {
+  color: #047857 !important;
+}
+
+body.light-theme [style*="#9CA3AF"],
+body.light-theme [style*="#9ca3af"] {
+  color: #475569 !important;
+}
+
+body.light-theme [style*="color:var(--accent-gold)"],
+body.light-theme [style*="color: var(--accent-gold)"] {
+  color: #B45309 !important;
+}
+
+/* Objective card containers & progress tracks in light theme */
+body.light-theme [style*="background:rgba(255, 255, 255, 0.03)"],
+body.light-theme [style*="background: rgba(255, 255, 255, 0.03)"] {
+  background: #FFFFFF !important;
+  border-color: rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04) !important;
+}
+
+body.light-theme [style*="background:rgba(255, 255, 255, 0.08)"],
+body.light-theme [style*="background: rgba(255, 255, 255, 0.08)"] {
+  background: rgba(0, 0, 0, 0.08) !important;
+}
+
+body.light-theme [style*="border-top:1px solid #F1F5F9"] {
+  border-top-color: rgba(0, 0, 0, 0.08) !important;
+}
+
+/* B2B Report Table Header & Badges in Light Mode */
+body.light-theme thead tr[style*="background: #111827"],
+body.light-theme thead tr[style*="background:#111827"] {
+  background: var(--bg-card-hover) !important;
+  color: #0F172A !important;
+}
+
+body.light-theme thead tr[style*="background: #111827"] th,
+body.light-theme thead tr[style*="background:#111827"] th {
+  color: #0F172A !important;
+}
+
+body.light-theme .chart-card-header[style*="rgba(79, 70, 229, 0.08)"] {
+  background: rgba(79, 70, 229, 0.06) !important;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.15) !important;
+}
+
+body.light-theme .chart-card-header[style*="rgba(79, 70, 229, 0.08)"] .chart-card-title span,
+body.light-theme .chart-card-header[style*="rgba(79, 70, 229, 0.08)"] .chart-card-title strong {
+  color: #0F172A !important;
+}
+
+body.light-theme .status-pill[style*="color: #A5B4FC"],
+body.light-theme .status-pill[style*="color:#A5B4FC"] {
+  color: #4338CA !important;
+  background: rgba(79, 70, 229, 0.1) !important;
+  border-color: rgba(79, 70, 229, 0.4) !important;
+}
+
+body.light-theme [style*="background: rgba(79, 70, 229, 0.18)"] {
+  background: rgba(79, 70, 229, 0.1) !important;
+}
+
+body.light-theme [style*="background: rgba(79, 70, 229, 0.18)"] td {
+  color: #0F172A !important;
 }

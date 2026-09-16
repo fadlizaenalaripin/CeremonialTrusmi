@@ -76,6 +76,12 @@
           </select>
         </div>
 
+        <!-- Dark / Light Theme Toggle -->
+        <button class="btn-theme-toggle" id="themeToggleBtn" title="Ganti Mode Gelap / Terang" aria-label="Toggle Dark/Light Mode">
+          <i data-lucide="sun" class="icon-sm" id="themeToggleIcon"></i>
+          <span id="themeToggleText">Light</span>
+        </button>
+
         <button class="btn-ceremony" id="btnCelebrate" title="Rayakan Pencapaian!">
           <i data-lucide="sparkles" class="icon-sparkle"></i>
           <span>Selebrasi!</span>
@@ -343,6 +349,18 @@
         <button class="btn-primary" id="modalActionCelebrate">
           <i data-lucide="sparkles"></i> Celebrate Achievement
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B2B Complain Photo & Video Lightbox Modal -->
+  <div class="b2b-lightbox" id="b2bLightbox" onclick="closeB2BLightbox(event)">
+    <div class="b2b-lightbox-content" onclick="event.stopPropagation()">
+      <button class="b2b-lightbox-close" onclick="closeB2BLightbox()" title="Tutup Modal" aria-label="Close modal">
+        <i data-lucide="x"></i>
+      </button>
+      <div id="b2bLightboxInner">
+        <!-- Injected by openB2BPhotoModal -->
       </div>
     </div>
   </div>

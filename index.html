@@ -249,8 +249,8 @@
             </ul>
           </li>
 
-          <!-- 7. B2B (with Subcategories) -->
-          <li class="nav-item has-sub">
+          <!-- 7. B2B (with Subcategories) - Hidden by default -->
+          <li class="nav-item has-sub" id="navItemB2B" style="display: none;">
             <button class="nav-link nav-parent" data-category="b2b" id="nav-b2b">
               <div class="nav-icon-wrapper b2b-theme">
                 <i data-lucide="handshake"></i>
@@ -281,6 +281,19 @@
                 </button>
               </li>
             </ul>
+          </li>
+
+          <!-- Fitur Hide / Tampilkan Kategori Besar B2B -->
+          <li class="nav-item" id="navToggleB2BItem" style="margin-top: 4px;">
+            <button class="nav-link" id="btnToggleB2B" onclick="toggleB2BModuleVisibility()" style="background: rgba(99, 102, 241, 0.08); border: 1px dashed rgba(99, 102, 241, 0.35); cursor: pointer;" title="Tampilkan / Sembunyikan Kategori Besar B2B">
+              <div class="nav-icon-wrapper" style="background: rgba(99, 102, 241, 0.18); color: #818CF8;">
+                <i data-lucide="eye" id="iconToggleB2B"></i>
+              </div>
+              <div class="nav-text">
+                <span class="nav-title" id="textToggleB2B" style="font-size: 0.8rem; font-weight: 700; color: #C7D2FE;">Tampilkan B2B</span>
+                <span class="nav-badge" id="badgeToggleB2B" style="background: rgba(99, 102, 241, 0.25); color: #A5B4FC; font-size: 0.65rem;">Hidden</span>
+              </div>
+            </button>
           </li>
         </ul>
 

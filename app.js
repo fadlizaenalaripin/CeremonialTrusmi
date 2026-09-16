@@ -7,11 +7,12 @@
 const state = {
   activeCategory: 'sales-ytd',
   activeSub: null,
-  period: 'agustus_2026',
-  selectedSalesMonth: '7', // Default to August 2026 (New Data)
+  period: 'ytd2026',
+  selectedSalesMonth: 'all', // Default to All Months (YTD Jan–Ags 2026)
   searchQuery: '',
   selectedBranch: 'all',
-  activeChartInstances: {}
+  activeChartInstances: {},
+  isB2BVisible: false
 };
 
 // Global Currency & Number Format Helpers
@@ -4292,34 +4293,6 @@ function renderOKRView() {
         </div>
       ` : ''}
 
-      <!-- Budget Panel Khusus Objective 1.2 Premium Cirebon -->
-      ${selectedProj === 'all' || selectedProj === 'cirebon' ? `
-        <div style="background:linear-gradient(135deg, rgba(217, 119, 6, 0.12) 0%, var(--bg-card) 100%); border:1px solid var(--accent-gold); padding:16px 20px; border-radius:var(--radius-md); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px; box-shadow:var(--shadow-sm);">
-          <div>
-            <div style="font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; color:var(--accent-gold); font-weight:800;">
-              💰 Panel Budget Strategis — Objective 1.2 Premium Cirebon
-            </div>
-            <div style="font-size:0.95rem; color:var(--text-primary); font-weight:700; margin-top:4px;">
-              Perluasan Area Stand Kain & Redesign Concept (Budget Target vs Actual)
-            </div>
-          </div>
-          <div style="display:flex; align-items:center; gap:16px; flex-wrap:wrap;">
-            <div style="text-align:right;">
-              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">TARGET BUDGET:</span>
-              <span style="font-size:1.1rem; font-weight:800; color:var(--text-primary); font-family:monospace;">Rp 400.000.000</span>
-            </div>
-            <div style="text-align:right; border-left:1px solid var(--border-color); padding-left:16px;">
-              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">ACTUAL PENYERAPAN:</span>
-              <span style="font-size:1.1rem; font-weight:800; color:#10B981; font-family:monospace;">Rp 305.800.000</span>
-            </div>
-            <div style="text-align:right; border-left:1px solid var(--border-color); padding-left:16px;">
-              <span style="font-size:0.72rem; color:var(--text-secondary); display:block;">EFISIENSI BUDGET:</span>
-              <span class="status-pill status-achieved" style="font-size:0.85rem; font-weight:800;">Hemat Rp 94,2 Jt (23.5%)</span>
-            </div>
-          </div>
-        </div>
-      ` : ''}
-
       <!-- Objective Progress Bars Grid -->
       <div style="background:var(--bg-card); border:1px solid var(--border-color); padding:20px; border-radius:var(--radius-md); box-shadow:var(--shadow-sm);">
         <h3 style="color:var(--text-primary); font-size:1rem; font-weight:800; margin-bottom:16px; display:flex; align-items:center; gap:8px;">
@@ -5948,6 +5921,31 @@ const b2bComplainTickets = [
   }
 ];
 
+// Database Monitoring Project B2B (21 Project: On-Time vs Keterlambatan Akibat Kendala Plangkan)
+const b2bProjectsDatabase = [
+  { id: 1, name: 'Bank SBI', pic: 'Tanto', category: 'Perbankan / Finansial', status: 'on-time', delayReason: '-', note: 'Produksi & delivery berjalan tepat waktu sesuai schedule.' },
+  { id: 2, name: 'SD Baitul Hikmah', pic: 'Tanto', category: 'Institusi Pendidikan / Sekolah', status: 'on-time', delayReason: '-', note: 'Selesai tepat waktu, seragam tersalurkan dengan baik.' },
+  { id: 3, name: 'PT PDI (PTPDI)', pic: 'Hanum', category: 'Korporat / Industri', status: 'delayed', delayReason: 'Kendala Plangkan', note: 'TERLAMBAT: Tertahan antrean & presisi screen plangkan cetak sablon batch 1.' },
+  { id: 4, name: 'Smart Auladi', pic: 'Hanum', category: 'Institusi Pendidikan / Sekolah', status: 'delayed', delayReason: 'Kendala Plangkan', note: 'TERLAMBAT: Kendala pembuatan plangkan cetak motif seragam batik sekolah.' },
+  { id: 5, name: 'EGS', pic: 'Hanum', category: 'Korporat / Service', status: 'on-time', delayReason: '-', note: 'Proses produksi on-track sesuai SPK.' },
+  { id: 6, name: 'Buana Mitra (Housekeeping)', pic: 'Hanum', category: 'Hospitality & Facility', status: 'on-time', delayReason: '-', note: 'Finishing dan delivery tepat waktu.' },
+  { id: 7, name: 'SDN Cipinang Melayu', pic: 'Tanto', category: 'Institusi Pendidikan / Sekolah', status: 'on-time', delayReason: '-', note: 'Pesanan seragam selesai tepat waktu.' },
+  { id: 8, name: 'Kukubima', pic: 'Ibu Era', category: 'FMCG / Promosi', status: 'on-time', delayReason: '-', note: 'Order massal selesai sesuai jadwal deadline.' },
+  { id: 9, name: 'IKN (Sample)', pic: 'Ibu Era', category: 'Pemerintahan / Mockup Sample', status: 'on-time', delayReason: '-', note: 'Sample motif IKN lolos kurasi tepat waktu.' },
+  { id: 10, name: 'Multisari Indo Prima', pic: 'Ibu Era', category: 'Korporat / Distribusi', status: 'on-time', delayReason: '-', note: 'Produksi seragam aman sesuai kesepakatan PO.' },
+  { id: 11, name: 'KAI Commuter', pic: 'Ibu Era', category: 'BUMN / Transportasi', status: 'on-time', delayReason: '-', note: 'Produksi seragam operasional on-schedule.' },
+  { id: 12, name: 'Ibu Epieta', pic: 'Ibu Era', category: 'Personal / VIP Client', status: 'on-time', delayReason: '-', note: 'Pesanan busana custom selesai tepat waktu.' },
+  { id: 13, name: 'Iris', pic: 'Ibu Era', category: 'Fashion Retail / Partner', status: 'on-time', delayReason: '-', note: 'Tahap penjahitan dan QC on-track.' },
+  { id: 14, name: 'STIKEP PPNI', pic: 'Ibu Era', category: 'Institusi Pendidikan / Kesehatan', status: 'on-time', delayReason: '-', note: 'Seragam nakes mahasiswa selesai tepat waktu.' },
+  { id: 15, name: 'Bapak Tamrin', pic: 'Ibu Era', category: 'Personal / Executive', status: 'on-time', delayReason: '-', note: 'Pesanan batik eksklusif selesai sesuai rencana.' },
+  { id: 16, name: 'PT Integra Teknologi', pic: 'Vira', category: 'Teknologi & IT Solution', status: 'delayed', delayReason: 'Kendala Plangkan', note: 'TERLAMBAT: Kendala pembuatan plangkan presisi motif batik corporate identity.' },
+  { id: 17, name: 'Organisasi Lansia', pic: 'Vira', category: 'Komunitas / Sosial', status: 'on-time', delayReason: '-', note: 'Proses produksi kain dan seragam lancar on-time.' },
+  { id: 18, name: 'PT Miracle Adhitama', pic: 'Vira', category: 'Korporat Swasta', status: 'on-time', delayReason: '-', note: 'Jahitan dan finishing on-track sesuai SPK.' },
+  { id: 19, name: 'DSM Firmenich', pic: 'Ibu Era', category: 'Multinasional / Industri', status: 'on-time', delayReason: '-', note: 'Selesai tepat waktu sesuai standar mutu sertifikasi.' },
+  { id: 20, name: 'Nawir Tour', pic: 'Ibu Era', category: 'Travel & Umroh / Haji', status: 'on-time', delayReason: '-', note: 'Seragam jemaah terselesaikan on-time tanpa hambatan.' },
+  { id: 21, name: 'PT Sucofindo', pic: 'Tim B2B / Ibu Era', category: 'BUMN / Pengujian & Inspeksi', status: 'delayed', delayReason: 'Kendala Plangkan', note: 'TERLAMBAT: Kendala plangkan cetak motif seragam BUMN, revisi ukuran screen cetak.' }
+];
+
 // Top Corporate Clients & Pipeline Performance Database
 const b2bTopClients = [
   { client: 'PT Astra International Tbk', sector: 'Automotive & Holding', volume: 'Rp 685.400.000', orders: 4, status: 'Active VIP', growth: '+142% YoY' },
@@ -6492,20 +6490,336 @@ function renderB2BComparisonView() {
 }
 
 // --------------------------------------------------------------------------
-// SUB-VIEW 3: COMPLAIN B2B (CUSTOMER COMPLAINT WITH REAL PHOTOS & VIDEOS)
+// --------------------------------------------------------------------------
+// SUB-VIEW 3: COMPLAIN B2B & ANALISIS KETERLAMBATAN PROJECT (KENDALA PLANGKAN)
 // --------------------------------------------------------------------------
 function renderB2BComplainView() {
   const tickets = b2bComplainTickets;
   const totalTickets = tickets.length;
-  const resolvedCount = tickets.filter(t => t.status === 'Resolved').length;
-  const activeCount = totalTickets - resolvedCount;
-  const resolutionRate = totalTickets > 0 ? ((resolvedCount / totalTickets) * 100).toFixed(0) : '100';
+  const projects = b2bProjectsDatabase;
+  const totalProjects = projects.length; // 21
+  const delayedProjects = projects.filter(p => p.status === 'delayed'); // 4
+  const onTimeProjects = projects.filter(p => p.status === 'on-time'); // 17
+  const onTimeCount = onTimeProjects.length;
+  const delayedCount = delayedProjects.length;
+  const onTimePct = ((onTimeCount / totalProjects) * 100).toFixed(1); // 81.0%
+  const delayedPct = ((delayedCount / totalProjects) * 100).toFixed(1); // 19.0%
 
   return `
-    <div style="display:flex; flex-direction:column; gap:22px;">
+    <div style="display:flex; flex-direction:column; gap:24px;">
+      
+      <!-- ================================================================= -->
+      <!-- BAGIAN 1: MONITORING DELIVERY PROJECT B2B & KENDALA PLANGKAN     -->
+      <!-- ================================================================= -->
+      
+      <!-- Top Banner for Project Delivery & Plangkan Delay Analysis -->
+      <div class="b2b-project-banner">
+        <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:14px;">
+          <div style="display:flex; align-items:center; gap:12px;">
+            <div style="background:linear-gradient(135deg, #EF4444, #6366F1); width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 18px rgba(239,68,68,0.35);">
+              <i data-lucide="package-check" style="color:#FFF; width:24px; height:24px;"></i>
+            </div>
+            <div>
+              <h2 class="b2b-banner-title" style="font-size:1.35rem; font-weight:900; background:linear-gradient(90deg, #F87171 0%, #A5B4FC 50%, #34D399 100%); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">
+                MONITORING DELIVERY PROJECT B2B & ANALISIS KETERLAMBATAN
+              </h2>
+              <div class="b2b-banner-sub">
+                Evaluasi Ketepatan Waktu Pengiriman (On-Time Delivery), Rasio Presentasi Project, serta Analisis 4 Project Telat karena Kendala Plangkan Cetak
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+            <span style="background:rgba(239,68,68,0.18); border:1px solid rgba(239,68,68,0.4); color:#FECACA; padding:6px 14px; border-radius:8px; font-weight:800; font-size:0.8rem; display:flex; align-items:center; gap:6px;">
+              <i data-lucide="alert-triangle" style="width:16px; height:16px; color:#EF4444;"></i>
+              4 Project Telat (Kendala Plangkan)
+            </span>
+            <span style="background:rgba(16,185,129,0.18); border:1px solid rgba(16,185,129,0.4); color:#A7F3D0; padding:6px 14px; border-radius:8px; font-weight:800; font-size:0.8rem; display:flex; align-items:center; gap:6px;">
+              <i data-lucide="check-circle" style="width:16px; height:16px; color:#10B981;"></i>
+              17 Project Tepat Waktu (81.0%)
+            </span>
+          </div>
+        </div>
+
+        <!-- Quick Highlight Strip inside Banner -->
+        <div style="display:flex; align-items:center; flex-wrap:wrap; gap:12px; margin-top:16px; padding-top:14px; border-top:1px solid rgba(255,255,255,0.08); font-size:0.8rem;">
+          <span style="color:var(--text-secondary); font-weight:700;">📊 Rasio Presentasi OTD:</span>
+          <strong style="color:#10B981; font-family:monospace; font-size:0.95rem;">${onTimePct}% On-Time</strong>
+          <span style="color:var(--text-secondary);">vs</span>
+          <strong style="color:#EF4444; font-family:monospace; font-size:0.95rem;">${delayedPct}% Telat (Plangkan)</strong>
+          <span style="color:var(--text-secondary); margin-left:8px;">• Total Portofolio: <strong>21 Project</strong> (Catatan 20 Project + PT Sucofindo)</span>
+        </div>
+      </div>
+
+      <!-- 4 Project Scorecards -->
+      <div class="b2b-project-kpi-grid">
+        <!-- Card 1: Total Projects -->
+        <div class="b2b-project-kpi-card portfolio">
+          <div class="b2b-project-kpi-label">TOTAL PROJECT B2B</div>
+          <div class="b2b-project-kpi-value" style="color:var(--accent-gold);">${totalProjects}</div>
+          <div class="b2b-project-kpi-sub">
+            <i data-lucide="folder-kanban" style="width:14px; height:14px; color:var(--accent-gold);"></i>
+            <span>Portofolio Aktif 2026 (5 PIC)</span>
+          </div>
+        </div>
+
+        <!-- Card 2: On-Time Projects -->
+        <div class="b2b-project-kpi-card ontime">
+          <div class="b2b-project-kpi-label">TEPAT WAKTU (ON-TIME)</div>
+          <div class="b2b-project-kpi-value" style="color:#10B981;">${onTimeCount} <span style="font-size:1rem; font-weight:700; color:#A7F3D0;">(${onTimePct}%)</span></div>
+          <div class="b2b-project-kpi-sub">
+            <i data-lucide="check-circle-2" style="width:14px; height:14px; color:#10B981;"></i>
+            <span>Timeline Sesuai Target</span>
+          </div>
+        </div>
+
+        <!-- Card 3: Delayed Projects -->
+        <div class="b2b-project-kpi-card delayed">
+          <div class="b2b-project-kpi-label">TELAT (KENDALA PLANGKAN)</div>
+          <div class="b2b-project-kpi-value" style="color:#EF4444;">${delayedCount} <span style="font-size:1rem; font-weight:700; color:#FECACA;">(${delayedPct}%)</span></div>
+          <div class="b2b-project-kpi-sub">
+            <i data-lucide="clock-alert" style="width:14px; height:14px; color:#EF4444;"></i>
+            <span>Smart Auladi, Sucofindo, Integra, PDI</span>
+          </div>
+        </div>
+
+        <!-- Card 4: Ratio Presentation -->
+        <div class="b2b-project-kpi-card ratio">
+          <div class="b2b-project-kpi-label">RASIO KETEPATAN DELIVERY</div>
+          <div class="b2b-project-kpi-value" style="color:#818CF8;">${onTimePct}%</div>
+          <div class="b2b-project-kpi-sub">
+            <i data-lucide="percent" style="width:14px; height:14px; color:#818CF8;"></i>
+            <span>On-Time Delivery Rate (OTD)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dual Charts: Donut Ratio & Bar PIC Distribution -->
+      <div class="b2b-charts-dual">
+        <!-- Chart 1: Donut Ratio -->
+        <div class="b2b-chart-card">
+          <div class="b2b-chart-title">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <i data-lucide="pie-chart" class="accent" style="width:20px; height:20px;"></i>
+              <span style="font-size:0.95rem; font-weight:800;">Rasio Presentasi Ketepatan Waktu Project B2B</span>
+            </div>
+            <span style="font-size:0.75rem; background:rgba(99,102,241,0.15); color:#C7D2FE; padding:3px 10px; border-radius:12px; font-weight:700;">
+              21 Project
+            </span>
+          </div>
+          <div style="position:relative; height:260px; width:100%; margin-top:8px;">
+            <canvas id="b2bProjectRatioChart"></canvas>
+            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; padding-bottom:40px;">
+              <div style="font-size:1.6rem; font-weight:900; color:#10B981; font-family:'Outfit', sans-serif;">81.0%</div>
+              <div style="font-size:0.7rem; color:var(--text-secondary); font-weight:700;">ON-TIME</div>
+            </div>
+          </div>
+          <div style="display:flex; justify-content:center; gap:20px; margin-top:8px; font-size:0.76rem; border-top:1px solid var(--border-color); padding-top:10px;">
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:10px; height:10px; border-radius:2px; background:#10B981;"></span>
+              <strong>17 Project Tepat Waktu (81.0%)</strong>
+            </span>
+            <span style="display:inline-flex; align-items:center; gap:6px;">
+              <span style="width:10px; height:10px; border-radius:2px; background:#EF4444;"></span>
+              <strong>4 Project Telat (19.0%)</strong>
+            </span>
+          </div>
+        </div>
+
+        <!-- Chart 2: PIC Distribution Bar Chart -->
+        <div class="b2b-chart-card">
+          <div class="b2b-chart-title">
+            <div style="display:flex; align-items:center; gap:8px;">
+              <i data-lucide="users" class="accent" style="width:20px; height:20px;"></i>
+              <span style="font-size:0.95rem; font-weight:800;">Distribusi Status Project per PIC Sales / BD</span>
+            </div>
+            <span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:#A7F3D0; padding:3px 10px; border-radius:12px; font-weight:700;">
+              On-Time vs Telat
+            </span>
+          </div>
+          <div style="position:relative; height:260px; width:100%; margin-top:8px;">
+            <canvas id="b2bProjectPicChart"></canvas>
+          </div>
+          <div style="display:flex; justify-content:space-around; margin-top:8px; font-size:0.74rem; color:var(--text-secondary); border-top:1px solid var(--border-color); padding-top:10px;">
+            <span>Ibu Era: <strong>9 On-Time (100%)</strong></span>
+            <span>Hanum: <strong>2 On / 2 Telat</strong></span>
+            <span>Tanto: <strong>3 On-Time (100%)</strong></span>
+            <span>Vira: <strong>2 On / 1 Telat</strong></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dedicated Investigation & Root Cause Box for 4 Delayed Projects -->
+      <div class="b2b-plangkan-box">
+        <div style="display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:14px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span class="b2b-plangkan-tag"><i data-lucide="alert-octagon" style="width:12px; height:12px;"></i> INVESTIGASI ROOT CAUSE</span>
+              <h3 style="margin:0; font-size:1.1rem; font-weight:900; color:#FFF;">Detail 4 Project Telat Akibat Kendala Plangkan Cetak / Sablon</h3>
+            </div>
+            <div style="font-size:0.8rem; color:var(--text-secondary); margin-top:4px;">
+              Akar masalah keterlambatan teridentifikasi spesifik pada tahap <strong>pembuatan screen plangkan (cetakan batik/sablon)</strong>, bukan karena hambatan sales/penjahitan.
+            </div>
+          </div>
+          <div style="background:rgba(239,68,68,0.2); border:1px solid rgba(239,68,68,0.4); padding:4px 12px; border-radius:8px; font-size:0.75rem; color:#FCA5A5; font-weight:800;">
+            Bottleneck: Screen Plangkan Printing
+          </div>
+        </div>
+
+        <!-- 4 Delayed Projects Cards Grid -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:12px;">
+          <!-- 1. Smart Auladi -->
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:12px 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:900; color:#FFF; font-size:0.9rem;">1. Smart Auladi</span>
+              <span class="b2b-pic-pill"><i data-lucide="user" style="width:10px; height:10px;"></i> Hanum</span>
+            </div>
+            <div style="font-size:0.74rem; color:#F87171; font-weight:700; margin-bottom:4px;">Kendala: Plangkan Seragam Sekolah</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+              Tertahan antrean pembuatan & presisi plangkan cetak motif batik logo sekolah. Proses perbaikan plat sedang dipercepat.
+            </div>
+          </div>
+
+          <!-- 2. PT Sucofindo -->
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:12px 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:900; color:#FFF; font-size:0.9rem;">2. PT Sucofindo</span>
+              <span class="b2b-pic-pill"><i data-lucide="user" style="width:10px; height:10px;"></i> Tim B2B / Ibu Era</span>
+            </div>
+            <div style="font-size:0.74rem; color:#F87171; font-weight:700; margin-bottom:4px;">Kendala: Plangkan Seragam BUMN</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+              Revisi dimensi ukuran screen plangkan cetak batik korporat Sucofindo untuk menjaga kerapian logo instansi.
+            </div>
+          </div>
+
+          <!-- 3. PT Integra Teknologi -->
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:12px 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:900; color:#FFF; font-size:0.9rem;">3. PT Integra Teknologi</span>
+              <span class="b2b-pic-pill"><i data-lucide="user" style="width:10px; height:10px;"></i> Vira</span>
+            </div>
+            <div style="font-size:0.74rem; color:#F87171; font-weight:700; margin-bottom:4px;">Kendala: Plangkan Pola Batik IT</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+              Pengerjaan plangkan cetak batik custom mengalami keterlambatan cetak awal; screen telah selesai direvisi dan masuk meja sablon.
+            </div>
+          </div>
+
+          <!-- 4. PT PDI (PTPDI) -->
+          <div style="background:rgba(0,0,0,0.25); border:1px solid rgba(239,68,68,0.3); border-radius:8px; padding:12px 14px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+              <span style="font-weight:900; color:#FFF; font-size:0.9rem;">4. PT PDI (PTPDI 1)</span>
+              <span class="b2b-pic-pill"><i data-lucide="user" style="width:10px; height:10px;"></i> Hanum</span>
+            </div>
+            <div style="font-size:0.74rem; color:#F87171; font-weight:700; margin-bottom:4px;">Kendala: Plangkan Screen Batch 1</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); line-height:1.4;">
+              Antrean screen plangkan cetak sablon batch 1 tertunda; sedang dialokasikan meja cetak prioritas untuk kejar deadline.
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Plan Note -->
+        <div style="margin-top:14px; padding-top:12px; border-top:1px solid rgba(239,68,68,0.2); display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; font-size:0.76rem;">
+          <div style="display:flex; align-items:center; gap:6px; color:#FDE68A;">
+            <i data-lucide="lightbulb" style="width:15px; height:15px; color:var(--accent-gold);"></i>
+            <span><strong>Rencana Solusi:</strong> Alokasi meja sablon prioritas, penambahan operator screen plangkan, dan QC cetak presisi langsung di workshop.</span>
+          </div>
+          <span style="color:#A7F3D0; font-weight:800;">Target Penyelesaian: 3–5 Hari Kerja</span>
+        </div>
+      </div>
+
+      <!-- Section Label: Complete 21 Projects Table -->
+      <div class="b2b-section-label" style="margin-top:4px;">
+        <i data-lucide="list-checks" style="width:16px; height:16px;"></i>
+        <span>TABEL MONITORING 21 PROJECT B2B (FILTER & STATUS KETEPATAN WAKTU)</span>
+      </div>
+
+      <!-- Filter Controls Bar -->
+      <div class="b2b-filter-bar">
+        <div class="b2b-filter-group">
+          <span style="font-size:0.76rem; color:var(--text-secondary); font-weight:700; margin-right:4px;">Status Delivery:</span>
+          <button class="b2b-filter-btn active" id="filterBtnAll" onclick="setB2BProjectStatusFilter('all')">
+            Semua Project (${totalProjects})
+          </button>
+          <button class="b2b-filter-btn" id="filterBtnOnTime" onclick="setB2BProjectStatusFilter('on-time')" style="border-color:rgba(16,185,129,0.3);">
+            <span style="color:#10B981;">●</span> Tepat Waktu (${onTimeCount})
+          </button>
+          <button class="b2b-filter-btn" id="filterBtnDelayed" onclick="setB2BProjectStatusFilter('delayed')" style="border-color:rgba(239,68,68,0.3);">
+            <span style="color:#EF4444;">●</span> Telat Plangkan (${delayedCount})
+          </button>
+        </div>
+
+        <div class="b2b-search-box">
+          <i data-lucide="search" style="width:14px; height:14px; color:var(--text-secondary);"></i>
+          <input type="text" id="b2bProjectSearchInput" placeholder="Cari project atau PIC..." oninput="filterB2BProjectSearch(this.value)" />
+        </div>
+      </div>
+
+      <!-- Interactive 21 Projects Table -->
+      <div class="b2b-table-card">
+        <div class="b2b-table-header" style="background: linear-gradient(90deg, #1E1B4B 0%, #312E81 50%, #1E293B 100%);">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="table" style="color:#FFF; width:20px; height:20px;"></i>
+            <h3>Daftar Portofolio 21 Project B2B & Status Pengiriman</h3>
+          </div>
+          <span style="font-size:0.78rem; background:rgba(255,255,255,0.15); color:#FFF; padding:3px 10px; border-radius:12px; font-weight:700;">
+            17 On-Time • 4 Telat
+          </span>
+        </div>
+
+        <div style="overflow-x:auto;">
+          <table class="custom-table" style="font-size:0.82rem;">
+            <thead>
+              <tr style="background:#111827; border-bottom:2px solid var(--border-color);">
+                <th style="width:48px; text-align:center;">NO</th>
+                <th>NAMA PROJECT / KLIEN</th>
+                <th style="width:140px;">PIC SALES</th>
+                <th style="width:170px;">STATUS TIMELINE</th>
+                <th style="width:230px;">KENDALA / CATATAN AKAR MASALAH</th>
+                <th>PROGRESS DETAIL</th>
+              </tr>
+            </thead>
+            <tbody id="b2bProjectsTableBody">
+              ${projects.map((p, idx) => {
+                const isDelayed = p.status === 'delayed';
+                const rowBg = isDelayed ? 'background: rgba(239, 68, 68, 0.08); border-left: 4px solid #EF4444;' : '';
+                return `
+                  <tr style="${rowBg}">
+                    <td style="text-align:center; font-weight:700; color:var(--text-secondary);">${idx + 1}</td>
+                    <td>
+                      <div style="font-weight:800; color:#FFF; font-size:0.88rem; display:flex; align-items:center; gap:8px;">
+                        ${p.name}
+                        ${isDelayed ? '<span style="font-size:0.65rem; background:#EF4444; color:#FFF; padding:1px 6px; border-radius:4px; font-weight:800;">TELAT</span>' : ''}
+                      </div>
+                      <div style="font-size:0.72rem; color:var(--text-secondary);">${p.category}</div>
+                    </td>
+                    <td>
+                      <span class="b2b-pic-pill"><i data-lucide="user" style="width:11px; height:11px;"></i> ${p.pic}</span>
+                    </td>
+                    <td>
+                      ${isDelayed 
+                        ? '<span class="b2b-plangkan-tag"><i data-lucide="clock-alert" style="width:12px; height:12px;"></i> TELAT (PLANGKAN)</span>' 
+                        : '<span class="b2b-ontime-tag"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> TEPAT WAKTU</span>'}
+                    </td>
+                    <td style="color:${isDelayed ? '#F87171' : 'var(--text-secondary)'}; font-size:0.78rem;">
+                      ${isDelayed ? '<strong style="color:#EF4444;">Kendala Plangkan</strong> (Screen Cetak Sablon)' : '<span style="color:#10B981;">Sesuai Timeline</span>'}
+                    </td>
+                    <td style="font-size:0.78rem; color:${isDelayed ? '#FECACA' : 'var(--text-secondary)'};">
+                      ${p.note}
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ================================================================= -->
+      <!-- BAGIAN 2: DATA KOMPLAIN CUSTOMER B2B (FOTO & VIDEO DOKUMENTASI)   -->
+      <!-- ================================================================= -->
       
       <!-- Top Banner for B2B Complain Management -->
-      <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(99,102,241,0.06) 100%); border-color:rgba(239,68,68,0.25);">
+      <div class="b2b-banner" style="background: linear-gradient(135deg, rgba(239,68,68,0.08) 0%, rgba(99,102,241,0.06) 100%); border-color:rgba(239,68,68,0.25); margin-top:10px;">
         <div style="display:flex; align-items:center; justify-content:space-between; width:100%; flex-wrap:wrap; gap:12px;">
           <div style="display:flex; align-items:center; gap:10px;">
             <div style="background:linear-gradient(135deg, #EF4444, #DC2626); width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 0 16px rgba(239,68,68,0.3);">
@@ -6679,6 +6993,80 @@ function renderB2BComplainView() {
   `;
 }
 
+// Helper filter untuk tabel 21 Project B2B
+window.setB2BProjectStatusFilter = function(filter) {
+  state.b2bProjectStatusFilter = filter;
+  
+  // Update button active state
+  const btnAll = document.getElementById('filterBtnAll');
+  const btnOnTime = document.getElementById('filterBtnOnTime');
+  const btnDelayed = document.getElementById('filterBtnDelayed');
+  if (btnAll) btnAll.classList.toggle('active', filter === 'all');
+  if (btnOnTime) btnOnTime.classList.toggle('active', filter === 'on-time');
+  if (btnDelayed) btnDelayed.classList.toggle('active', filter === 'delayed');
+
+  renderB2BProjectTableRows();
+};
+
+window.filterB2BProjectSearch = function(query) {
+  state.b2bProjectSearch = query ? query.toLowerCase() : '';
+  renderB2BProjectTableRows();
+};
+
+function renderB2BProjectTableRows() {
+  const tbody = document.getElementById('b2bProjectsTableBody');
+  if (!tbody) return;
+  const filter = state.b2bProjectStatusFilter || 'all';
+  const query = state.b2bProjectSearch || '';
+
+  const filtered = b2bProjectsDatabase.filter(p => {
+    const matchesFilter = filter === 'all' || p.status === filter;
+    const matchesQuery = !query || 
+      p.name.toLowerCase().includes(query) || 
+      p.pic.toLowerCase().includes(query) || 
+      p.category.toLowerCase().includes(query) ||
+      p.note.toLowerCase().includes(query);
+    return matchesFilter && matchesQuery;
+  });
+
+  if (filtered.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:24px; color:var(--text-secondary); font-weight:600;">Tidak ada project yang sesuai filter/pencarian.</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map((p, idx) => {
+    const isDelayed = p.status === 'delayed';
+    const rowBg = isDelayed ? 'background: rgba(239, 68, 68, 0.08); border-left: 4px solid #EF4444;' : '';
+    return `
+      <tr style="${rowBg}">
+        <td style="text-align:center; font-weight:700; color:var(--text-secondary);">${idx + 1}</td>
+        <td>
+          <div style="font-weight:800; color:#FFF; font-size:0.88rem; display:flex; align-items:center; gap:8px;">
+            ${p.name}
+            ${isDelayed ? '<span style="font-size:0.65rem; background:#EF4444; color:#FFF; padding:1px 6px; border-radius:4px; font-weight:800;">TELAT</span>' : ''}
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-secondary);">${p.category}</div>
+        </td>
+        <td>
+          <span class="b2b-pic-pill"><i data-lucide="user" style="width:11px; height:11px;"></i> ${p.pic}</span>
+        </td>
+        <td>
+          ${isDelayed 
+            ? '<span class="b2b-plangkan-tag"><i data-lucide="clock-alert" style="width:12px; height:12px;"></i> TELAT (PLANGKAN)</span>' 
+            : '<span class="b2b-ontime-tag"><i data-lucide="check-circle-2" style="width:12px; height:12px;"></i> TEPAT WAKTU</span>'}
+        </td>
+        <td style="color:${isDelayed ? '#F87171' : 'var(--text-secondary)'}; font-size:0.78rem;">
+          ${isDelayed ? '<strong style="color:#EF4444;">Kendala Plangkan</strong> (Screen Cetak Sablon)' : '<span style="color:#10B981;">Sesuai Timeline</span>'}
+        </td>
+        <td style="font-size:0.78rem; color:${isDelayed ? '#FECACA' : 'var(--text-secondary)'};">
+          ${p.note}
+        </td>
+      </tr>
+    `;
+  }).join('');
+  initLucide();
+}
+
 // --------------------------------------------------------------------------
 // LIGHTBOX & MODAL HANDLERS FOR B2B COMPLAINT PHOTOS & VIDEOS (SIMPLE & DIRECT)
 // --------------------------------------------------------------------------
@@ -6762,6 +7150,47 @@ window.triggerB2BCelebration = function() {
   }
 };
 
+// Fitur Toggle Hide / Munculkan Kategori Besar B2B dan Subkategorinya
+window.toggleB2BModuleVisibility = function() {
+  const b2bItem = document.getElementById('navItemB2B');
+  const icon = document.getElementById('iconToggleB2B');
+  const text = document.getElementById('textToggleB2B');
+  const badge = document.getElementById('badgeToggleB2B');
+
+  if (!b2bItem) return;
+
+  const isHidden = b2bItem.style.display === 'none' || b2bItem.style.display === '';
+  if (isHidden) {
+    b2bItem.style.display = 'block';
+    state.isB2BVisible = true;
+    if (icon) icon.setAttribute('data-lucide', 'eye-off');
+    if (text) text.textContent = 'Sembunyikan B2B';
+    if (badge) {
+      badge.textContent = 'Aktif';
+      badge.style.background = 'rgba(16, 185, 129, 0.2)';
+      badge.style.color = '#A7F3D0';
+    }
+  } else {
+    b2bItem.style.display = 'none';
+    b2bItem.classList.remove('open');
+    state.isB2BVisible = false;
+    if (icon) icon.setAttribute('data-lucide', 'eye');
+    if (text) text.textContent = 'Tampilkan B2B';
+    if (badge) {
+      badge.textContent = 'Hidden';
+      badge.style.background = 'rgba(99, 102, 241, 0.2)';
+      badge.style.color = '#C7D2FE';
+    }
+    if (state.activeCategory === 'b2b') {
+      state.activeCategory = 'sales-ytd';
+      state.activeSub = null;
+      updateActiveNavUI();
+      renderCurrentView();
+    }
+  }
+  initLucide();
+};
+
 // --------------------------------------------------------------------------
 // CHART INITIALIZERS FOR B2B
 // --------------------------------------------------------------------------
@@ -6772,6 +7201,8 @@ function initB2BCharts() {
     initB2BAchievementCharts();
   } else if (sub === 'b2b-comparison') {
     initB2BComparisonCharts();
+  } else if (sub === 'b2b-complain') {
+    initB2BComplainCharts();
   }
 }
 
@@ -7132,4 +7563,126 @@ function initB2BComparisonCharts() {
     });
   }
 }
+
+// --------------------------------------------------------------------------
+// CHART INITIALIZERS FOR B2B COMPLAIN & PROJECT DELIVERY MONITORING
+// --------------------------------------------------------------------------
+function initB2BComplainCharts() {
+  // Chart 1: Donut Chart Rasio Presentasi Ketepatan Waktu Project B2B
+  const ratioCanvas = document.getElementById('b2bProjectRatioChart');
+  if (ratioCanvas) {
+    if (state.activeChartInstances.b2bProjectRatio) {
+      state.activeChartInstances.b2bProjectRatio.destroy();
+    }
+
+    state.activeChartInstances.b2bProjectRatio = new Chart(ratioCanvas, {
+      type: 'doughnut',
+      data: {
+        labels: ['Tepat Waktu (On-Time)', 'Telat (Kendala Plangkan)'],
+        datasets: [{
+          data: [17, 4],
+          backgroundColor: ['#10B981', '#EF4444'],
+          borderColor: ['#059669', '#DC2626'],
+          borderWidth: 2,
+          hoverOffset: 6
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '72%',
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.92)',
+            titleColor: '#FFF',
+            bodyColor: '#CBD5E1',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: {
+              label: function(context) {
+                const val = context.parsed;
+                const total = 21;
+                const pct = ((val / total) * 100).toFixed(1);
+                return ` ${context.label}: ${val} Project (${pct}%)`;
+              }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  // Chart 2: Bar Chart Distribusi Status Project per PIC
+  const picCanvas = document.getElementById('b2bProjectPicChart');
+  if (picCanvas) {
+    if (state.activeChartInstances.b2bProjectPic) {
+      state.activeChartInstances.b2bProjectPic.destroy();
+    }
+
+    state.activeChartInstances.b2bProjectPic = new Chart(picCanvas, {
+      type: 'bar',
+      data: {
+        labels: ['Ibu Era', 'Hanum', 'Tanto', 'Vira', 'Tim B2B'],
+        datasets: [
+          {
+            label: 'Tepat Waktu (On-Time)',
+            data: [9, 2, 3, 2, 0],
+            backgroundColor: '#10B981',
+            borderColor: '#059669',
+            borderWidth: 1,
+            borderRadius: 5
+          },
+          {
+            label: 'Telat (Kendala Plangkan)',
+            data: [0, 2, 0, 1, 1],
+            backgroundColor: '#EF4444',
+            borderColor: '#DC2626',
+            borderWidth: 1,
+            borderRadius: 5
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            stacked: true,
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
+          },
+          y: {
+            stacked: true,
+            beginAtZero: true,
+            ticks: { stepSize: 2, color: '#94A3B8' },
+            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              color: '#94A3B8',
+              font: { size: 11, weight: '700' },
+              padding: 12
+            }
+          },
+          tooltip: {
+            backgroundColor: 'rgba(15, 23, 42, 0.92)',
+            titleColor: '#FFF',
+            bodyColor: '#CBD5E1',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            borderWidth: 1,
+            padding: 10
+          }
+        }
+      }
+    });
+  }
+}
+
 

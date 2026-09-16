@@ -6022,6 +6022,11 @@ function renderB2BAchievementView() {
             <strong style="color:#FFF; font-family:monospace; font-size:0.92rem;">Rp 6.000.000.000</strong>
           </div>
 
+          <div style="background:rgba(99,102,241,0.12); border:1px solid rgba(99,102,241,0.35); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
+            <span style="font-size:0.75rem; color:#C7D2FE; font-weight:700;">🎯 TARGET YTD (JAN–AGS):</span>
+            <strong style="color:#A5B4FC; font-family:monospace; font-size:0.92rem;">${formatRupiah(totalTargetYTD)}</strong>
+          </div>
+
           <div style="background:rgba(16,185,129,0.12); border:1px solid rgba(16,185,129,0.3); padding:8px 14px; border-radius:8px; display:flex; align-items:center; gap:8px;">
             <span style="font-size:0.75rem; color:#A7F3D0; font-weight:700;">🏆 REALISASI YTD (JAN-AGS):</span>
             <strong style="color:#10B981; font-family:monospace; font-size:0.92rem;">Rp 2.885.932.921</strong>
@@ -6594,58 +6599,33 @@ function renderB2BComplainView() {
         </div>
       </div>
 
-      <!-- Dual Charts: Donut Ratio & Bar PIC Distribution -->
-      <div class="b2b-charts-dual">
-        <!-- Chart 1: Donut Ratio -->
-        <div class="b2b-chart-card">
-          <div class="b2b-chart-title">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <i data-lucide="pie-chart" class="accent" style="width:20px; height:20px;"></i>
-              <span style="font-size:0.95rem; font-weight:800;">Rasio Presentasi Ketepatan Waktu Project B2B</span>
-            </div>
-            <span style="font-size:0.75rem; background:rgba(99,102,241,0.15); color:#C7D2FE; padding:3px 10px; border-radius:12px; font-weight:700;">
-              21 Project
-            </span>
+      <!-- Chart: Donut Ratio Presentation -->
+      <div class="b2b-chart-card" style="width:100%;">
+        <div class="b2b-chart-title">
+          <div style="display:flex; align-items:center; gap:8px;">
+            <i data-lucide="pie-chart" class="accent" style="width:20px; height:20px;"></i>
+            <span style="font-size:0.95rem; font-weight:800;">Rasio Presentasi Ketepatan Waktu Project B2B (On-Time Delivery vs Kendala Plangkan)</span>
           </div>
-          <div style="position:relative; height:260px; width:100%; margin-top:8px;">
-            <canvas id="b2bProjectRatioChart"></canvas>
-            <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; padding-bottom:40px;">
-              <div style="font-size:1.6rem; font-weight:900; color:#10B981; font-family:'Outfit', sans-serif;">81.0%</div>
-              <div style="font-size:0.7rem; color:var(--text-secondary); font-weight:700;">ON-TIME</div>
-            </div>
-          </div>
-          <div style="display:flex; justify-content:center; gap:20px; margin-top:8px; font-size:0.76rem; border-top:1px solid var(--border-color); padding-top:10px;">
-            <span style="display:inline-flex; align-items:center; gap:6px;">
-              <span style="width:10px; height:10px; border-radius:2px; background:#10B981;"></span>
-              <strong>17 Project Tepat Waktu (81.0%)</strong>
-            </span>
-            <span style="display:inline-flex; align-items:center; gap:6px;">
-              <span style="width:10px; height:10px; border-radius:2px; background:#EF4444;"></span>
-              <strong>4 Project Telat (19.0%)</strong>
-            </span>
+          <span style="font-size:0.75rem; background:rgba(99,102,241,0.15); color:#C7D2FE; padding:3px 10px; border-radius:12px; font-weight:700;">
+            Total 21 Project
+          </span>
+        </div>
+        <div style="position:relative; height:260px; width:100%; margin-top:8px;">
+          <canvas id="b2bProjectRatioChart"></canvas>
+          <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; pointer-events:none; padding-bottom:40px;">
+            <div style="font-size:1.8rem; font-weight:900; color:#10B981; font-family:'Outfit', sans-serif;">81.0%</div>
+            <div style="font-size:0.72rem; color:var(--text-secondary); font-weight:800; letter-spacing:0.5px;">ON-TIME DELIVERY</div>
           </div>
         </div>
-
-        <!-- Chart 2: PIC Distribution Bar Chart -->
-        <div class="b2b-chart-card">
-          <div class="b2b-chart-title">
-            <div style="display:flex; align-items:center; gap:8px;">
-              <i data-lucide="users" class="accent" style="width:20px; height:20px;"></i>
-              <span style="font-size:0.95rem; font-weight:800;">Distribusi Status Project per PIC Sales / BD</span>
-            </div>
-            <span style="font-size:0.75rem; background:rgba(16,185,129,0.15); color:#A7F3D0; padding:3px 10px; border-radius:12px; font-weight:700;">
-              On-Time vs Telat
-            </span>
-          </div>
-          <div style="position:relative; height:260px; width:100%; margin-top:8px;">
-            <canvas id="b2bProjectPicChart"></canvas>
-          </div>
-          <div style="display:flex; justify-content:space-around; margin-top:8px; font-size:0.74rem; color:var(--text-secondary); border-top:1px solid var(--border-color); padding-top:10px;">
-            <span>Ibu Era: <strong>9 On-Time (100%)</strong></span>
-            <span>Hanum: <strong>2 On / 2 Telat</strong></span>
-            <span>Tanto: <strong>3 On-Time (100%)</strong></span>
-            <span>Vira: <strong>2 On / 1 Telat</strong></span>
-          </div>
+        <div style="display:flex; justify-content:center; flex-wrap:wrap; gap:28px; margin-top:10px; font-size:0.8rem; border-top:1px solid var(--border-color); padding-top:12px;">
+          <span style="display:inline-flex; align-items:center; gap:8px;">
+            <span style="width:12px; height:12px; border-radius:3px; background:#10B981;"></span>
+            <strong>17 Project Tepat Waktu (81.0%)</strong>
+          </span>
+          <span style="display:inline-flex; align-items:center; gap:8px;">
+            <span style="width:12px; height:12px; border-radius:3px; background:#EF4444;"></span>
+            <strong>4 Project Telat karena Kendala Plangkan (19.0%)</strong>
+          </span>
         </div>
       </div>
 
@@ -7610,74 +7590,6 @@ function initB2BComplainCharts() {
                 return ` ${context.label}: ${val} Project (${pct}%)`;
               }
             }
-          }
-        }
-      }
-    });
-  }
-
-  // Chart 2: Bar Chart Distribusi Status Project per PIC
-  const picCanvas = document.getElementById('b2bProjectPicChart');
-  if (picCanvas) {
-    if (state.activeChartInstances.b2bProjectPic) {
-      state.activeChartInstances.b2bProjectPic.destroy();
-    }
-
-    state.activeChartInstances.b2bProjectPic = new Chart(picCanvas, {
-      type: 'bar',
-      data: {
-        labels: ['Ibu Era', 'Hanum', 'Tanto', 'Vira', 'Tim B2B'],
-        datasets: [
-          {
-            label: 'Tepat Waktu (On-Time)',
-            data: [9, 2, 3, 2, 0],
-            backgroundColor: '#10B981',
-            borderColor: '#059669',
-            borderWidth: 1,
-            borderRadius: 5
-          },
-          {
-            label: 'Telat (Kendala Plangkan)',
-            data: [0, 2, 0, 1, 1],
-            backgroundColor: '#EF4444',
-            borderColor: '#DC2626',
-            borderWidth: 1,
-            borderRadius: 5
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            stacked: true,
-            grid: { color: 'rgba(255, 255, 255, 0.05)' },
-            ticks: { color: '#94A3B8', font: { weight: 'bold' } }
-          },
-          y: {
-            stacked: true,
-            beginAtZero: true,
-            ticks: { stepSize: 2, color: '#94A3B8' },
-            grid: { color: 'rgba(255, 255, 255, 0.05)' }
-          }
-        },
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: {
-              color: '#94A3B8',
-              font: { size: 11, weight: '700' },
-              padding: 12
-            }
-          },
-          tooltip: {
-            backgroundColor: 'rgba(15, 23, 42, 0.92)',
-            titleColor: '#FFF',
-            bodyColor: '#CBD5E1',
-            borderColor: 'rgba(255, 255, 255, 0.1)',
-            borderWidth: 1,
-            padding: 10
           }
         }
       }

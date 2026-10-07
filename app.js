@@ -2019,6 +2019,27 @@ const mockData = {
 
   milestone: {
     monthsData: {
+      '8': {
+        monthName: 'September 2026',
+        futureGoals2027: ['Jahit Express 2 Jam', 'Smart Factory 20'],
+        'milestone-bt': [
+          { id: 1, year: '2026', title: 'Launching Batik Kantoran', status: 'Berjalan', tag: 'Operational', desc: 'Inisiatif peluncuran lini Batik Kantoran untuk segmen korporat & instansi.', markerDone: true },
+          { id: 2, year: '2026', title: 'Premium Store Jakarta', status: 'Progress', tag: 'Expansion', desc: 'Pengembangan & persiapan pembukaan galeri Premium Store di Jakarta.', markerDone: false },
+          { id: 3, year: '2026', title: 'Premium Store Cirebon', status: 'Progress', tag: 'Expansion', desc: 'Pengembangan & persediaan fasilitas Premium Store di Cirebon.', markerDone: false },
+          { id: 4, year: '2026', title: 'Scale Up B2B', status: 'Progress', tag: 'Growth', desc: 'Skalasi ekosistem penjualan & penetrasi pasar Business-to-Business (B2B).', markerDone: false },
+          { id: 5, year: '2026', title: 'Handprint Factory', status: 'Berjalan', tag: 'Production', desc: 'Operasional penuh fasilitas produksi cetak batik tulis/tangan (Handprint).', markerDone: true },
+          { id: 6, year: '2026', title: 'Garment', status: 'Berjalan', tag: 'Production', desc: 'Operasional manufaktur & penjahitan unit konveksi/garment.', markerDone: true },
+          { id: 7, year: '2026', title: 'Laboratory Matching Color', status: 'Berjalan', tag: 'R&D Quality', desc: 'Fasilitas laboratorium formulasi pencelupan & pencocokan warna presisi.', markerDone: true },
+          { id: 8, year: '2026', title: 'Weighing System', status: 'Progress', tag: 'System', desc: 'Digitalisasi & otomatisasi sistem penimbangan bahan baku produksi.', markerDone: false },
+          { id: 9, year: '2026', title: 'Digital Printing', status: 'Progress', tag: 'Technology', desc: 'Implementasi dan instalasi teknologi modern Digital Printing tekstil.', markerDone: false }
+        ],
+        'milestone-tkb': [
+          { id: 1, year: '2026', title: 'Rebranding Experience Lt 4 : Family & Kids', status: 'Progress', tag: 'Rebranding Lt 4', desc: 'Pengembangan konsep zona belanja & hiburan interaktif Family & Kids di Lantai 4.', markerDone: false },
+          { id: 2, year: '2026', title: 'Rebranding Experience Lt 3 : Glow In The Dark & Solar Activ', status: 'Progress', tag: 'Rebranding Lt 3', desc: 'Instalasi arena pengalaman sensorial Glow In The Dark & Solar Activity di Lantai 3.', markerDone: false },
+          { id: 3, year: '2026', title: 'Rebranding Experience Lt 2 : Canggu - La brissa', status: 'Hold', tag: 'Rebranding Lt 2', desc: 'Penundaan sementara (Hold) penataan area thematic Canggu - La Brissa di Lantai 2.', markerDone: false },
+          { id: 4, year: '2026', title: 'Rebranding Experience Lt 1 : Local Bali - Denpasar', status: 'Berjalan', tag: 'Rebranding Lt 1', desc: 'Operasional & penataan zona budaya lokal khas Bali - Denpasar di Lantai 1.', markerDone: true }
+        ]
+      },
       '7': {
         monthName: 'Agustus 2026',
         futureGoals2027: ['Jahit Express 2 Jam', 'Smart Factory 20'],
@@ -6860,9 +6881,9 @@ function initComplainChart() {
 // --------------------------------------------------------------------------
 function renderMilestoneView() {
   const subId = state.activeSub || 'milestone-bt';
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = mockData.milestone.monthsData ? (mockData.milestone.monthsData[currentMonthKey] || mockData.milestone.monthsData['7']) : mockData.milestone;
-  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
+  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : (currentMonthKey === '8' ? 'September 2026' : 'Juli 2026'));
   const timelineList = monthData[subId] || [];
 
   const filtered = timelineList.filter(m =>
@@ -6892,7 +6913,8 @@ function renderMilestoneView() {
         </div>
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <select id="milestoneMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:#111827;border:1.5px solid var(--accent-gold);color:#FFF;padding:6px 12px;border-radius:6px;font-size:0.82rem;font-weight:700;cursor:pointer;">
-            <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+            <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+            <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
             <option value="6" ${currentMonthKey === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
           </select>
         </div>

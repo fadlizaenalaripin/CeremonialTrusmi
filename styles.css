@@ -462,6 +462,11 @@ body.light-theme select option {
   color: #818CF8;
 }
 
+.retensi-theme {
+  background: rgba(249, 115, 22, 0.18);
+  color: #F97316;
+}
+
 .nav-link.active .nav-icon-wrapper {
   transform: scale(1.1);
 }
@@ -2891,4 +2896,153 @@ body.light-theme .b2b-pic-pill {
 
 body.light-theme .b2b-search-box {
   background: #F1F5F9;
+}
+
+/* ==========================================================================
+   RETENSI MODULE STYLES (RETENSI BT & RETENSI B2B)
+   ========================================================================== */
+.retensi-metric-grid-5 {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.retensi-metric-grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+@media (max-width: 1024px) {
+  .retensi-metric-grid-5 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .retensi-metric-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .retensi-metric-grid-5,
+  .retensi-metric-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.retensi-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-fast);
+}
+
+.retensi-card-orange {
+  border-color: rgba(249, 115, 22, 0.45);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.12);
+}
+
+.retensi-card-purple {
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.12);
+}
+
+.retensi-pills-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.retensi-pill-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 7px 16px;
+  border-radius: 20px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.retensi-pill-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.retensi-pill-btn.active {
+  background: #F97316;
+  color: #FFFFFF;
+  border-color: #F97316;
+  box-shadow: 0 2px 10px rgba(249, 115, 22, 0.35);
+}
+
+.retensi-pill-btn-purple.active {
+  background: #A855F7;
+  color: #FFFFFF;
+  border-color: #A855F7;
+  box-shadow: 0 2px 10px rgba(168, 85, 247, 0.35);
+}
+
+.retensi-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.retensi-table th {
+  padding: 12px 14px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: left;
+}
+
+.retensi-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.retensi-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.retensi-table-purple th {
+  border-bottom: 1px solid rgba(168, 85, 247, 0.2);
+  color: #C084FC;
+}
+
+.retensi-table-purple td {
+  border-bottom: 1px solid rgba(168, 85, 247, 0.1);
+}
+
+.retensi-table-purple tbody tr:hover {
+  background: rgba(168, 85, 247, 0.05);
+}
+
+.retensi-note-box {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-top: 20px;
+}
+
+.retensi-note-purple {
+  background: rgba(168, 85, 247, 0.04);
+  border-color: rgba(168, 85, 247, 0.2);
 }

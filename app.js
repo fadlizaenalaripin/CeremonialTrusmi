@@ -4647,6 +4647,84 @@ const tkbOKRData = {
 // --------------------------------------------------------------------------
 const prodevOKRData = {
   monthsData: {
+    '8': {
+      monthName: 'September 2026',
+      project: { id: 'prodev', name: 'Produk Development (PRODEV)' },
+      objectives: [
+        {
+          id: 'PD-1',
+          name: 'Objective 1 — Produk Luar Negri',
+          targetOutput: 'Produk Sudah tersedia untuk di launching dengan total 10 pcs Produk Pria + 5 pcs Produk pendamping Wanita',
+          targetOutcome: 'Provide Campaign Luar Negri dengan Motif yang original',
+          deadline: '31 Agust 2026',
+          krs: [
+            { code: 'PD-1.1', title: 'Pembuatan Design Produk Jaket', output: '10 Looks', deadline: 'Done', status: 'Done', actual: '1. Menentukan arahan Design, 2. Menyetujui Opsi-opsi Design yang akan diajukan ke Owner', link: '📄 Design Deck' },
+            { code: 'PD-1.2', title: 'Produksi Sample Produk Jaket', output: '10 Pcs', deadline: '30 Mei 2026', status: 'Done', actual: '1. Menentukan vendor/penjahit produksi sample, 2. Menyetujui kualitas & finishing sample yang dihasilkan', link: '📄 Sample Review' },
+            { code: 'PD-1.3', title: 'Motif Design Kain Original', output: '2 Motif dengn 3 Warna', deadline: '30 Mei 2026', status: 'Done', actual: '1. Menentukan arahan motif & palet warna sesuai konsep LN, 2. Menyetujui motif final sebelum masuk ke proses produksi kain', link: '📄 Motif Approve' },
+            { code: 'PD-1.4', title: 'Produksi Motif Kain original (Digital Print)', output: '2 Motif dengn 3 Warna', deadline: '31 Juli 2026', status: 'Progress', actual: '1. Menentukan vendor digital print, 2. Menyetujui hasil cetak sesuai standar warna & kualitas', link: '📄 Output Print' },
+            { code: 'PD-1.5', title: 'Produksi Motif Kain original (Batik Tulis)', output: '2 Motif dengn 3 Warna', deadline: '31 Juli 2026', status: 'Progress', actual: '1. Menyetujui proses & hasil akhir batik sebelum masuk ke produksi garmen', link: '📄 Status Tulis' },
+            { code: 'PD-1.6', title: 'Pembuatan Design Produk Waita', output: '5 Looks', deadline: '15 Juli 2026', status: 'Done', actual: '1. Menentukan arahan design produk wanita pendamping, 2. Menyetujui opsi design yang diajukan ke Owner', link: '📄 Draft Wastra' },
+            { code: 'PD-1.7', title: 'Produksi Sample Produk Waita', output: '5 pcs', deadline: '15 Agust 2026', status: 'Progress', actual: '1. Menentukan vendor produksi sample wanita, 2. Menyetujui kualitas & fitting sample produk wanita', link: '📄 Status Sample' }
+          ]
+        },
+        {
+          id: 'PD-2',
+          name: 'Objective 2 — Produk Premium',
+          targetOutput: 'Store Premium Jakarta sudah bisa beroperasi dengan kapasitas display 3227 pcs dengan 10% new Produk (320 pcs)',
+          targetOutcome: 'Dapat memprovide kebutuhan Store guna meningkatkan Sales Store',
+          deadline: '31 Agust 2026',
+          krs: [
+            { code: 'PD-2.1', title: 'Design Motif Kain Pola Exclusive', output: '5 Looks', deadline: '25 Juli 2026', status: 'Progress', actual: '1. Menentukan arahan motif eksklusif sesuai positioning Premium Store, 2. Menyetujui 30 looks sebelum masuk produksi', link: '📄 PO Superfine' },
+            { code: 'PD-2.2', title: 'Produksi Kain Pola Exclusive', output: '5 pcs', deadline: '15 Agustus 2026', status: 'Progress', actual: '1. Menentukan vendor kain pola, 2. Menyetujui kualitas kain sebelum distribusi ke store', link: '📄 Status Vendor' },
+            { code: 'PD-2.3', title: 'Design Motif Kain Baron Exclusive', output: '30 Looks', deadline: '25 Juli 2026', status: 'Progress', actual: '1. Menentukan arahan motif kain baron yang bernilai eksklusif, 2. Menyetujui 30 looks final', link: '📄 Status Baron' },
+            { code: 'PD-2.4', title: 'Produksi Kain Baron Exclusive', output: '10 pcs', deadline: '15 Agustus 2026', status: 'Belum Mulai', actual: '1. Menentukan vendor kain Baron, 2. Menyetujui kualitas hasil produksi', link: '📄 Status Sutra' },
+            { code: 'PD-2.5', title: 'Design Motif Kain Sutra Exclusive', output: '5 Looks', deadline: '25 Juli 2026', status: 'Progress', actual: '1. Menentukan arahan motif Sutra dengan nilai premium, 2. Menyetujui 30 looks final', link: '📄 Status Sutra 10M' },
+            { code: 'PD-2.6', title: 'Produksi Kain Sutra Exclusive', output: '5 pcs', deadline: '15 Agustus 2026', status: 'Belum Mulai', actual: '1. Menentukan vendor kain Sutra, 2. Menyetujui kualitas & tekstur kain hasil produksi', link: '📄 Status Serat' },
+            { code: 'PD-2.7', title: 'Design Motif Kemeja Katun', output: '30 Looks', deadline: '25 Juli 2026', status: 'Progress', actual: '1. Menentukan arahan design kemeja katun, 2. Menyetujui 30 looks sebelum produksi', link: '📄 Status Katun' },
+            { code: 'PD-2.8', title: 'Produksi Kemeja Katun', output: '30 pcs', deadline: '15 Agust 2026', status: 'Belum Mulai', actual: '1. Menyetujui vendor kemeja katun, 2. Menyetujui kualitas jahitan & finishing', link: '📄 Status Produksi Katun' },
+            { code: 'PD-2.9', title: 'Design Motif Hem Katun', output: '30 Looks', deadline: '25 Juli 2026', status: 'Progress', actual: '1. Menentukan arahan design hem katun, 2. Menyetujui 30 looks sebelum produksi', link: '📄 Story Deck' },
+            { code: 'PD-2.10', title: 'Produksi Hem Katun', output: '30 pcs', deadline: '15 Agust 2026', status: 'Belum Mulai', actual: '1. Menyetujui vendor produksi hem katun, 2. Menyetujui kualitas jahitan & finishing', link: '📄 Draft Seragam' },
+            { code: 'PD-2.11', title: 'Produk dengan Story Khusus', output: '5 Produk', deadline: '15 Agust 2026', status: 'Progress', actual: '1. Menentukan narasi/story untuk masing-masing produk, 2. Menyetujui konsep story & presentasi produk ke tim marketing', link: '📄 Story Deck' },
+            { code: 'PD-2.12', title: 'Pembuatan Design Produk Seragam SPG', output: '2 Looks Approved', deadline: '15 Agust 2026', status: 'Belum Mulai', actual: '1. Menentukan arahan design hem katun, 2. Menyetujui 2 looks sebelum produksi', link: '📄 Draft Seragam' }
+          ]
+        },
+        {
+          id: 'PD-3',
+          name: 'Objective 3 — Topi Momen',
+          targetOutput: 'Tersedia 5 Looks Design Kaos yang di setujui oleh Owner',
+          targetOutcome: 'Peningkatan Sales Pada Stand Momen',
+          deadline: '30 Juli 2026',
+          krs: [
+            { code: 'PD-3.1', title: 'Design Motif', output: '5 Looks', deadline: 'Done', status: 'Done', actual: '1. Menentukan arahan design motif topi, 2. Menyetujui 5 looks final yang akan di Showing ke Owner', link: '📄 Design Topi' },
+            { code: 'PD-3.2', title: 'Produksi Sample Topi', output: '5 Looks', deadline: '15 Juli 2026', status: 'Done', actual: '1. Menentukan vendor produksi sample topi, 2. Menyetujui kualitas & konstruksi sample sebelum masuk produksi massal', link: '📄 Sample Topi' }
+          ]
+        },
+        {
+          id: 'PD-4',
+          name: 'Objective 4 — Produk Fashion Show (IFW)',
+          targetOutput: 'Dapat menjangkau minimal 5 juta reach audience di social media',
+          targetOutcome: 'Dapat meningkatkan Brand Awareness untuk menjaga eksistensi Brand',
+          deadline: '20 Juli 2026',
+          krs: [
+            { code: 'PD-4.1', title: 'Design Produk Momen Fashion Show', output: '12 Looks', deadline: '25 Mei 2026', status: 'Done', actual: '1. Menentukan arahan konsep design sesuai tema IFW, 2. Menyetujui 12 looks yang siap diproduksi', link: '📄 Design Set 1' },
+            { code: 'PD-4.2', title: 'Produksi Produk Momen Fashion Show', output: '12 Looks', deadline: '10 Juli 2026', status: 'Done', actual: '1. Menentukan vendor & timeline produksi, 2. Menyetujui kualitas garmen & kesiapan untuk runway', link: '📄 Sample Set 1' },
+            { code: 'PD-4.3', title: 'Design Produk BT Fashion Show', output: '15 looks', deadline: '25 Mei 2026', status: 'Done', actual: '1. Menentukan arahan design sesuai brief Fashion Show, 2. Menyetujui 15 looks final', link: '📄 Design Set 2' },
+            { code: 'PD-4.4', title: 'Produksi Produk BT Fashion Show', output: '15 looks', deadline: '10 Juli 2026', status: 'Done', actual: '1. Menentukan vendor & jadwal produksi BT, 2. Menyetujui hasil produksi & kelayakan tampil di Fashion Show', link: '📄 Output PBF' }
+          ]
+        },
+        {
+          id: 'PD-5',
+          name: 'Objective 5 — Kaos Momen',
+          targetOutput: 'Tersedia Design Kemeja MOMEN yang di setujui oleh Owner',
+          targetOutcome: 'Peningkatan Sales Pada Stand Momen',
+          deadline: '30 September 2026',
+          krs: [
+            { code: 'PD-5.1', title: 'Design Kemeja Momen', output: '4 Looks', deadline: 'Done', status: 'Done', actual: '1. Menentukan arahan design & palet warna kaos momen, 2. Menyetujui 10 looks final sebelum produksi', link: '📄 Design Kaos' },
+            { code: 'PD-5.2', title: 'Produksi Kemeja Momen', output: '4 Looks', deadline: '30 September 2026', status: 'Progress', actual: '1. Menentukan vendor sablon & produksi kaos, 2. Menyetujui kualitas cetak, bahan & finishing setiap batch', link: '📄 Output Kaos' }
+          ]
+        }
+      ]
+    },
     '7': {
       monthName: 'Agustus 2026',
       project: { id: 'prodev', name: 'Produk Development (PRODEV)' },
@@ -5824,10 +5902,10 @@ window.showTKBKRDetail = function(code) {
 function renderProdevOKRView() {
   const selectedStat = state.okrStatusFilter || 'all';
 
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = prodevOKRData.monthsData ? (prodevOKRData.monthsData[currentMonthKey] || prodevOKRData.monthsData['7']) : prodevOKRData;
   const proj = monthData;
-  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
+  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : (currentMonthKey === '8' ? 'September 2026' : 'Juli 2026'));
 
   let allKRs = [];
   proj.objectives.forEach(obj => {
@@ -5863,8 +5941,9 @@ function renderProdevOKRView() {
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="prodevMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
                     style="background:#111827; border:1.5px solid var(--accent-gold); color:#FFF; padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
-              <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
-              <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
+              <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
+              <option value="6" ${currentMonthKey === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
           </div>
 
@@ -5986,7 +6065,7 @@ function renderProdevOKRView() {
 
 window.showProdevKRDetail = function(code) {
   let foundKR = null, foundObj = null;
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = prodevOKRData.monthsData ? (prodevOKRData.monthsData[currentMonthKey] || prodevOKRData.monthsData['7']) : prodevOKRData;
   (monthData.objectives || []).forEach(obj => {
     const m = obj.krs.find(k => k.code === code);

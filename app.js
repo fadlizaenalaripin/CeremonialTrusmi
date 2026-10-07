@@ -75,13 +75,13 @@ const categoryTitles = {
 // Real Sales Database Transcribed from User Spreadsheet (2025 & 2026 - Up to August)
 const realSalesData = {
   branches: [
-    { id: 'cirebon', name: 'Batik Trusmi Cirebon', ytd2026: 44440626864, growth2026: -5.7, janJul2025: 47110091130, total2025: 72290172300, color: '#10B981' },
-    { id: 'bali', name: 'The Keranjang Bali', ytd2026: 37663414426, growth2026: -21.1, janJul2025: 47727396264, total2025: 69927082478, color: '#06B6D4' },
-    { id: 'ecommerce', name: 'E-Commerce', ytd2026: 4226676060, growth2026: 3.0, janJul2025: 4103027194, total2025: 6163885348, color: '#6366F1' },
-    { id: 'b2b', name: 'B2B', ytd2026: 2885932921, growth2026: 100, janJul2025: 1402798530, total2025: 2659742404, color: '#8B5CF6' },
-    { id: 'medan', name: 'Batik Trusmi Medan', ytd2026: 1347384832, growth2026: -14.2, janJul2025: 1570222216, total2025: 2374344178, color: '#F59E0B' },
-    { id: 'lounge', name: 'Batik Trusmi Lounge', ytd2026: 824715410, growth2026: 21.2, janJul2025: 680545300, total2025: 1125895987, color: '#EC4899' },
-    { id: 'jakarta', name: 'Batik Trusmi Jakarta', ytd2026: 907812088, growth2026: -33.1, janJul2025: 1357533790, total2025: 2110907540, color: '#3B82F6' }
+    { id: 'cirebon', name: 'Batik Trusmi Cirebon', ytd2026: 49421803737, growth2026: -5.6, janJul2025: 52359552151, total2025: 72290172300, color: '#10B981' },
+    { id: 'bali', name: 'The Keranjang Bali', ytd2026: 40888690083, growth2026: -22.7, janJul2025: 52906350669, total2025: 69927082478, color: '#06B6D4' },
+    { id: 'ecommerce', name: 'E-Commerce', ytd2026: 4587902722, growth2026: 0.1, janJul2025: 4583141556, total2025: 6163885348, color: '#6366F1' },
+    { id: 'b2b', name: 'B2B', ytd2026: 2885932921, growth2026: 100, janJul2025: 1570212440, total2025: 2659742404, color: '#8B5CF6' },
+    { id: 'medan', name: 'Batik Trusmi Medan', ytd2026: 1504699832, growth2026: -17.9, janJul2025: 1833586334, total2025: 2374344178, color: '#F59E0B' },
+    { id: 'lounge', name: 'Batik Trusmi Lounge', ytd2026: 934898110, growth2026: 21.0, janJul2025: 772623600, total2025: 1125895987, color: '#EC4899' },
+    { id: 'jakarta', name: 'Batik Trusmi Jakarta', ytd2026: 991700038, growth2026: -36.3, janJul2025: 1556290340, total2025: 2110907540, color: '#3B82F6' }
   ],
 
   months: ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'],
@@ -97,13 +97,13 @@ const realSalesData = {
 
   // Monthly breakdown per branch for 2026 (Jan-Ags)
   sales2026: {
-    cirebon: [6145526461, 4363163085, 5280323018, 5259388670, 6992017875, 5858981677, 5310823424, 5230402654, 0, 0, 0, 0],
-    bali: [6669186960, 3788194468, 5722558473, 3923308664, 4409772270, 4390443413, 4398635447, 4361314731, 0, 0, 0, 0],
-    ecommerce: [374357149, 584738503, 728202121, 628439040, 434439105, 604922791, 468423171, 403154180, 0, 0, 0, 0],
-    b2b: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0],
-    medan: [197785628, 109918500, 111007116, 160267604, 153920116, 201251166, 218637868, 194596834, 0, 0, 0, 0],
-    lounge: [87211500, 79750000, 102363900, 101189100, 113816500, 106529900, 118491500, 115363010, 0, 0, 0, 0],
-    jakarta: [143684463, 133054375, 91292600, 111146300, 147861050, 87493650, 58676450, 134603200, 0, 0, 0, 0]
+    cirebon: [6145526461, 4363163085, 5280323018, 5259388670, 6992017875, 5858981677, 5310823424, 5230402654, 4981176873, 0, 0, 0],
+    bali: [6669186960, 3788194468, 5722558473, 3923308664, 4409772270, 4390443413, 4398635447, 4361314731, 3225275657, 0, 0, 0],
+    ecommerce: [374357149, 584738503, 728202121, 628439040, 434439105, 604922791, 468423171, 403154180, 361226662, 0, 0, 0],
+    b2b: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0], // TODO: data B2B September belum tersedia
+    medan: [197785628, 109918500, 111007116, 160267604, 153920116, 201251166, 218637868, 194596834, 157315000, 0, 0, 0],
+    lounge: [87211500, 79750000, 102363900, 101189100, 113816500, 106529900, 118491500, 115363010, 110182700, 0, 0, 0],
+    jakarta: [143684463, 133054375, 91292600, 111146300, 147861050, 87493650, 58676450, 134603200, 83887950, 0, 0, 0]
   },
 
   // Monthly breakdown per branch for 2025 (Jan-Dec)
@@ -130,21 +130,21 @@ function getBranchSalesMetrics(branchId, selectedMonth = 'all') {
   const rows2025 = realSalesData.sales2025[branchId] || [];
 
   if (selectedMonth === 'all') {
-    const val2026 = rows2026.slice(0, 8).reduce((sum, v) => sum + v, 0);
-    const val2025 = rows2025.slice(0, 8).reduce((sum, v) => sum + v, 0);
+    const val2026 = rows2026.slice(0, 9).reduce((sum, v) => sum + v, 0);
+    const val2025 = rows2025.slice(0, 9).reduce((sum, v) => sum + v, 0);
     const rawGrowth = val2025 > 0 ? parseFloat((((val2026 - val2025) / val2025) * 100).toFixed(1)) : 0;
     const growth = Math.min(rawGrowth, 100);
-    const augustVal = rows2026[7] || 0;
+    const augustVal = rows2026[8] || 0;
     return {
       name: branch ? branch.name : '',
       color: branch ? branch.color : '#FFF',
       val2026,
       val2025,
       growth,
-      periodLabel: 'Sales YTD 2026 (Jan–Ags)',
-      activeMonthLabel: 'Realisasi Agustus 2026',
+      periodLabel: 'Sales YTD 2026 (Jan–Sep)',
+      activeMonthLabel: 'Realisasi September 2026',
       activeMonthVal: augustVal,
-      baselineLabel: 'Baseline 2025 (Jan–Ags)'
+      baselineLabel: 'Baseline 2025 (Jan–Sep)'
     };
   } else {
     const mIdx = parseInt(selectedMonth, 10);
@@ -172,6 +172,328 @@ const mockData = {
     'kpi-bt': {
       unitName: 'Batik Trusmi (BT)',
       monthsData: {
+        '8': {
+          unitName: 'Batik Trusmi (BT)',
+          monthName: 'September 2026',
+          overallScore: 81.2,
+          scorecard: [
+            { id: 'dept-sales', name: 'Sales / Ops Store', score: 77.0, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-operational', name: 'Operational', score: 99.4, color: '#10B981', badgeClass: 'status-achieved', level: 'high' },
+            { id: 'dept-marketing', name: 'Marketing', score: 50.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' },
+            { id: 'dept-b2b', name: 'B2B', score: 85.0, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-purchasing', name: 'Purchasing', score: 81.48, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-ecommerce', name: 'E-Commerce (B2C)', score: 88.7, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-produksi', name: 'Produksi Pabrikasi BT', score: 87.0, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' }
+          ],
+          departments: [
+            {
+              id: 'dept-sales',
+              name: '1. SALES / OPS STORE',
+              score: 77.0,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'Sales Store Performance',
+                  weight: '100%',
+                  objectives: [
+                    { name: 'Achievement Sales', bobot: '30%', target: 'Rp7.079.029.106', actual: 'Rp4.981.176.873', acv: 70, kpi: '21%', footnote: 'Pendapatan Sales Store BT' },
+                    { name: 'Basket Size', bobot: '10%', target: 'Rp500.000', actual: 'Rp428.710', acv: 86, kpi: '9%', footnote: 'Rata-rata Nilai per Transaksi Pelanggan' },
+                    { name: 'Transaksi', bobot: '10%', target: '16.855', actual: '11.619', acv: 69, kpi: '7%', footnote: 'Jumlah Transaksi Pelanggan' },
+                    { name: 'Hitrate', bobot: '10%', target: '27%', actual: '29%', acv: 100, kpi: '10%', footnote: '% Keberhasilan Transaksi' },
+                    { name: 'Retensi Cirebon', bobot: '20%', target: '506', actual: '284', acv: 56, kpi: '11%', footnote: 'Jumlah pelanggan melakukan retensi dari area Cirebon' },
+                    { name: 'Retensi Global', bobot: '15%', target: '10%', actual: '18,18%', acv: 100, kpi: '15%', footnote: 'Jumlah Kontribusi Sales Retensi dari Sales Global' },
+                    { name: 'Penjualan Deadstock', bobot: '5%', target: 'Rp498.117.687', actual: 'Rp450.872.700', acv: 91, kpi: '5%', footnote: 'Penjualan produk deadstock 10% dari target global (inventory)' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-operational',
+              name: '2. OPERATIONAL',
+              score: 99.4,
+              statusClass: 'status-achieved',
+              perspectives: [
+                {
+                  name: 'Cost (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Utilities Cost & Beban Umum', bobot: '50%', target: 'Rp141.580.582', actual: 'Rp109.638.111', acv: 100, kpi: '10,0%' },
+                    { name: 'Promotion Cost', bobot: '50%', target: 'Rp141.580.582', actual: 'Rp150.312.268', acv: 94, kpi: '9,4%' }
+                  ]
+                },
+                {
+                  name: 'Kasir Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Late Kasir', bobot: '20%', target: '2%', actual: '0,60%', acv: 100, kpi: '4,0%' },
+                    { name: 'Selisih Kasir', bobot: '20%', target: 'Rp300.000', actual: 'Rp107.500', acv: 100, kpi: '4,0%' },
+                    { name: 'Kelolosan Tag', bobot: '20%', target: '2', actual: '1', acv: 100, kpi: '4,0%' },
+                    { name: 'Scale Up Kasir', bobot: '20%', target: '2.324', actual: '2.882', acv: 100, kpi: '4,0%' },
+                    { name: 'Complaint Customer', bobot: '20%', target: '0%', actual: '0,00%', acv: 100, kpi: '4,0%' }
+                  ]
+                },
+                {
+                  name: 'SPG Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Temuan SPG CCTV', bobot: '50%', target: '15%', actual: '8,0%', acv: 100, kpi: '10,0%' },
+                    { name: 'Complaint Customer', bobot: '50%', target: '0%', actual: '0,00%', acv: 100, kpi: '10,0%' }
+                  ]
+                },
+                {
+                  name: 'Warehouse Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Identifikasi Produk Rusak', bobot: '30%', target: '100%', actual: '100%', acv: 100, kpi: '6,0%' },
+                    { name: 'Replenish Display', bobot: '40%', target: '97%', actual: '100%', acv: 100, kpi: '8,0%' },
+                    { name: 'Product Availability', bobot: '30%', target: '100%', actual: '100%', acv: 100, kpi: '6,0%' }
+                  ]
+                },
+                {
+                  name: 'VM Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Display Produk', bobot: '40%', target: '95%', actual: '100%', acv: 100, kpi: '8,0%' },
+                    { name: 'Leadtime Display', bobot: '30%', target: '95%', actual: '100%', acv: 100, kpi: '6,0%' },
+                    { name: 'Temuan Display', bobot: '30%', target: '4', actual: '0', acv: 100, kpi: '6,0%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-marketing',
+              name: '3. MARKETING',
+              score: 50.0,
+              statusClass: 'status-at-risk',
+              perspectives: [
+                {
+                  name: 'Traffic (70%)',
+                  weight: '70%',
+                  objectives: [
+                    { name: 'Traffic Organik', bobot: '50%', target: '63.307', actual: '27.617', acv: 44, kpi: '15%' },
+                    { name: 'Traffic Rombongan', bobot: '30%', target: '15.855', actual: '11.862', acv: 75, kpi: '16%' },
+                    { name: 'Sales Rombongan', bobot: '20%', target: 'Rp1.661.804.095', actual: 'Rp1.079.115.951', acv: 65, kpi: '9%' }
+                  ]
+                },
+                {
+                  name: 'Event (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Traffic Event', bobot: '50%', target: '200', actual: '0', acv: 0, kpi: '0%' },
+                    { name: 'Sales Event', bobot: '50%', target: 'Rp5.000.000', actual: '0', acv: 0, kpi: '0%' }
+                  ]
+                },
+                {
+                  name: 'CRM (10%)',
+                  weight: '10%',
+                  objectives: [
+                    { name: 'Survei Customer', bobot: '50%', target: '300', actual: '300', acv: 100, kpi: '5%' },
+                    { name: 'Rating Google Review', bobot: '50%', target: '300', actual: '302', acv: 100, kpi: '5%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-b2b',
+              name: '4. B2B',
+              score: 85.0,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'Sales (40%)',
+                  weight: '40%',
+                  objectives: [
+                    { name: 'Achievement Sales', bobot: '40%', target: 'Rp540.000.000', actual: 'Rp291.802.260', acv: 54, kpi: '9%' },
+                    { name: 'Basket Size', bobot: '20%', target: 'Rp10.000.000', actual: 'Rp6.631.870', acv: 66, kpi: '5%' },
+                    { name: 'Transaksi', bobot: '10%', target: '54', actual: '44', acv: 81, kpi: '3%' },
+                    { name: 'Retensi', bobot: '30%', target: '16', actual: '23', acv: 100, kpi: '12%' }
+                  ]
+                },
+                {
+                  name: 'Operational (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Hot Prospek', bobot: '30%', target: '80', actual: '23', acv: 29, kpi: '2%' },
+                    { name: 'Follow Up', bobot: '20%', target: '1.440', actual: '1.603', acv: 100, kpi: '4%' },
+                    { name: 'Temuan Pelayanan', bobot: '10%', target: '<1%', actual: '0 temuan', acv: 100, kpi: '2%' },
+                    { name: 'Late Balas Chat', bobot: '20%', target: '<1%', actual: '0 temuan', acv: 100, kpi: '4%' },
+                    { name: 'Complaint Pelayanan', bobot: '20%', target: '<1%', actual: '0 temuan', acv: 100, kpi: '4%' }
+                  ]
+                },
+                {
+                  name: 'Marketing (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Database Baru', bobot: '40%', target: '1.440', actual: '1.599', acv: 100, kpi: '8%' },
+                    { name: 'Lead Ads', bobot: '50%', target: '300', actual: '302', acv: 100, kpi: '10%' },
+                    { name: 'Cost', bobot: '10%', target: 'recap akhir bulan', actual: 'Rp2.235.448', acv: 100, kpi: '2%' }
+                  ]
+                },
+                {
+                  name: 'Produk (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: 'Sample Bahan', bobot: '50%', target: '30', actual: '31', acv: 100, kpi: '10%' },
+                    { name: 'Complaint Produk', bobot: '50%', target: '<1%', actual: '0 temuan', acv: 100, kpi: '10%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-purchasing',
+              name: '5. PURCHASING',
+              score: 81.48,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'HPP Position (50%)',
+                  weight: '50%',
+                  objectives: [
+                    { name: 'Jumlah Pengecekan Kode sesuai', bobot: '40%', target: '100%', actual: '75%', acv: 75, kpi: '15%' },
+                    { name: 'Jumlah Temuan Pricing diajukan purchasing', bobot: '30%', target: '100%', actual: '75%', acv: 75, kpi: '11%' },
+                    { name: 'Improvement Type Payment', bobot: '30%', target: '100%', actual: '100,00%', acv: 100, kpi: '15%' }
+                  ]
+                },
+                {
+                  name: 'Safety Stock (25%)',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'Target PO', bobot: '40%', target: '100%', actual: '61%', acv: 61, kpi: '6%' },
+                    { name: 'PO vs Receive', bobot: '20%', target: '100%', actual: '88%', acv: 88, kpi: '4%' },
+                    { name: 'Stock 0', bobot: '15%', target: '100%', actual: '96%', acv: 96, kpi: '4%' },
+                    { name: 'Kualitas Produk', bobot: '20%', target: '95%', actual: '98%', acv: 100, kpi: '5%' },
+                    { name: 'Data Base vendor baru', bobot: '5%', target: '100%', actual: '100%', acv: 100, kpi: '1%' }
+                  ]
+                },
+                {
+                  name: 'Sales B2B (25%)',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'Revenue Sales', bobot: '50%', target: '100%', actual: '59%', acv: 59, kpi: '7%' },
+                    { name: 'Program Retention', bobot: '50%', target: '100%', actual: '100%', acv: 100, kpi: '13%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-ecommerce',
+              name: '6. E-COMMERCE (B2C)',
+              score: 88.7,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'Sales (40%)',
+                  weight: '40%',
+                  objectives: [
+                    { name: 'Achievement Sales', bobot: '40%', target: 'Rp560.000.000', actual: 'Rp361.226.662', acv: 65, kpi: '10%' },
+                    { name: 'Basket Size', bobot: '20%', target: 'Rp200.000', actual: 'Rp180.163', acv: 90, kpi: '7%' },
+                    { name: 'Transaksi', bobot: '20%', target: '2.380', actual: '2.005', acv: 84, kpi: '7%' },
+                    { name: 'Retensi', bobot: '20%', target: '420', actual: '298', acv: 71, kpi: '6%' }
+                  ]
+                },
+                {
+                  name: 'Operational (30%)',
+                  weight: '30%',
+                  objectives: [
+                    { name: 'Follow Up', bobot: '20%', target: '1.080', actual: '1.080', acv: 100, kpi: '6%' },
+                    { name: 'Temuan Pelayanan', bobot: '20%', target: '<1%', actual: '0,00%', acv: 100, kpi: '6%' },
+                    { name: 'Late Balas Chat', bobot: '20%', target: '<1%', actual: '0,00%', acv: 100, kpi: '6%' },
+                    { name: 'Complaint Customer', bobot: '20%', target: '2,00%', actual: '0,20%', acv: 100, kpi: '6%' },
+                    { name: 'Ketersediaan Stok Produk', bobot: '20%', target: '95%', actual: '95%', acv: 100, kpi: '6%' }
+                  ]
+                },
+                {
+                  name: 'Marketing (30%)',
+                  weight: '30%',
+                  objectives: [
+                    { name: 'Sales Affiliator', bobot: '50%', target: 'Rp112.000.000', actual: 'Rp108.661.924', acv: 97, kpi: '15%' },
+                    { name: 'Lead Ads', bobot: '25%', target: '1.823', actual: '1.633', acv: 90, kpi: '7%' },
+                    { name: 'Cost Ads', bobot: '25%', target: 'Rp26.078.000', actual: 'Rp23.581.920', acv: 100, kpi: '8%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-produksi',
+              name: '7. PRODUKSI PABRIKASI BT',
+              score: 87.0,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'Batik Tulis Factory (25%) — Subscore 82%',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'PO Masuk (Kapasitas Pabrik)', bobot: '10%', target: '80%', actual: '100%', acv: 100, kpi: '10%' },
+                    { name: 'Realisasi Order', bobot: '20%', target: '80%', actual: '100%', acv: 100, kpi: '20%' },
+                    { name: 'Kualitas Produk (FPY)', bobot: '20%', target: '95%', actual: '73%', acv: 79, kpi: '16%' },
+                    { name: 'Ketepatan Waktu (OTD)', bobot: '25%', target: '95%', actual: '65%', acv: 68, kpi: '17%' },
+                    { name: 'Gross Margin Achievement', bobot: '25%', target: '25%', actual: '19%', acv: 76, kpi: '19%' }
+                  ]
+                },
+                {
+                  name: 'Batik Cap Factory (25%) — Subscore 87%',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'PO Masuk (Kapasitas Pabrik)', bobot: '10%', target: '80%', actual: '70,0%', acv: 88, kpi: '9%' },
+                    { name: 'Realisasi Order', bobot: '20%', target: '80%', actual: '100%', acv: 100, kpi: '20%' },
+                    { name: 'Kualitas Produk (FPY)', bobot: '25%', target: '95%', actual: '79,0%', acv: 83, kpi: '21%' },
+                    { name: 'Ketepatan Waktu (OTD)', bobot: '20%', target: '95%', actual: '61,0%', acv: 64, kpi: '13%' },
+                    { name: 'Gross Margin Achievement', bobot: '25%', target: '25%', actual: '38,0%', acv: 100, kpi: '25%' }
+                  ]
+                },
+                {
+                  name: 'Garment Factory (25%) — Subscore 94%',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'PO Masuk (Kapasitas Pabrik)', bobot: '10%', target: '80%', actual: '77%', acv: 96, kpi: '10%' },
+                    { name: 'Realisasi Order', bobot: '20%', target: '80%', actual: '94%', acv: 100, kpi: '20%' },
+                    { name: 'Kualitas Produk (FPY)', bobot: '25%', target: '95%', actual: '100%', acv: 100, kpi: '25%' },
+                    { name: 'Ketepatan Waktu (OTD)', bobot: '20%', target: '95%', actual: '77%', acv: 81, kpi: '16%' },
+                    { name: 'Gross Margin Achievement', bobot: '25%', target: '25%', actual: '23%', acv: 92, kpi: '23%' }
+                  ]
+                },
+                {
+                  name: 'Handprint Factory (25%) — Subscore 87%',
+                  weight: '25%',
+                  objectives: [
+                    { name: 'PO Masuk (Kapasitas Pabrik)', bobot: '10%', target: '80%', actual: '88,2%', acv: 100, kpi: '10%' },
+                    { name: 'Realisasi Order', bobot: '20%', target: '80%', actual: '65,00%', acv: 65, kpi: '13%' },
+                    { name: 'Kualitas Produk (FPY)', bobot: '20%', target: '95%', actual: '78,00%', acv: 82, kpi: '16%' },
+                    { name: 'Ketepatan Waktu (OTD)', bobot: '25%', target: '95%', actual: '84,00%', acv: 88, kpi: '22%' },
+                    { name: 'Gross Margin Achievement', bobot: '25%', target: '20%', actual: '23,00%', acv: 100, kpi: '25%' }
+                  ]
+                }
+              ]
+            }
+          ],
+          redFlags: [
+            { deptId: 'dept-marketing', dept: 'Marketing — Event', objective: 'Traffic & Sales Event', target: '200 / Rp5.000.000', actual: '0', acv: 0, detail: 'Kegiatan event tidak terlaksana (Realisasi 0%)' },
+            { deptId: 'dept-b2b', dept: 'B2B — Operational', objective: 'Hot Prospek', target: '80', actual: '23', acv: 29, detail: 'Hanya mencapai 23 dari 80 prospek' },
+            { deptId: 'dept-marketing', dept: 'Marketing — Traffic', objective: 'Traffic Organik', target: '63.307', actual: '27.617', acv: 44, detail: 'Pengunjung organik store hanya 44%' },
+            { deptId: 'dept-b2b', dept: 'B2B — Sales', objective: 'Achievement Sales', target: 'Rp540.000.000', actual: 'Rp291.802.260', acv: 54, detail: 'Pencapaian omset B2B 54%' },
+            { deptId: 'dept-sales', dept: 'Sales — Retensi', objective: 'Retensi Cirebon', target: '506', actual: '284', acv: 56, detail: 'Jumlah pelanggan retensi area Cirebon 56% dari target' },
+            { deptId: 'dept-purchasing', dept: 'Purchasing — Sales B2B', objective: 'Revenue Sales', target: '100%', actual: '59%', acv: 59, detail: 'Target omset sales B2B purchasing tercapai 59%' },
+            { deptId: 'dept-purchasing', dept: 'Purchasing — Safety Stock', objective: 'Target PO', target: '100%', actual: '61%', acv: 61, detail: 'Target penerbitan PO tercapai 61%' },
+            { deptId: 'dept-produksi', dept: 'Produksi — Batik Cap', objective: 'Ketepatan Waktu (OTD)', target: '95%', actual: '61,0%', acv: 64, detail: 'Ketepatan waktu batik cap 64%' },
+            { deptId: 'dept-marketing', dept: 'Marketing — Traffic', objective: 'Sales Rombongan', target: 'Rp1.661.804.095', actual: 'Rp1.079.115.951', acv: 65, detail: 'Pencapaian omset rombongan 65%' },
+            { deptId: 'dept-ecommerce', dept: 'E-Commerce — Sales', objective: 'Achievement Sales', target: 'Rp560.000.000', actual: 'Rp361.226.662', acv: 65, detail: 'Pencapaian omset E-Commerce 65%' },
+            { deptId: 'dept-produksi', dept: 'Produksi — Handprint', objective: 'Realisasi Order', target: '80%', actual: '65,00%', acv: 65, detail: 'Realisasi order pabrik handprint 65%' },
+            { deptId: 'dept-b2b', dept: 'B2B — Sales', objective: 'Basket Size', target: 'Rp10.000.000', actual: 'Rp6.631.870', acv: 66, detail: 'Rata-rata nilai transaksi B2B 66%' },
+            { deptId: 'dept-produksi', dept: 'Produksi — Batik Tulis', objective: 'Ketepatan Waktu (OTD)', target: '95%', actual: '65%', acv: 68, detail: 'Ketepatan waktu batik tulis 68%' },
+            { deptId: 'dept-sales', dept: 'Sales — Transaksi', objective: 'Transaksi', target: '16.855', actual: '11.619', acv: 69, detail: 'Jumlah transaksi store 69% dari target' }
+          ],
+          violations: [],
+          footnotes: [
+            'Laporan real data KPI Head Batik Trusmi (BT) periode September 2026.',
+            'Target Hitrate Sales Store 27% tercapai 29% (100% ACV).',
+            'Retensi Global 18,18% melampaui target 10% (100% ACV).'
+          ],
+          starPerformers: [
+            { name: 'Tim Operational BT', role: 'Store Operations & Kasir', award: 'Operational Excellence (99.4%)', unit: 'BT Retail' },
+            { name: 'Tim Produksi BT', role: 'Garment Factory Team', award: 'Manufacturing Mastery (94.0%)', unit: 'BT Production' },
+            { name: 'Tim E-Commerce BT', role: 'Online Sales & Marketing', award: 'Digital Growth (88.7%)', unit: 'BT E-Commerce' }
+          ]
+        },
         '7': {
           unitName: 'Batik Trusmi (BT)',
           monthName: 'Agustus 2026',
@@ -823,6 +1145,233 @@ const mockData = {
     'kpi-tkb': {
       unitName: 'The Keranjang Bali (TKB)',
       monthsData: {
+        '8': {
+          unitName: 'The Keranjang Bali (TKB)',
+          monthName: 'September 2026',
+          overallScore: 60.8,
+
+          scorecard: [
+            { id: 'dept-global-tkb', name: 'Global (Ops Store)', score: 65.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' },
+            { id: 'dept-ops-tkb', name: 'Operasional TKB', score: 85.0, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-mkt-tkb', name: 'Marketing TKB', score: 59.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' },
+            { id: 'dept-prod-tkb', name: 'Produksi & Inventory', score: 92.0, color: '#10B981', badgeClass: 'status-achieved', level: 'high' },
+            { id: 'dept-ecom-tkb', name: 'E-Commerce TKB', score: 64.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' },
+            { id: 'dept-mc-tkb', name: 'Marketing Communication', score: 0.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' }
+          ],
+
+          departments: [
+            {
+              id: 'dept-global-tkb',
+              name: '1. GLOBAL (OPERASIONAL STORE)',
+              score: 65.0,
+              statusClass: 'status-at-risk',
+              perspectives: [
+                {
+                  name: 'Operasional Store (100%)',
+                  weight: '100%',
+                  objectives: [
+                    { name: '1.1 Achievement Revenue', bobot: '30%', target: 'Rp9.449.338.913', actual: 'Rp3.225.275.657', acv: 34, kpi: '10%' },
+                    { name: '1.2 Basket Size', bobot: '15%', target: 'Rp530.000', actual: 'Rp400.785', acv: 76, kpi: '11%' },
+                    { name: '1.3 Transaksi', bobot: '15%', target: '17.829', actual: '8.102', acv: 45, kpi: '7%' },
+                    { name: '1.4 Hitrate', bobot: '25%', target: '40,00%', actual: '48%', acv: 100, kpi: '25%' },
+                    { name: '1.5 Retensi Store', bobot: '10%', target: '10,00%', actual: '19%', acv: 100, kpi: '10%' },
+                    { name: '1.6 Penjualan Deadstock (1% dari aktual revenue)', bobot: '5%', target: 'Rp92.159.542', actual: 'Rp33.825.644', acv: 37, kpi: '2%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-ops-tkb',
+              name: '2. OPERASIONAL',
+              score: 85.0,
+              statusClass: 'status-on-track',
+              perspectives: [
+                {
+                  name: 'Cost (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '1.1 Utilities Cost & Beban Umum (2% dari target revenue)', bobot: '50%', target: 'Rp208.000.000', actual: 'Rp167.087.244', acv: 100, kpi: '10%' },
+                    { name: '1.2 Promotion Cost (2% dari target revenue)', bobot: '50%', target: 'Rp270.000.000', actual: 'Rp282.006.151', acv: 100, kpi: '10%' }
+                  ]
+                },
+                {
+                  name: 'Kasir Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '2.1 Late kasir', bobot: '20%', target: '20%', actual: '27%', acv: 75, kpi: '3%' },
+                    { name: '2.2 Selisih Kasir', bobot: '20%', target: '-Rp500.000', actual: 'Rp129.552', acv: 100, kpi: '4%' },
+                    { name: '2.3 Kelolosan Tag', bobot: '20%', target: '5', actual: '1', acv: 80, kpi: '3%' },
+                    { name: '2.4 Scale Up Kasir (10% dari target transaksi)', bobot: '20%', target: '1.739', actual: '764', acv: 44, kpi: '2%' },
+                    { name: '2.5 Komplain Konsumen - Pelayanan Kasir', bobot: '20%', target: '2', actual: '2', acv: 0, kpi: '0%' }
+                  ]
+                },
+                {
+                  name: 'SPG Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '3.1 Temuan CCTV - SPG Tidak Menawarkan Produk', bobot: '50%', target: '4', actual: '19', acv: 31, kpi: '3%' },
+                    { name: '3.2 Komplain Konsumen - Pelayanan PC', bobot: '50%', target: '4', actual: '0', acv: 100, kpi: '10%' }
+                  ]
+                },
+                {
+                  name: 'Warehouse Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '4.1 Replenish display', bobot: '50%', target: '100%', actual: '100%', acv: 100, kpi: '10%' },
+                    { name: '4.2 Product Availability', bobot: '50%', target: '100%', actual: '100%', acv: 100, kpi: '10%' }
+                  ]
+                },
+                {
+                  name: 'VM Excellent (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '5.1 Improve Area Jual', bobot: '40%', target: '4', actual: '16', acv: 100, kpi: '8%' },
+                    { name: '5.2 Design Request', bobot: '40%', target: '90', actual: '519', acv: 100, kpi: '8%' },
+                    { name: '5.3 Temuan CCTV - Display tidak full (target = temuan bulan lalu reduce 20%)', bobot: '20%', target: '70', actual: '65', acv: 100, kpi: '4%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-mkt-tkb',
+              name: '3. MARKETING',
+              score: 59.0,
+              statusClass: 'status-at-risk',
+              perspectives: [
+                {
+                  name: 'Traffic (70%)',
+                  weight: '70%',
+                  objectives: [
+                    { name: '1.1 Traffic Organik', bobot: '50%', target: '23.312', actual: '13.492', acv: 58, kpi: '20%' },
+                    { name: '1.2 Traffic Rombongan', bobot: '30%', target: '7.770', actual: '3.314', acv: 43, kpi: '9%' },
+                    { name: '1.3 Sales Rombongan', bobot: '20%', target: 'Rp921.595.421', actual: 'Rp875.284.767', acv: 95, kpi: '13%' }
+                  ]
+                },
+                {
+                  name: 'CRM (30%)',
+                  weight: '30%',
+                  objectives: [
+                    { name: '2.1 Survei Customer', bobot: '50%', target: '200', actual: '19', acv: 10, kpi: '1%' },
+                    { name: '2.2 Rating Google Review', bobot: '50%', target: '4,7', actual: '4,8', acv: 100, kpi: '15%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-prod-tkb',
+              name: '4. PRODUKSI (PRODEV & INVENTORY)',
+              score: 92.0,
+              statusClass: 'status-achieved',
+              perspectives: [
+                {
+                  name: 'Ketersediaan Stock (50%)',
+                  weight: '50%',
+                  objectives: [
+                    { name: '1.1 SO Mini (akurasi data)', bobot: '60%', target: '100,00%', actual: '97%', acv: 97, kpi: '29%' },
+                    { name: '1.2 PO Alarm', bobot: '20%', target: '100,00%', actual: '90%', acv: 90, kpi: '9%' },
+                    { name: '1.3 Receive On Time', bobot: '20%', target: '100,00%', actual: '100,00%', acv: 100, kpi: '10%' }
+                  ]
+                },
+                {
+                  name: 'HPP (30%)',
+                  weight: '30%',
+                  objectives: [
+                    { name: '2.1 Kontribusi Vendor (rp)', bobot: '30%', target: 'Rp80.000.000', actual: 'Rp55.346.992', acv: 69, kpi: '6%' },
+                    { name: '2.2 Standart Margin dan Harga Jual (sku)', bobot: '30%', target: '46,00%', actual: '46,80%', acv: 100, kpi: '9%' },
+                    { name: '2.3 Promo', bobot: '15%', target: '10,00', actual: '64', acv: 100, kpi: '5%' },
+                    { name: '2.4 Product Priority & Tebus Murah', bobot: '25%', target: '5.000,00', actual: '2.908', acv: 58, kpi: '4%' }
+                  ]
+                },
+                {
+                  name: 'Rasio Stock (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '3.1 Stock Product Continue dan Discontinue by price', bobot: '100%', target: '95,00%', actual: '147,00%', acv: 100, kpi: '20%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-ecom-tkb',
+              name: '5. E-COMMERCE',
+              score: 64.0,
+              statusClass: 'status-at-risk',
+              perspectives: [
+                {
+                  name: 'Indikator Pencapaian (100%)',
+                  weight: '100%',
+                  objectives: [
+                    { name: '1.1 Achievement Revenue', bobot: '30%', target: 'Rp160.000.000', actual: 'Rp60.653.758', acv: 38, kpi: '11%' },
+                    { name: '1.2 Basket Size', bobot: '30%', target: 'Rp200.000', actual: 'Rp101.392', acv: 51, kpi: '15%' },
+                    { name: '1.3 Transaksi', bobot: '20%', target: '800', actual: '696', acv: 87, kpi: '17%' },
+                    { name: '1.4 Komplain', bobot: '20%', target: '4', actual: '0', acv: 100, kpi: '20%' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'dept-mc-tkb',
+              name: '6. MARKETING COMMUNICATION',
+              score: 0.0,
+              statusClass: 'status-at-risk',
+              perspectives: [
+                {
+                  name: 'TOFU (20%)',
+                  weight: '20%',
+                  objectives: [
+                    { name: '1.1 Awareness', bobot: '100%', target: '17.834.454', actual: '16.268.750', acv: 91, kpi: '0%' }
+                  ]
+                },
+                {
+                  name: 'MOFU (40%)',
+                  weight: '40%',
+                  objectives: [
+                    { name: '2.1 Profile Visit', bobot: '70%', target: '387.034', actual: '56.439', acv: 15, kpi: '0%' },
+                    { name: '2.2 Rasio Awareness to Profile Visit', bobot: '30%', target: '2,17%', actual: '0,39%', acv: 18, kpi: '0%' }
+                  ]
+                },
+                {
+                  name: 'BOFU (40%)',
+                  weight: '40%',
+                  objectives: [
+                    { name: '3.1 Transaksi Digital', bobot: '60%', target: '6.955', actual: '2.991', acv: 43, kpi: '0%' },
+                    { name: '3.2 Revenue Digital', bobot: '40%', target: 'Rp3.686.381.683', actual: 'Rp1.167.883.977', acv: 32, kpi: '0%' }
+                  ]
+                }
+              ]
+            }
+          ],
+
+          redFlags: [
+            { deptId: 'dept-ops-tkb', dept: 'Operasional TKB — Kasir', objective: 'Komplain Konsumen - Pelayanan Kasir', target: '2', actual: '2', acv: 0, detail: '2 komplain pelayanan kasir (ACV 0%)' },
+            { deptId: 'dept-mkt-tkb', dept: 'Marketing TKB — CRM', objective: 'Survei Customer', target: '200', actual: '19', acv: 10, detail: 'Survei customer hanya 19 dari target 200' },
+            { deptId: 'dept-mc-tkb', dept: 'Marketing Communication — MOFU', objective: 'Profile Visit', target: '387.034', actual: '56.439', acv: 15, detail: 'Profile visit hanya 15% dari target' },
+            { deptId: 'dept-mc-tkb', dept: 'Marketing Communication — MOFU', objective: 'Rasio Awareness to Profile Visit', target: '2,17%', actual: '0,39%', acv: 18, detail: 'Rasio konversi awareness ke profile visit 18%' },
+            { deptId: 'dept-ops-tkb', dept: 'Operasional TKB — SPG Excellent', objective: 'Temuan CCTV SPG', target: '4', actual: '19', acv: 31, detail: '19 temuan CCTV SPG tidak menawarkan produk' },
+            { deptId: 'dept-mc-tkb', dept: 'Marketing Communication — BOFU', objective: 'Revenue Digital', target: 'Rp3.686.381.683', actual: 'Rp1.167.883.977', acv: 32, detail: 'Revenue digital 32% dari target' },
+            { deptId: 'dept-global-tkb', dept: 'Global TKB', objective: 'Achievement Revenue', target: 'Rp9.449.338.913', actual: 'Rp3.225.275.657', acv: 34, detail: 'Capaian omset toko TKB bulan September 34%' },
+            { deptId: 'dept-global-tkb', dept: 'Global TKB', objective: 'Penjualan Deadstock', target: 'Rp92.159.542', actual: 'Rp33.825.644', acv: 37, detail: 'Realisasi penjualan deadstock 37%' },
+            { deptId: 'dept-ecom-tkb', dept: 'E-Commerce TKB', objective: 'Achievement Revenue', target: 'Rp160.000.000', actual: 'Rp60.653.758', acv: 38, detail: 'Realisasi revenue E-Commerce TKB 38%' },
+            { deptId: 'dept-mc-tkb', dept: 'Marketing Communication — BOFU', objective: 'Transaksi Digital', target: '6.955', actual: '2.991', acv: 43, detail: 'Transaksi digital 43% dari target' },
+            { deptId: 'dept-mkt-tkb', dept: 'Marketing TKB — Traffic', objective: 'Traffic Rombongan', target: '7.770', actual: '3.314', acv: 43, detail: 'Pengunjung rombongan 43% dari target' },
+            { deptId: 'dept-ops-tkb', dept: 'Operasional TKB — Kasir', objective: 'Scale Up Kasir', target: '1.739', actual: '764', acv: 44, detail: 'Up-selling kasir 44%' },
+            { deptId: 'dept-global-tkb', dept: 'Global TKB', objective: 'Transaksi Store', target: '17.829', actual: '8.102', acv: 45, detail: 'Jumlah transaksi toko TKB 45%' },
+            { deptId: 'dept-ecom-tkb', dept: 'E-Commerce TKB', objective: 'Basket Size', target: 'Rp200.000', actual: 'Rp101.392', acv: 51, detail: 'Rata-rata nilai transaksi e-commerce 51%' }
+          ],
+
+          violations: [],
+
+          footnotes: [
+            'Laporan real data KPI Head The Keranjang Bali (TKB) periode September 2026.',
+            'Deadstock target dihitung 1% dari aktual revenue store.',
+            'Marketing Communication (TOFU/MOFU/BOFU) tercatat Score KPI 0% pada spreadsheet.'
+          ],
+
+          starPerformers: [
+            { name: 'Tim Produksi & Inventory TKB', role: 'Inventory & HPP Manager', award: 'Stock Availability Mastery (92.0%)', unit: 'TKB Procurement' },
+            { name: 'Tim Operational TKB', role: 'Store Operations', award: 'Store Execution Excellence (85.0%)', unit: 'TKB Retail' }
+          ]
+        },
         '7': {
           unitName: 'The Keranjang Bali (TKB)',
           monthName: 'Agustus 2026',
@@ -1215,6 +1764,42 @@ const mockData = {
 
   headToHead: {
     monthsData: {
+      '8': {
+        monthName: 'September 2026',
+        summary: {
+          btScore: '70.37%',
+          tkbScore: '34.13%',
+          vsActual: { btWins: 13, tkbWins: 1, draws: 1 },
+          vsTarget: { btWins: 10, tkbWins: 2, draws: 3 }
+        },
+        categoryScores: [
+          { category: 'Revenue', btScore: 70.37, tkbScore: 34.13 },
+          { category: 'Operational', btScore: 86.88, tkbScore: 69.60 },
+          { category: 'Marketing', btScore: 63.04, tkbScore: 43.89 },
+          { category: 'Ecommerce', btScore: 51.95, tkbScore: 35.81 }
+        ],
+        items: [
+          // REVENUE
+          { cat: 'Revenue', point: 'Sales', bobot: '100%', btTarget: 'Rp 7.079.029.106', btAct: 'Rp 4.981.176.873', btAcv: '70%', btScore: '70.37%', tkbTarget: 'Rp 9.449.338.913', tkbAct: 'Rp 3.225.275.657', tkbAcv: '34.13%', tkbScore: '34.13%', vsAct: 'BT', vsTgt: 'BT' },
+          // OPERATIONAL
+          { cat: 'Operational', point: 'Transaksi', bobot: '30%', btTarget: '16.855', btAct: '11.619', btAcv: '69%', btScore: '20.68%', tkbTarget: '17.829', tkbAct: '8.102', tkbAcv: '45.44%', tkbScore: '13.63%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Operational', point: 'Basket Size', bobot: '20%', btTarget: 'Rp 500.000', btAct: 'Rp 428.710', btAcv: '86%', btScore: '17.15%', tkbTarget: 'Rp 530.000', tkbAct: 'Rp 400.785', tkbAcv: '75.62%', tkbScore: '15.12%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Operational', point: 'Hitrate', bobot: '15%', btTarget: '27%', btAct: '29.00%', btAcv: '100%', btScore: '15.00%', tkbTarget: '40.00%', tkbAct: '47.62%', tkbAcv: '100.00%', tkbScore: '15.00%', vsAct: 'TKB', vsTgt: 'DRAW' },
+          { cat: 'Operational', point: 'Deadstock', bobot: '10%', btTarget: 'Rp 498.117.687', btAct: 'Rp 450.872.700', btAcv: '91%', btScore: '9.25%', tkbTarget: 'Rp 92.159.542', tkbAct: 'Rp 33.825.644', tkbAcv: '36.70%', tkbScore: '3.67%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Operational', point: 'Selisih Kasir', bobot: '10%', btTarget: 'Rp 300.000', btAct: 'Rp 107.500', btAcv: '100%', btScore: '10.00%', tkbTarget: '-Rp 500.000', tkbAct: 'Rp 129.552', tkbAcv: '100.00%', tkbScore: '10.00%', vsAct: 'BT', vsTgt: 'DRAW' },
+          { cat: 'Operational', point: 'Replenish display', bobot: '5%', btTarget: '97%', btAct: '100%', btAcv: '100%', btScore: '5.00%', tkbTarget: '100%', tkbAct: '100%', tkbAcv: '99.66%', tkbScore: '4.98%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Operational', point: 'Kelolosan tag', bobot: '5%', btTarget: '2', btAct: '1', btAcv: '100%', btScore: '5.00%', tkbTarget: '5', tkbAct: '1', tkbAcv: '100.00%', tkbScore: '5.00%', vsAct: 'DRAW', vsTgt: 'DRAW' },
+          { cat: 'Operational', point: 'Scale Up Produk Kasir', bobot: '5%', btTarget: '2.324', btAct: '2.882', btAcv: '100%', btScore: '5.00%', tkbTarget: '1.739', tkbAct: '764', tkbAcv: '43.93%', tkbScore: '2.20%', vsAct: 'BT', vsTgt: 'BT' },
+          // MARKETING
+          { cat: 'Marketing', point: 'Traffic Organik', bobot: '50%', btTarget: '63.307', btAct: '27.617', btAcv: '44%', btScore: '21.81%', tkbTarget: '23.312', tkbAct: '13.492', tkbAcv: '57.88%', tkbScore: '28.94%', vsAct: 'BT', vsTgt: 'TKB' },
+          { cat: 'Marketing', point: 'Traffic Rombongan', bobot: '35%', btTarget: '15.827', btAct: '11.862', btAcv: '75%', btScore: '26.23%', tkbTarget: '7.770', tkbAct: '3.314', tkbAcv: '42.65%', tkbScore: '14.93%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Marketing', point: 'Rating Google Review', bobot: '15%', btTarget: '175', btAct: '301', btAcv: '100%', btScore: '15.00%', tkbTarget: '46.207', tkbAct: '48', tkbAcv: '0.10%', tkbScore: '0.02%', vsAct: 'BT', vsTgt: 'BT' },
+          // ECOMMERCE
+          { cat: 'Ecommerce', point: 'Sales', bobot: '40%', btTarget: 'Rp 560.000.000', btAct: 'Rp 361.226.662', btAcv: '65%', btScore: '25.80%', tkbTarget: 'Rp 160.000.000', tkbAct: 'Rp 60.653.758', tkbAcv: '37.91%', tkbScore: '15.16%', vsAct: 'BT', vsTgt: 'BT' },
+          { cat: 'Ecommerce', point: 'Transaksi', bobot: '15%', btTarget: '2.380', btAct: '2.005', btAcv: '84%', btScore: '12.64%', tkbTarget: '800', tkbAct: '696', tkbAcv: '87.00%', tkbScore: '13.05%', vsAct: 'BT', vsTgt: 'TKB' },
+          { cat: 'Ecommerce', point: 'Basket Size', bobot: '15%', btTarget: 'Rp 200.000', btAct: 'Rp 180.163', btAcv: '90%', btScore: '13.51%', tkbTarget: 'Rp 200.000', tkbAct: 'Rp 101.392', tkbAcv: '50.70%', tkbScore: '7.60%', vsAct: 'BT', vsTgt: 'BT' }
+        ]
+      },
       '7': {
         monthName: 'Agustus 2026',
         summary: {
@@ -1604,7 +2189,9 @@ function bindHeaderControls() {
   if (periodSelect) {
     periodSelect.addEventListener('change', (e) => {
       state.period = e.target.value;
-      if (e.target.value === 'agustus_2026') {
+      if (e.target.value === 'september_2026') {
+        state.selectedSalesMonth = '8';
+      } else if (e.target.value === 'agustus_2026') {
         state.selectedSalesMonth = '7';
       } else if (e.target.value === 'juli_2026') {
         state.selectedSalesMonth = '6';
@@ -1849,7 +2436,7 @@ function renderSalesYTD() {
     : realSalesData.branches.find(b => b.id === selectedBranchId);
 
   // Determine current active filter label
-  let filterTitle = 'YTD 2026 (Januari – Agustus)';
+  let filterTitle = 'YTD 2026 (Januari – September)';
   if (selMonth !== 'all') {
     const mIdx = parseInt(selMonth, 10);
     filterTitle = `Bulan ${realSalesData.months[mIdx]} 2026`;
@@ -1870,9 +2457,10 @@ function renderSalesYTD() {
             <i data-lucide="calendar" style="width:13px; height:13px; display:inline;"></i> Bulan:
           </span>
           <select id="salesMonthFilter" class="pill-btn" style="background:#111827; color:#FFF; font-weight:700; border:1px solid var(--border-highlight); outline:none; padding:7px 14px; border-radius:6px; cursor:pointer;" onchange="window.updateSalesMonthFilter(this.value)">
-            <option value="7" ${selMonth === '7' || selMonth === 7 ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+            <option value="8" ${selMonth === '8' || selMonth === 8 ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+            <option value="7" ${selMonth === '7' || selMonth === 7 ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
             <option value="6" ${selMonth === '6' || selMonth === 6 ? 'selected' : ''}>Juli 2026 (History 📜)</option>
-            <option value="all" ${selMonth === 'all' ? 'selected' : ''}>Semua Bulan (YTD Jan–Ags 2026)</option>
+            <option value="all" ${selMonth === 'all' ? 'selected' : ''}>Semua Bulan (YTD Jan–Sep 2026)</option>
           </select>
         </div>
 
@@ -1964,7 +2552,7 @@ function renderSalesYTD() {
                   <span class="scorecard-baseline-label">Baseline 2025</span>
                   <span class="scorecard-baseline-badge">
                     <i data-lucide="calendar" style="width: 10px; height: 10px; display: inline;"></i>
-                    <span>${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]}</span>
+                    <span>${selMonth === 'all' ? 'Jan–Sep' : realSalesData.months[parseInt(selMonth, 10)]}</span>
                   </span>
                 </div>
                 <div class="scorecard-baseline-value">
@@ -2005,8 +2593,8 @@ function renderSalesYTD() {
         <thead>
           <tr>
             <th>Cabang / Channel</th>
-            <th>Baseline 2025 (${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]})</th>
-            <th>Realisasi 2026 (${selMonth === 'all' ? 'Jan–Ags' : realSalesData.months[parseInt(selMonth, 10)]})</th>
+            <th>Baseline 2025 (${selMonth === 'all' ? 'Jan–Sep' : realSalesData.months[parseInt(selMonth, 10)]})</th>
+            <th>Realisasi 2026 (${selMonth === 'all' ? 'Jan–Sep' : realSalesData.months[parseInt(selMonth, 10)]})</th>
             <th>Growth VS 2025</th>
             <th>Realisasi 2025 (Full Year)</th>
             <th>Detail Data</th>
@@ -2043,7 +2631,7 @@ function renderSalesYTD() {
       <div class="chart-card-header">
         <div class="chart-card-title">
           <i data-lucide="calendar" style="color: var(--accent-okr);"></i>
-          <span>Tabel Realisasi Sales Bulanan 2026 (Januari - Agustus)</span>
+          <span>Tabel Realisasi Sales Bulanan 2026 (Januari - September)</span>
         </div>
       </div>
       <div style="overflow-x:auto;">
@@ -2055,10 +2643,10 @@ function renderSalesYTD() {
             </tr>
           </thead>
           <tbody>
-            ${[0,1,2,3,4,5,6,7].map(mIdx => {
+            ${[0,1,2,3,4,5,6,7,8].map(mIdx => {
               const monthName = realSalesData.months[mIdx];
-              const isAgustusNew = (mIdx === 7);
-              const isJuliHistory = (mIdx === 6);
+              const isAgustusNew = (mIdx === 8);
+              const isJuliHistory = (mIdx === 7);
               const isSelectedMonth = selMonth !== 'all' && parseInt(selMonth, 10) === mIdx;
 
               let rowStyle = '';
@@ -2074,9 +2662,9 @@ function renderSalesYTD() {
                 <tr style="${rowStyle}">
                   <td>
                     ${isAgustusNew 
-                      ? `<strong style="color: #10B981; display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="sparkles" style="width:16px; height:16px; color:#10B981;"></i> Agustus 2026 (Data Baru ✨)</strong>`
+                      ? `<strong style="color: #10B981; display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="sparkles" style="width:16px; height:16px; color:#10B981;"></i> September 2026 (Data Baru ✨)</strong>`
                       : (isJuliHistory 
-                          ? `<strong style="color: #06B6D4; display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="history" style="width:16px; height:16px; color:#06B6D4;"></i> Juli 2026 (History 📜)</strong>`
+                          ? `<strong style="color: #06B6D4; display: inline-flex; align-items: center; gap: 6px;"><i data-lucide="history" style="width:16px; height:16px; color:#06B6D4;"></i> Agustus 2026 (History 📜)</strong>`
                           : `<strong>${monthName}</strong>`)
                     }
                   </td>
@@ -2240,7 +2828,8 @@ function renderSalesYTD() {
 // Global Filter Handler Functions
 window.updateSalesMonthFilter = function(val) {
   state.selectedSalesMonth = val;
-  if (val === '7') state.period = 'agustus_2026';
+  if (val === '8') state.period = 'september_2026';
+  else if (val === '7') state.period = 'agustus_2026';
   else if (val === '6') state.period = 'juli_2026';
   else if (val === 'all') state.period = 'ytd2026';
   
@@ -2264,7 +2853,7 @@ function initSalesCharts() {
       state.activeChartInstances.realSalesTrend.destroy();
     }
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'];
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep'];
     let raw2026 = [];
     let raw2025 = [];
 
@@ -2282,7 +2871,7 @@ function initSalesCharts() {
 
     const selMIdx = state.selectedSalesMonth === 'all' ? -1 : parseInt(state.selectedSalesMonth, 10);
 
-    const bg2026 = months.map((_, i) => i === selMIdx ? 'rgba(245, 158, 11, 0.95)' : (i === 7 ? 'rgba(16, 185, 129, 0.95)' : 'rgba(16, 185, 129, 0.8)'));
+    const bg2026 = months.map((_, i) => i === selMIdx ? 'rgba(245, 158, 11, 0.95)' : (i === 8 ? 'rgba(16, 185, 129, 0.95)' : 'rgba(16, 185, 129, 0.8)'));
     const border2026 = months.map((_, i) => i === selMIdx ? '#F59E0B' : '#10B981');
 
     const barValueLabelsPlugin = {
@@ -2444,9 +3033,9 @@ window.showBranchSalesModal = function(branchId) {
 
   for (let i = 0; i < 12; i++) {
     tableHtml += `
-      <tr style="${i === 7 ? 'background:rgba(16,185,129,0.15); font-weight:700;' : (i === 6 ? 'background:rgba(6,182,212,0.1);' : '')}">
-        <td><strong>${realSalesData.months[i]}</strong> ${i === 7 ? '✨' : (i === 6 ? '📜' : '')}</td>
-        <td style="color:var(--accent-sales);">${i <= 7 ? formatRupiah(rows2026[i]) : '-'}</td>
+      <tr style="${i === 8 ? 'background:rgba(16,185,129,0.15); font-weight:700;' : (i === 7 ? 'background:rgba(6,182,212,0.1);' : '')}">
+        <td><strong>${realSalesData.months[i]}</strong> ${i === 8 ? '✨' : (i === 7 ? '📜' : '')}</td>
+        <td style="color:var(--accent-sales);">${i <= 8 ? formatRupiah(rows2026[i]) : '-'}</td>
         <td>${formatRupiah(rows2025[i])}</td>
       </tr>
     `;
@@ -2458,7 +3047,7 @@ window.showBranchSalesModal = function(branchId) {
     `Detail Realisasi Sales: ${branch.name}`,
     `
       <div style="display:flex; flex-direction:column; gap:12px;">
-        <p><strong>YTD 2026 (Jan–Ags):</strong> <span style="color:var(--accent-sales); font-weight:800; font-size:1.1rem;">${formatRupiah(branch.ytd2026)}</span> (Growth vs 2025: ${branch.growth2026}%)</p>
+        <p><strong>YTD 2026 (Jan–Sep):</strong> <span style="color:var(--accent-sales); font-weight:800; font-size:1.1rem;">${formatRupiah(branch.ytd2026)}</span> (Growth vs 2025: ${branch.growth2026}%)</p>
         <p><strong>Total Realisasi 2025 (Full Year):</strong> ${formatRupiah(branch.total2025)}</p>
         ${tableHtml}
       </div>
@@ -2503,7 +3092,7 @@ function renderKPIPerformance() {
   const rawUnitData = mockData.kpiPerformance[subId] || mockData.kpiPerformance['kpi-bt'];
 
   // Resolve month data if available
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7'; // '7' = Ags 2026 (default), '6' = Jul 2026 (history)
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7'; // '8' = Sep 2026, '7' = Ags 2026, '6' = Jul 2026 (history)
   const unitData = rawUnitData.monthsData ? (rawUnitData.monthsData[currentMonthKey] || rawUnitData.monthsData['7']) : rawUnitData;
   const monthTitle = unitData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
 
@@ -2564,7 +3153,8 @@ function renderKPIPerformance() {
         <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
           <span style="font-size:0.85rem; color:var(--text-secondary); font-weight:700;"><i data-lucide="calendar" style="width:14px; height:14px; display:inline;"></i> Filter Bulan:</span>
           <select class="chart-filter" id="kpiMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--text-primary); padding:8px 14px; border-radius:var(--radius-sm); font-size:0.85rem; font-weight:700; cursor:pointer;">
-            <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+            <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+            <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
             <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
           </select>
 
@@ -2655,7 +3245,7 @@ function renderKPIPerformance() {
       ` : ''}
 
       <!-- TRACKER PELANGGARAN & SANKSIS -->
-      ${filteredViolations.length > 0 ? `
+      ${unitData.violations.length > 0 && filteredViolations.length === 0 ? '' : `
         <div class="table-card" style="border:1px solid rgba(217, 119, 6, 0.3); background:rgba(217, 119, 6, 0.04); padding:16px;">
           <div class="chart-card-header" style="border-bottom:1px solid rgba(217, 119, 6, 0.2); padding-bottom:10px; margin-bottom:10px;">
             <div class="chart-card-title" style="color:var(--accent-gold); font-weight:800; font-size:0.95rem;">
@@ -2672,6 +3262,13 @@ function renderKPIPerformance() {
                 </tr>
               </thead>
               <tbody>
+                ${filteredViolations.length === 0 ? `
+                  <tr>
+                    <td colspan="2" style="text-align:center; padding:16px; color:#10B981; font-weight:700;">
+                      ✅ Tidak ada pelanggaran & sanksi pada ${monthTitle}
+                    </td>
+                  </tr>
+                ` : ''}
                 ${filteredViolations.map(v => `
                   <tr>
                     <td>
@@ -2688,7 +3285,7 @@ function renderKPIPerformance() {
             </table>
           </div>
         </div>
-      ` : ''}
+      `}
 
     </div>
 
@@ -2774,7 +3371,7 @@ function initKPIChart() {
   const radarCtx = document.getElementById('kpiRadarChart');
   const subId = state.activeSub || 'kpi-bt';
   const rawUnitData = mockData.kpiPerformance[subId] || mockData.kpiPerformance['kpi-bt'];
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const unitData = rawUnitData.monthsData ? (rawUnitData.monthsData[currentMonthKey] || rawUnitData.monthsData['7']) : rawUnitData;
 
   if (radarCtx) {
@@ -2824,7 +3421,7 @@ function initKPIChart() {
 // --------------------------------------------------------------------------
 function renderHeadToHead() {
   const rawH2H = mockData.headToHead;
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const h2h = rawH2H.monthsData ? (rawH2H.monthsData[currentMonthKey] || rawH2H.monthsData['7']) : rawH2H;
   const s = h2h.summary;
   const monthTitle = h2h.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
@@ -2866,7 +3463,8 @@ function renderHeadToHead() {
           <span style="font-size:0.75rem; color:var(--text-secondary); margin-top:6px; font-weight:700;">H2H ${monthTitle}</span>
           <div style="margin-top:6px;">
             <select class="chart-filter" id="h2hMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:var(--bg-card); border:1px solid var(--accent-gold); color:var(--text-primary); padding:5px 12px; border-radius:var(--radius-sm); font-size:0.8rem; font-weight:700; cursor:pointer;">
-              <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+              <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
           </div>
@@ -2885,7 +3483,7 @@ function renderHeadToHead() {
             <h3 style="font-size:1.25rem; font-weight:800; color:var(--text-primary); margin:2px 0;">The Keranjang Bali (TKB)</h3>
             <div style="display:flex; gap:10px; margin-top:4px; font-size:0.8rem; font-weight:700;">
               <span style="color:#E11D48;">VS Actual: <strong>${s.vsActual.tkbWins} WIN</strong></span>
-              <span style="color:var(--text-secondary);">• VS Target: <strong>${s.vsTarget.tkbWins} WIN / 4 DRAW</strong></span>
+              <span style="color:var(--text-secondary);">• VS Target: <strong>${s.vsTarget.tkbWins} WIN / ${s.vsTarget.draws !== undefined ? s.vsTarget.draws : 4} DRAW</strong></span>
             </div>
           </div>
         </div>
@@ -3032,7 +3630,7 @@ window.handleH2HCatFilterChange = function(category) {
 function initH2HChart() {
   const barCtx = document.getElementById('h2hBarChart');
   const rawH2H = mockData.headToHead;
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const h2h = rawH2H.monthsData ? (rawH2H.monthsData[currentMonthKey] || rawH2H.monthsData['7']) : rawH2H;
 
   // 1. Grouped Bar Chart (% Score Per Kategori Full Width dengan Label Angka Langsung di Atas Batang Bar)
@@ -3122,6 +3720,166 @@ function initH2HChart() {
 // --------------------------------------------------------------------------
 const okrRealData = {
   monthsData: {
+    '8': {
+      monthName: 'September 2026',
+      projects: [
+        {
+          id: 'jakarta',
+          name: 'Premium Jakarta',
+          objectives: [
+            {
+              id: '1.0',
+              name: '1. Infra (Due: 30 September 2026)',
+              targetOutput: '100% Store Premium Jakarta sudah bisa beroperasi',
+              targetOutcome: 'Peningkatan Traffic',
+              budget: null,
+              krs: [
+                { code: '1.1', title: 'Interior Fixtures (lemari, lighting, rak)', urgency: 'Middle', output: 'Ready di gunakan', actual: 'Progress ±90%. Mayoritas furniture interior sudah selesai. Pintu masuk full kaca sudah selesai. Sisa cermin, kamar mandi, dan pintu gudang. Main sofa sedang diproduksi di vendor Dimitri. Bench dalam proses sample di vendor Agra. Estimasi sofa selesai 11 Agustus 2026.', deadline: '30 Sep 2026', status: 'Done', link: '📄 Photo Fixtures' },
+                { code: '1.2', title: 'Sofa & Table', urgency: 'High', output: 'Ready di gunakan', actual: 'Sisa cermin, kamar mandi, pintu gudang dll', deadline: '30 Sep 2026', status: 'Done', link: '🔗 PO Dimitri & Agra' },
+                { code: '1.3', title: 'Vendor Laser Cutting', urgency: 'High', output: 'Dealing Vendor', actual: 'Sudah dapat vendor, 3 Vendor Estimasi Harga', deadline: '30 Sep 2026', status: 'Done', link: '📄 Comparison Vendor' },
+                { code: '1.4', title: 'Pekerjaan Lasercut dan Logo', urgency: 'High', output: 'Done sebelum hari batik (2 Oktober 2026)', actual: 'Pemasangan dan Finishing tulisan logo "CASUAL LUXURY BATIK" & "MOMEN by BT Batik Trusmi"', deadline: '2 Okt 2026', status: 'Done', link: '📄 Draft Lasercut' },
+                { code: '1.5', title: 'Pembongkaran Fasade, Pengecatan dan Pemasangan Pagar', urgency: 'High', output: 'Done sebelum hari batik (2 Oktober 2026)', actual: 'Selesai pengerjaan fasade, pengecatan dan pagar', deadline: '2 Okt 2026', status: 'Done', link: '📄 Fasade Spec' }
+              ]
+            },
+            {
+              id: '2.0',
+              name: '2. Experience (Due: 31 Agustus 2026)',
+              targetOutput: 'Customer',
+              targetOutcome: 'Peningkatan Traffic dan Retensi Store',
+              budget: null,
+              krs: [
+                { code: '2.1', title: 'Pengadaan Speaker', urgency: 'Middle', output: '7 titik', actual: 'Sudah terpasang 7 titik', deadline: '31 Agu 2026', status: 'Done', link: '📄 Resi Pengiriman' },
+                { code: '2.2', title: 'Pemilihan Ambience Lighting', urgency: 'Middle', output: 'All Rak', actual: 'Done Eksekusi oleh Vendor', deadline: '31 Agu 2026', status: 'Done', link: '📄 Layout Lighting' },
+                { code: '2.3', title: 'Pemilihan Wangi (ambience perfume)', urgency: 'Middle', output: 'approved', actual: 'Done pemilihan wangi ambience', deadline: '31 Agu 2026', status: 'Done', link: '📄 Sample Parfume' },
+                { code: '2.4', title: 'Experience Display Membuat produk terlihat Mahal (setiap section Raknya)', urgency: 'Middle', output: 'approved', actual: 'Konsep experience per section telah di approve dan selesai dieksekusi, meliputi wall figura, story figura, experience kerah, penataan aksesoris lemari, gawangan, karpet, serta penyempurnaan visual merchandise.', deadline: '31 Agu 2026', status: 'Done', link: '📄 Concept Display' },
+                { code: '2.5', title: 'Experience Display pada dinding', urgency: 'Middle', output: 'approved', actual: 'Experience display dinding telah selesai dieksekusi meliputi frame foto, potongan kain pola, gulungan bahan, hiasan kain, aksesoris topeng, dan elemen visual pendukung lainnya.', deadline: '31 Agu 2026', status: 'Done', link: '📄 Visual Quotes' }
+              ]
+            },
+            {
+              id: '3.0',
+              name: '3. SDM (Due: 31 Juli 2026)',
+              targetOutput: 'SOP Baku beserta implementasi',
+              targetOutcome: 'Ketersediaan Kuantitas dan Kualitas SDM meningkatkan desire orang menjadi beli produk',
+              budget: null,
+              krs: [
+                { code: '3.1', title: 'Design Produk Seragam SPG', urgency: 'Middle', output: 'Design Approve', actual: 'Desain awal sudah tersedia dan masih direvisi. Sedang dicari alternatif desain pakaian pria.', deadline: '31 Jul 2026', status: 'Revisi', link: '📄 Draft Seragam' },
+                { code: '3.2', title: 'Pencarian Head Pengalaman', urgency: 'High', output: 'ready SDM', actual: 'Done Interview', deadline: '31 Jul 2026', status: 'Done', link: '🔗 List Candidate' },
+                { code: '3.3', title: 'Pencarian SDM Penjahit', urgency: 'High', output: 'ready SDM', actual: 'Belum terdapat update terbaru mengenai kandidat, proses seleksi, maupun kandidat yang diterima', deadline: '31 Jul 2026', status: 'Progres', link: '📄 Status Penjahit' },
+                { code: '3.4', title: '60% SDM baru', urgency: 'Low', output: 'ready SDM', actual: 'Belum terdapat data jumlah kebutuhan SDM, jumlah existing, dan realisasi rekrutmen.', deadline: '31 Jul 2026', status: 'Belum Mulai', link: '📄 Plan HR' },
+                { code: '3.5', title: 'SOP Komunikasi Customer', urgency: 'Low', output: 'SOP Tersedia', actual: 'SOP komunikasi terkait produk telah direview, diperbarui, dan difinalisasi bersama Manager baru sebagai standar pelayanan customer.', deadline: '31 Jul 2026', status: 'Done', link: '📄 SOP Communication' },
+                { code: '3.6', title: 'SOP Komunikasi Desires Pelanggan', urgency: 'Low', output: 'SOP Tersedia', actual: 'SOP komunikasi terkait produk telah direview, diperbarui, dan difinalisasi bersama Manager baru sebagai standar pelayanan customer.', deadline: '31 Jul 2026', status: 'Done', link: '📄 SOP Upselling' },
+                { code: '3.7', title: 'SOP Standar Pelayanan Customer', urgency: 'Low', output: 'SOP Tersedia', actual: 'SOP komunikasi terkait produk telah direview, diperbarui, dan difinalisasi bersama Manager baru sebagai standar pelayanan customer.', deadline: '31 Jul 2026', status: 'Done', link: '📄 SOP Hospitality' },
+                { code: '3.8', title: 'Cara Grooming (customer journey)', urgency: 'Low', output: 'SOP Tersedia', actual: 'SOP sudah dibuat. Approval final dan implementasi belum diinformasikan. Feedback pak Ibnu untuk mencari Manager yg berpengalaman.', deadline: '31 Jul 2026', status: 'Done', link: '📄 SOP Grooming' }
+              ]
+            },
+            {
+              id: '4.0',
+              name: '4. Marketing (Due: 31 Juli 2026)',
+              targetOutput: 'Tetap Ada Marketing Sebelum terjadinya Launching',
+              targetOutcome: 'Tetap Ada Marketing Sebelum terjadinya Launching',
+              budget: null,
+              krs: [
+                { code: '4.1', title: 'Konsep Experience', urgency: 'High', output: 'Konsep Deck', actual: 'Konsep deck telah selesai tinggal eksekusi pembuatan display', deadline: '31 Jul 2026', status: 'Done', link: '📄 Deck Exp' },
+                { code: '4.2', title: 'Konsep Campaign', urgency: 'Middle', output: 'Konsep Deck', actual: 'Konsep telah dipresentasikan feedback dari pak i tidak approve terkait menggvide Erika Ricardo, lebih diarahkan untuk mencari orang yang bisa menjadi host dan mendatangkan tamu ke store.', deadline: '31 Jul 2026', status: 'Done', link: '📄 Deck Campaign' },
+                { code: '4.3', title: 'Konsep Per Produk (per Section)', urgency: 'Middle', output: 'Konsep Deck', actual: 'Konsep telah dipresentasikan dan disetujui. Eksekusi fisik selesai', deadline: '31 Jul 2026', status: 'Done', link: '📄 Deck Product' },
+                { code: '4.4', title: 'Logo Megah Batik', urgency: 'Middle', output: 'Approve Design', actual: 'Keputusan final menggunakan logo MOMEN. Revisi Nama & Logo (mundur karena keputusan owner)', deadline: '31 Jul 2026', status: 'Done', link: '📄 Final Logo MOMEN' },
+                { code: '4.5', title: 'Optimasi Instagram', urgency: 'Middle', output: 'Akun Instagram Tersedia', actual: 'Instagram yg lama sudah ada namun ke lock. Solusi: Membuat instagram baru', deadline: '31 Jul 2026', status: 'Done', link: '🔗 Account Wolter' }
+              ]
+            },
+            {
+              id: '5.0',
+              name: '5. Produk (Due: 31 Sept 2026)',
+              targetOutput: 'Kapasitas display 1.052 pcs dengan 15% new produk (155 pcs)',
+              targetOutcome: 'Dapat memprovide kebutuhan Store guna meningkatkan Sales Store',
+              budget: null,
+              krs: [
+                { code: '5.1', title: 'Percepatan Pemenuhan Beli Produk', urgency: 'High', output: '100 pcs', actual: 'Pencarian produk vendor diarahkan pada target 100 pcs produk baru. Jumlah ditemukan, disetujui, dibeli, dan diterima belum tersedia.', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Target Buy' },
+                { code: '5.2', title: 'Design Motif Kain', urgency: 'High', output: '50 design', actual: '1. Menentukan arahan motif eksklusif sesuai positioning Premium Store 2. Menyetujui 30 looks sebelum masuk produksi', deadline: '31 Sep 2026', status: 'Progres', link: '📄 30 Looks Design' },
+                { code: '5.3', title: 'Produksi Kain Pola Exclusive 1–5 Juta', urgency: 'Middle', output: '5 pcs', actual: 'Design sudah di buat Namun Percepatan akan ubah Opsi Cara pengadaan (Beli produk jadi bukan dari 0) dan sudah ok dari pak i', deadline: '31 Sep 2026', status: 'Progres', link: '📄 PO Superfine' },
+                { code: '5.4', title: 'Produksi Kain Pola Exclusive 5–10 Juta', urgency: 'Middle', output: '10 pcs', actual: 'Design sudah di buat Namun Percepatan akan ubah Opsi Cara pengadaan (Beli produk jadi bukan dari 0) dan sudah ok dari pak i', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Status Vendor' },
+                { code: '5.5', title: 'Produksi Kain Baron Exclusive 5–10 Juta', urgency: 'Middle', output: '30 pcs', actual: 'Design sudah di buat Namun Percepatan akan ubah Opsi Cara pengadaan (Beli produk jadi bukan dari 0) dan sudah ok dari pak i', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Status Baron' },
+                { code: '5.6', title: 'Produksi Kain Sutra Exclusive 5–10 Juta', urgency: 'Middle', output: '10 pcs', actual: 'Design sudah di buat Namun Percepatan akan ubah Opsi Cara pengadaan (Beli produk jadi bukan dari 0) dan sudah ok dari pak i', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Status Sutra 5M' },
+                { code: '5.7', title: 'Produksi Kain Sutra Exclusive 10–20 Juta', urgency: 'Middle', output: '5 pcs', actual: 'Belum ada update vendor, hasil produksi, maupun approval kualitas dan tekstur. (1. Menentukan vendor kain Sutra 2. Menyetujui kualitas hasil produksi)', deadline: '31 Sep 2026', status: 'Belum Mulai', link: '📄 Status Sutra 10M' },
+                { code: '5.8', title: 'Produksi Kain Katun (New) 1–5 Juta', urgency: 'Middle', output: '30 pcs', actual: 'Progress pembuatan di produksi (1. Menyetujui vendor kemeja katun 2. Menyetujui kualitas jahitan & finishing)', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Status Katun' },
+                { code: '5.9', title: 'Produksi Hem Katun', urgency: 'Middle', output: '30 pcs', actual: 'Belum ada update vendor, jumlah produksi, sample, atau approval kualitas', deadline: '31 Sep 2026', status: 'Progres', link: '📄 Status Hem' },
+                { code: '5.10', title: 'Perhitungan Harga HPP', urgency: 'Low', output: '1 Dokumen', actual: 'Dokumen perhitungan HPP telah selesai', deadline: '31 Sep 2026', status: 'Done', link: '📄 HPP Document' },
+                { code: '5.11', title: 'Produk dengan Story Khusus 10–20 Juta', urgency: 'Middle', output: '5 Produk', actual: 'Daftar produk yang paling memungkinkan untuk digarap lebih dahulu sudah dibuat. Finalisasi narasi dan approval presentasi marketing belum terkonfirmasi. Konsep berjalan.', deadline: '31 Sep 2026', status: 'Belum Mulai', link: '📄 Story Deck' }
+              ]
+            }
+          ]
+        },
+        {
+          id: 'cirebon',
+          name: 'Premium Cirebon',
+          objectives: [
+            {
+              id: 'CRB-1.1',
+              name: '1. Perluasan, Renovasi & Reconcept — 1.1 Perbaikan Area Ceiling',
+              targetOutput: 'Perbaikan area bocor dan memperkuat struktur ceiling untuk redesign interior premium',
+              targetOutcome: 'Zero complain fasilitas',
+              budget: null,
+              krs: [
+                { code: '1.1.1', title: 'Pengecekan atap premium', urgency: 'Middle', output: 'Survey dan analisis masalah pada ceiling', actual: 'Survey dan analisis selesai', deadline: '31 Jan 2026', status: 'Done', link: '📄 Shop Drawing' },
+                { code: '1.1.2', title: 'Perbaikan area atap', urgency: 'High', output: 'Kendala bocor terselesaikan hingga ke akar masalah', actual: 'Kendala bocor teratasi', deadline: '15 Feb 2026', status: 'Done', link: '📄 Foto Atap' },
+                { code: '1.1.3', title: 'Fiksasi vendor perbaikan atap', urgency: 'High', output: 'Vendor terpercaya dari segi Biaya, Mutu dan Waktu difikasi', actual: 'Vendor sudah difiksasi', deadline: '15 Mar 2026', status: 'Done', link: '📄 SPK Vendor' },
+                { code: '1.1.4', title: 'RAB approval', urgency: 'High', output: 'RAB versi final disetujui', actual: 'Di-hold karena masih mencari strategi Premium Cirebon yang baru', deadline: '31 Agu 2026', status: 'Hold', link: '📄 Draft RAB' },
+                { code: '1.1.5', title: 'Belanja Material', urgency: 'Middle', output: 'Material yang dibutuhkan sudah datang', actual: 'Di-hold karena masih mencari strategi Premium Cirebon yang baru', deadline: '31 Agu 2026', status: 'Hold', link: '📄 PO Material' },
+                { code: '1.1.6', title: 'Pengerjaan Perbaikan Ceiling Tahap 1', urgency: 'Middle', output: 'Perbaikan AC Outdoor dan Talang Air', actual: 'Di-hold sementara', deadline: '31 Agu 2026', status: 'Hold', link: '📄 SPK Pengerjaan' },
+                { code: '1.1.7', title: 'Pengerjaan Perbaikan Ceiling Tahap 2', urgency: 'Middle', output: 'Perbaikan spandex struktur ceiling', actual: 'Di-hold sementara', deadline: '31 Agu 2026', status: 'Hold', link: '📄 SPK Pengerjaan' }
+              ]
+            },
+            {
+              id: 'CRB-1.2',
+              name: '1. Perluasan, Renovasi & Reconcept — 1.2 Perluasan Area & Interior',
+              targetOutput: 'Area premium sudah bisa beroperasi dengan Wolter',
+              targetOutcome: 'Meningkatkan penjualan produk premium 20% dari masa sebelumnya',
+              budget: 'Target: Rp1.000.000.000 | Actual: Rp50.250.000',
+              krs: [
+                { code: '1.2.1', title: 'Pembuatan Konsep Area', urgency: 'High', output: 'Layout detail & Konsep Area Premium disetujui', actual: 'Konsep disetujui 100%', deadline: '24 Jan 2026', status: 'Done', link: '📄 Concept Canva' },
+                { code: '1.2.2', title: 'Hiring Freelance Interior', urgency: 'Middle', output: '1 Freelance Interior', actual: 'Freelance interior sudah mulai bekerja', deadline: '28 Feb 2026', status: 'Done', link: '📄 Kontrak Freelance' },
+                { code: '1.2.3', title: 'Model 3D', urgency: 'High', output: 'Model 3D versi final sudah disetujui', actual: 'Progress overdue, revisi 3D', deadline: '11 Jul 2026', status: 'Overdue', link: '📄 File 3D' },
+                { code: '1.2.4', title: 'Gambar Kerja dan RAB', urgency: 'High', output: 'Gambar Kerja dan RAB Final disetujui', actual: 'Belum dimulai, terlewat deadline', deadline: '16 Jul 2026', status: 'Overdue', link: '📄 Gambar Kerja' },
+                { code: '1.2.5', title: 'Finalisasi Vendor & Spesifikasi Material', urgency: 'High', output: 'Vendor terpercaya difikasi untuk garap project', actual: 'Belum dimulai, terlewat deadline', deadline: '16 Jul 2026', status: 'Overdue', link: '📄 Vendor List' },
+                { code: '1.2.6', title: 'Pembelian Material', urgency: 'High', output: 'Material yang dibutuhkan sudah dibeli', actual: 'Di-hold karena masih mencari strategi Premium Cirebon yang baru', deadline: '31 Jul 2026', status: 'Hold', link: '📄 PO Material' },
+                { code: '1.2.7', title: 'Proses Pengerjaan Area Stand Tahap 1', urgency: 'Middle', output: 'Redesign konsep dan konstruksi Ceiling', actual: 'Belum dimulai, terlewat deadline', deadline: '15 Agu 2026', status: 'Overdue', link: '📄 Log Konstruksi' },
+                { code: '1.2.8', title: 'Proses Pengerjaan Area Stand Tahap 2', urgency: 'Middle', output: 'Perluasan area premium', actual: 'Belum dimulai, terlewat deadline', deadline: '15 Jul 2026', status: 'Overdue', link: '📄 Log Perluasan' },
+                { code: '1.2.9', title: 'Proses Pengerjaan Area Stand Tahap 3', urgency: 'Middle', output: 'Redesign konsep interior dan flooring area eksisting', actual: 'Belum dimulai', deadline: '15 Agu 2026', status: 'Belum Mulai', link: '📄 Log Interior' }
+              ]
+            },
+            {
+              id: 'CRB-2.0',
+              name: '2. SDM (Rules & SOP serta Pemenuhan SDM)',
+              targetOutput: 'Rules Pelayanan Premium & 100% SDM terpenuhi',
+              targetOutcome: 'Peningkatan WOM dan 20% traffic ke toko',
+              budget: null,
+              krs: [
+                { code: '2.1.1', title: 'Pembuatan Rules Pelayanan', urgency: 'Middle', output: '100% Sesuai', actual: '100% Sesuai & Done', deadline: '26 Jan 2026', status: 'Done', link: '📄 SOP Pelayanan' },
+                { code: '2.1.2', title: 'Pembuatan Skema Training dan Pelatihan SDM', urgency: 'Middle', output: '100% Sesuai', actual: '100% Sesuai & Done', deadline: '29 Jan 2026', status: 'Done', link: '📄 Skema Training' },
+                { code: '2.1.3', title: 'Pembuatan Skema Reward & Punishment', urgency: 'Middle', output: '100% Sesuai', actual: '100% Sesuai & Done', deadline: '31 Jan 2026', status: 'Done', link: '📄 Skema Reward' },
+                { code: '2.2.1', title: 'Pencarian SDM', urgency: 'High', output: '100% Terpenuhi', actual: '100% Terpenuhi & Done', deadline: '15 Feb 2026', status: 'Done', link: '📄 Database SDM' },
+                { code: '2.2.2', title: 'Training SDM', urgency: 'High', output: '100% Berjalan', actual: '100% Berjalan & Done', deadline: '28 Feb 2026', status: 'Done', link: '📄 Modul Training' }
+              ]
+            },
+            {
+              id: 'CRB-3.0',
+              name: '3. Produk (Komposisi & Produk Baru Premium)',
+              targetOutput: 'Komposisi 70% Pria 20% Wanita 10% Kain',
+              targetOutcome: 'Peningkatan 20-30% penjualan produk pria',
+              budget: null,
+              krs: [
+                { code: '3.1.1', title: 'Pembuatan Kuncian Produk', urgency: 'High', output: '100% Keterlaksanaan', actual: 'Done 100%', deadline: '26 Jan 2026', status: 'Done', link: '📄 Kuncian Produk' },
+                { code: '3.1.2', title: 'Kurasi Pemenuhan Produk', urgency: 'Middle', output: '1 Moodboard', actual: 'Done 1 Moodboard', deadline: '9 Feb 2026', status: 'Done', link: '📄 Moodboard' },
+                { code: '3.1.3', title: 'Distribusi Produk', urgency: 'Middle', output: 'Approval Design', actual: 'Approval Design Done', deadline: '16 Feb 2026', status: 'Done', link: '📄 Design Approval' },
+                { code: '3.1.4', title: 'Re Launching & Display Area', urgency: 'High', output: '100% Display Produk', actual: 'Done display di area toko', deadline: '1 Mar 2026', status: 'Done', link: '📄 Foto Display' },
+                { code: '3.2.1', title: 'Fiksasi Design', urgency: 'High', output: '100% Sesuai', actual: 'Done fiksasi design', deadline: '13 Mei 2026', status: 'Done', link: '📄 Design Sheet' },
+                { code: '3.2.2', title: 'Sample Produk Baru', urgency: 'High', output: '100% Sesuai', actual: 'Progress overdue', deadline: '1 Agu 2026', status: 'Overdue', link: '📄 Sample Kain' },
+                { code: '3.2.3', title: 'Mass Production', urgency: 'High', output: '100% Sesuai', actual: 'Belum mulai produksi massal', deadline: '31 Agu 2026', status: 'Belum Mulai', link: '📄 PO Produksi' }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     '7': {
       monthName: 'Agustus 2026',
       projects: [
@@ -4106,9 +4864,9 @@ function renderOKRView() {
   const selectedProj = state.okrProjectFilter || 'all';
   const selectedStat = state.okrStatusFilter || 'all';
 
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = okrRealData.monthsData ? (okrRealData.monthsData[currentMonthKey] || okrRealData.monthsData['7']) : okrRealData;
-  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
+  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : (currentMonthKey === '8' ? 'September 2026' : 'Juli 2026'));
 
   // Gather KRs based on project filter
   let activeProjects = monthData.projects || [];
@@ -4185,17 +4943,19 @@ function renderOKRView() {
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
                     style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
-              <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+              <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
           </div>
 
-          <!-- Filter Project (hanya Premium Jakarta yang aktif) -->
+          <!-- Filter Project (Dinamis sesuai Proyek di Bulan Terpilih) -->
           <div style="display:flex; align-items:center; gap:6px;">
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Project:</span>
             <select id="okrProjSelect" onchange="window.handleOKRProjectFilterChange(this.value)" 
                     style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
-              <option value="all" ${selectedProj === 'all' ? 'selected' : ''}>🏙️ Premium Jakarta (1 Proyek Aktif)</option>
+              <option value="all" ${selectedProj === 'all' ? 'selected' : ''}>Semua Proyek (${(monthData.projects || []).length} Proyek)</option>
+              ${(monthData.projects || []).map(p => `<option value="${p.id}" ${selectedProj === p.id ? 'selected' : ''}>🏢 ${p.name}</option>`).join('')}
             </select>
           </div>
 
@@ -4483,7 +5243,7 @@ window.showKRDetailModal = function(code, title, project, objective, targetOutpu
   
   // Find KR object to retrieve weekly logs if TKB
   let foundKR = null;
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = okrRealData.monthsData ? (okrRealData.monthsData[currentMonthKey] || okrRealData.monthsData['7']) : okrRealData;
   (monthData.projects || []).forEach(p => {
     p.objectives.forEach(obj => {

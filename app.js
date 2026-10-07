@@ -1930,6 +1930,35 @@ const mockData = {
 
   complain: {
     monthsData: {
+      '8': {
+        monthName: 'September 2026',
+        'complain-bt': {
+          summary: { total: 7, offline: 3, online: 3, googleReview: 1 },
+          offlineTickets: [
+            { category: 'Produk', stand: 'MOMEN', issue: 'baju luntur', solusi: 'permintaan maaf dan pergantian', total: 1 },
+            { category: 'Produk', stand: 'MOMEN', issue: 'baju rapuh', solusi: 'permintaan maaf dan pergantian', total: 1 },
+            { category: 'Pelayanan', stand: 'Pakaian Pria', issue: 'pembelian produk promo bertingkat tidak bisa retur', solusi: 'permintaan maaf dan memberikan informasi terkait promo yg berlangsung', total: 1 }
+          ],
+          googleTickets: [
+            { reviewer: 'Asep Juju', stand: 'Asep Juju', issue: 'Bawa rombongan gak dapat bonus apa 2', detail: 'Bawa rombongan gak dapat bonus apa 2', solusi: 'Terimakasih sudah berkunjung ke BT Batik Trusmi. Jika kakak mengalami kesulitan atau kendala bisa hubungi kami ya kak di nomor 0831-1303-4482. Terimakasih 😊🙏', total: 1 }
+          ],
+          onlineStar1Tickets: [
+            { product: 'BATIK TRUSMI Blouse Batik Merdeka Series Spesial kemerdekaan RI Panjang Wanita Blouse Batik Motif Wajik Warna Burgundy', issue: 'Kualitas Buruk', solusi: 'Permintaan Maaf', total: 1 }
+          ],
+          onlineStar2Tickets: [
+            { product: 'BATIK TRUSMI Kemeja Kerja Batik Pria Lengan Pendek Sagara Hitam Coklat Cocok Untuk Kerja', issue: 'Tanpa Keterangan', solusi: 'Permintaan Maaf', total: 1 },
+            { product: 'BATIK TRUSMI PROMO BELI 3 KAIN HANYA 120.000 Bahan Kain Panjang Batik Motif Campur BTH', issue: 'Produk tidak sesuai deskripsi', solusi: 'Permintaan Maaf', total: 1 }
+          ]
+        },
+        'complain-tkb': {
+          summary: { total: 0, offline: 0, online: 0, googleReview: 0 },
+          googleTickets: [
+            { source: 'Google Review', category: 'Pelayanan', detail: 'Tidak ada complain', link: '-', solving: '-', total: 0 },
+            { source: 'Google Review', category: 'Produk', detail: 'Tidak ada complain', link: '-', solving: '-', total: 0 },
+            { source: 'Google Review', category: 'Area', detail: 'Tidak ada complain', link: '-', solving: '-', total: 0 }
+          ]
+        }
+      },
       '7': {
         monthName: 'Agustus 2026',
         'complain-bt': {
@@ -6439,9 +6468,9 @@ window.handleOKRStatusFilterChange = function(statusKey) {
 // --------------------------------------------------------------------------
 function renderComplainView() {
   const subId = state.activeSub || 'complain-bt';
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = mockData.complain.monthsData ? (mockData.complain.monthsData[currentMonthKey] || mockData.complain.monthsData['7']) : mockData.complain;
-  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
+  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : (currentMonthKey === '8' ? 'September 2026' : 'Juli 2026'));
   const unitData = monthData[subId] || { summary: {}, offlineTickets: [], onlineStar1Tickets: [], onlineStar2Tickets: [], googleTickets: [] };
 
   if (subId === 'complain-tkb') {
@@ -6498,7 +6527,8 @@ function renderComplainView() {
             </div>
             <div style="display:flex;align-items:center;gap:10px;">
               <select id="complainTKBMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:#111827;border:1.5px solid var(--accent-gold);color:#FFF;padding:4px 10px;border-radius:6px;font-size:0.8rem;font-weight:700;cursor:pointer;">
-                <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+                <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+                <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
                 <option value="6" ${currentMonthKey === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
               </select>
               <span style="font-size:0.78rem;background:rgba(0,0,0,0.25);padding:4px 12px;border-radius:4px;font-weight:700;">Sheet 5B. Complain - TKB</span>
@@ -6564,17 +6594,19 @@ function renderComplainView() {
   const star1Tickets = unitData.onlineStar1Tickets || [];
   const star2Tickets = unitData.onlineStar2Tickets || [];
   const offlineTickets = unitData.offlineTickets || [];
+  const googleTickets = unitData.googleTickets || [];
 
   const offlineProdukCount = offlineTickets.filter(t => t.category === 'Produk').reduce((acc, t) => acc + (t.total || 1), 0);
   const offlineFasilitasCount = offlineTickets.filter(t => t.category === 'Fasilitas').reduce((acc, t) => acc + (t.total || 1), 0);
   const offlinePelayananCount = offlineTickets.filter(t => t.category === 'Pelayanan').reduce((acc, t) => acc + (t.total || 1), 0);
+  const googleReviewCount = googleTickets.reduce((acc, t) => acc + (t.total || 1), 0);
   const offlineTotal = offlineProdukCount + offlineFasilitasCount + offlinePelayananCount;
 
   const onlineStar1Count = star1Tickets.reduce((acc, t) => acc + (t.total || 1), 0);
   const onlineStar2Count = star2Tickets.reduce((acc, t) => acc + (t.total || 1), 0);
   const onlineTotal = onlineStar1Count + onlineStar2Count;
 
-  const grandTotal = offlineTotal + onlineTotal;
+  const grandTotal = offlineTotal + onlineTotal + googleReviewCount;
 
   return `
     <div style="display:flex;flex-direction:column;gap:20px;">
@@ -6604,8 +6636,8 @@ function renderComplainView() {
             <span class="metric-title">Google Review &lt; 3★</span>
             <div class="metric-icon-box complain-theme"><i data-lucide="star-off"></i></div>
           </div>
-          <div class="metric-value" style="color:#10B981;">0</div>
-          <div class="metric-trend trend-up">Tidak Ada Review Buruk</div>
+          <div class="metric-value" style="color:${googleReviewCount === 0 ? '#10B981' : '#F59E0B'};">${googleReviewCount}</div>
+          <div class="metric-trend ${googleReviewCount === 0 ? 'trend-up' : 'trend-neutral'}">${googleReviewCount === 0 ? 'Tidak Ada Review Buruk' : googleReviewCount + ' Rating &lt; 3★'}</div>
         </div>
 
         <div class="metric-card">
@@ -6626,7 +6658,8 @@ function renderComplainView() {
           <span>Complain BT ${monthTitle}</span>
           <div style="display:flex;align-items:center;gap:10px;">
             <select id="complainBTMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" style="background:#111827;border:1.5px solid var(--accent-gold);color:#FFF;padding:4px 10px;border-radius:6px;font-size:0.8rem;font-weight:700;cursor:pointer;">
-              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+              <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
               <option value="6" ${currentMonthKey === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
             <span style="font-size:0.8rem;background:rgba(0,0,0,0.25);padding:4px 10px;border-radius:4px;">Ceremonial Monthly Report</span>
@@ -6652,17 +6685,16 @@ function renderComplainView() {
               ${offlineTickets.filter(t => t.category === 'Produk').length > 0
                 ? offlineTickets.filter(t => t.category === 'Produk').map((t, idx, arr) => `
                     <tr>
-                      ${idx === 0 ? `<td rowspan="${arr.length}" style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);vertical-align:middle;">Produk</td>` : ''}
+                      ${idx === 0 ? `<td rowspan="${arr.length}" style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);vertical-align:middle;text-align:center;">Produk</td>` : ''}
                       <td style="text-align:center;color:var(--text-secondary);">${t.stand || 'Stand 1'}</td>
-                      <td style="color:#FFF;font-weight:600;">${t.issue}</td>
-                      <td style="color:#FCA5A5;">${t.issue}</td>
+                      <td colspan="2" style="color:#FFF;font-weight:600;">${t.issue}</td>
                       <td style="text-align:center;"><span style="background:rgba(16,185,129,0.2);color:#10B981;border:1px solid rgba(16,185,129,0.4);padding:3px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">${t.solusi}</span></td>
                       <td style="text-align:center;font-weight:700;color:#FFF;">${t.total || 1}</td>
                     </tr>
                   `).join('')
                 : `
                   <tr>
-                    <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);">Produk</td>
+                    <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);text-align:center;">Produk</td>
                     <td style="text-align:center;color:var(--text-secondary);">Stand</td>
                     <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Produk</td>
                     <td style="text-align:center;color:var(--text-secondary);">-</td>
@@ -6676,42 +6708,81 @@ function renderComplainView() {
               </tr>
 
               <!-- Fasilitas -->
-              <tr>
-                <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);">Fasilitas</td>
-                <td style="text-align:center;color:var(--text-secondary);">Stand</td>
-                <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Fasilitas</td>
-                <td style="text-align:center;color:var(--text-secondary);">-</td>
-                <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
-              </tr>
+              ${offlineTickets.filter(t => t.category === 'Fasilitas').length > 0
+                ? offlineTickets.filter(t => t.category === 'Fasilitas').map((t, idx, arr) => `
+                    <tr>
+                      ${idx === 0 ? `<td rowspan="${arr.length}" style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);vertical-align:middle;text-align:center;">Fasilitas</td>` : ''}
+                      <td style="text-align:center;color:var(--text-secondary);">${t.stand || 'Stand'}</td>
+                      <td colspan="2" style="color:#FFF;font-weight:600;">${t.issue}</td>
+                      <td style="text-align:center;"><span style="background:rgba(16,185,129,0.2);color:#10B981;border:1px solid rgba(16,185,129,0.4);padding:3px 8px;border-radius:4px;font-weight:700;font-size:0.75rem;">${t.solusi}</span></td>
+                      <td style="text-align:center;font-weight:700;color:#FFF;">${t.total || 1}</td>
+                    </tr>
+                  `).join('')
+                : `
+                  <tr>
+                    <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);text-align:center;">Fasilitas</td>
+                    <td style="text-align:center;color:var(--text-secondary);">Stand</td>
+                    <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Fasilitas</td>
+                    <td style="text-align:center;color:var(--text-secondary);">-</td>
+                    <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
+                  </tr>
+                `
+              }
               <tr style="background:rgba(16,185,129,0.06);font-weight:700;">
-                <td colspan="5" style="color:#10B981;padding-left:16px;">Jumlah Complain Fasilitas</td>
-                <td style="text-align:center;color:#10B981;">0</td>
+                <td colspan="5" style="color:${offlineFasilitasCount > 0 ? '#F59E0B' : '#10B981'};padding-left:16px;">Jumlah Complain Fasilitas</td>
+                <td style="text-align:center;color:${offlineFasilitasCount > 0 ? '#F59E0B' : '#10B981'};">${offlineFasilitasCount}</td>
               </tr>
 
               <!-- Pelayanan -->
-              <tr>
-                <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);">Pelayanan</td>
-                <td style="text-align:center;color:var(--text-secondary);">Stand</td>
-                <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Pelayanan</td>
-                <td style="text-align:center;color:var(--text-secondary);">-</td>
-                <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
-              </tr>
+              ${offlineTickets.filter(t => t.category === 'Pelayanan').length > 0
+                ? offlineTickets.filter(t => t.category === 'Pelayanan').map((t, idx, arr) => `
+                    <tr>
+                      ${idx === 0 ? `<td rowspan="${arr.length}" style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);vertical-align:middle;text-align:center;">Pelayanan</td>` : ''}
+                      <td style="text-align:center;color:var(--text-secondary);">${t.stand || 'Stand'}</td>
+                      <td colspan="2" style="color:#FFF;font-weight:600;">${t.issue}</td>
+                      <td style="text-align:center;"><span style="background:rgba(16,185,129,0.2);color:#10B981;border:1px solid rgba(16,185,129,0.4);padding:4px 8px;border-radius:4px;font-weight:600;font-size:0.75rem;line-height:1.3;display:inline-block;text-align:left;">${t.solusi}</span></td>
+                      <td style="text-align:center;font-weight:700;color:#FFF;">${t.total || 1}</td>
+                    </tr>
+                  `).join('')
+                : `
+                  <tr>
+                    <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);text-align:center;">Pelayanan</td>
+                    <td style="text-align:center;color:var(--text-secondary);">Stand</td>
+                    <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Pelayanan</td>
+                    <td style="text-align:center;color:var(--text-secondary);">-</td>
+                    <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
+                  </tr>
+                `
+              }
               <tr style="background:rgba(16,185,129,0.06);font-weight:700;">
-                <td colspan="5" style="color:#10B981;padding-left:16px;">Jumlah Complain Pelayanan</td>
-                <td style="text-align:center;color:#10B981;">0</td>
+                <td colspan="5" style="color:${offlinePelayananCount > 0 ? '#F59E0B' : '#10B981'};padding-left:16px;">Jumlah Complain Pelayanan</td>
+                <td style="text-align:center;color:${offlinePelayananCount > 0 ? '#F59E0B' : '#10B981'};">${offlinePelayananCount}</td>
               </tr>
 
               <!-- Google Review Bintang <3 -->
-              <tr>
-                <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);">Google Review Bintang &lt;3</td>
-                <td style="text-align:center;color:var(--text-secondary);">Google Review</td>
-                <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Google Review</td>
-                <td style="text-align:center;color:var(--text-secondary);">-</td>
-                <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
-              </tr>
+              ${googleTickets.length > 0
+                ? googleTickets.map((t, idx, arr) => `
+                    <tr>
+                      ${idx === 0 ? `<td rowspan="${arr.length}" style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);vertical-align:middle;text-align:center;">Google Review Bintang &lt;3</td>` : ''}
+                      <td style="text-align:center;color:var(--text-secondary);">${t.reviewer || t.stand || 'Google Review'}</td>
+                      <td colspan="2" style="color:#FFF;font-weight:600;">${t.issue || t.detail}</td>
+                      <td style="text-align:center;"><span style="background:rgba(16,185,129,0.2);color:#10B981;border:1px solid rgba(16,185,129,0.4);padding:4px 8px;border-radius:4px;font-weight:600;font-size:0.72rem;line-height:1.35;display:inline-block;text-align:left;">${t.solusi}</span></td>
+                      <td style="text-align:center;font-weight:700;color:#FFF;">${t.total || 1}</td>
+                    </tr>
+                  `).join('')
+                : `
+                  <tr>
+                    <td style="font-weight:700;color:#FFF;background:rgba(255,255,255,0.02);text-align:center;">Google Review Bintang &lt;3</td>
+                    <td style="text-align:center;color:var(--text-secondary);">Google Review</td>
+                    <td colspan="2" style="color:var(--text-secondary);">Tidak ada complain Google Review</td>
+                    <td style="text-align:center;color:var(--text-secondary);">-</td>
+                    <td style="text-align:center;font-weight:700;color:#10B981;">0</td>
+                  </tr>
+                `
+              }
               <tr style="background:rgba(16,185,129,0.06);font-weight:700;">
-                <td colspan="5" style="color:#10B981;padding-left:16px;">Jumlah Complain Google Review</td>
-                <td style="text-align:center;color:#10B981;">0</td>
+                <td colspan="5" style="color:${googleReviewCount > 0 ? '#F59E0B' : '#10B981'};padding-left:16px;">Jumlah Complain Google Review</td>
+                <td style="text-align:center;color:${googleReviewCount > 0 ? '#F59E0B' : '#10B981'};">${googleReviewCount}</td>
               </tr>
 
               <!-- Section 2: Online / E-Commerce (Bintang) -->

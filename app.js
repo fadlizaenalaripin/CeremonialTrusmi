@@ -8365,7 +8365,7 @@ window.triggerB2BCelebration = function() {
   }
 };
 
-// Fitur Toggle Hide / Munculkan Kategori Besar B2B dan Subkategorinya
+// Fitur Toggle Stealth Mode Tampilan (Menampilkan / Menyembunyikan Kategori B2B secara terselubung)
 window.toggleB2BModuleVisibility = function() {
   const b2bItem = document.getElementById('navItemB2B');
   const icon = document.getElementById('iconToggleB2B');
@@ -8378,23 +8378,23 @@ window.toggleB2BModuleVisibility = function() {
   if (isHidden) {
     b2bItem.style.display = 'block';
     state.isB2BVisible = true;
-    if (icon) icon.setAttribute('data-lucide', 'eye-off');
-    if (text) text.textContent = 'Sembunyikan B2B';
+    if (icon) icon.setAttribute('data-lucide', 'sliders-horizontal');
+    if (text) text.textContent = 'Mode Tampilan';
     if (badge) {
-      badge.textContent = 'Aktif';
-      badge.style.background = 'rgba(16, 185, 129, 0.2)';
-      badge.style.color = '#A7F3D0';
+      badge.textContent = 'Lengkap';
+      badge.style.background = 'rgba(16, 185, 129, 0.18)';
+      badge.style.color = '#6EE7B7';
     }
   } else {
     b2bItem.style.display = 'none';
     b2bItem.classList.remove('open');
     state.isB2BVisible = false;
-    if (icon) icon.setAttribute('data-lucide', 'eye');
-    if (text) text.textContent = 'Tampilkan B2B';
+    if (icon) icon.setAttribute('data-lucide', 'sliders-horizontal');
+    if (text) text.textContent = 'Mode Tampilan';
     if (badge) {
-      badge.textContent = 'Hidden';
-      badge.style.background = 'rgba(99, 102, 241, 0.2)';
-      badge.style.color = '#C7D2FE';
+      badge.textContent = 'Standar';
+      badge.style.background = 'rgba(255, 255, 255, 0.08)';
+      badge.style.color = '#94A3B8';
     }
     if (state.activeCategory === 'b2b') {
       state.activeCategory = 'sales-ytd';
@@ -8405,6 +8405,16 @@ window.toggleB2BModuleVisibility = function() {
   }
   initLucide();
 };
+
+// Shortcut keyboard rahasia Alt + B untuk toggle mode tampilan secara diam-diam
+document.addEventListener('keydown', function(e) {
+  if (e.altKey && (e.key === 'b' || e.key === 'B')) {
+    e.preventDefault();
+    if (typeof window.toggleB2BModuleVisibility === 'function') {
+      window.toggleB2BModuleVisibility();
+    }
+  }
+});
 
 // --------------------------------------------------------------------------
 // CHART INITIALIZERS FOR B2B

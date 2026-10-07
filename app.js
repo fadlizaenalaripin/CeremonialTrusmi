@@ -84,7 +84,7 @@ const realSalesData = {
     { id: 'cirebon', name: 'Batik Trusmi Cirebon', ytd2026: 49421803737, growth2026: -5.6, janJul2025: 52359552151, total2025: 72290172300, color: '#10B981' },
     { id: 'bali', name: 'The Keranjang Bali', ytd2026: 40888690083, growth2026: -22.7, janJul2025: 52906350669, total2025: 69927082478, color: '#06B6D4' },
     { id: 'ecommerce', name: 'E-Commerce', ytd2026: 4587902722, growth2026: 0.1, janJul2025: 4583141556, total2025: 6163885348, color: '#6366F1' },
-    { id: 'b2b', name: 'B2B', ytd2026: 2885932921, growth2026: 100, janJul2025: 1570212440, total2025: 2659742404, color: '#8B5CF6' },
+    { id: 'b2b', name: 'B2B', ytd2026: 3177735181, growth2026: 82.9, janJul2025: 1737626350, total2025: 2659742404, color: '#8B5CF6' },
     { id: 'medan', name: 'Batik Trusmi Medan', ytd2026: 1504699832, growth2026: -17.9, janJul2025: 1833586334, total2025: 2374344178, color: '#F59E0B' },
     { id: 'lounge', name: 'Batik Trusmi Lounge', ytd2026: 934898110, growth2026: 21.0, janJul2025: 772623600, total2025: 1125895987, color: '#EC4899' },
     { id: 'jakarta', name: 'Batik Trusmi Jakarta', ytd2026: 991700038, growth2026: -36.3, janJul2025: 1556290340, total2025: 2110907540, color: '#3B82F6' }
@@ -97,16 +97,16 @@ const realSalesData = {
     target2026: [420000000, 480000000, 480000000, 660000000, 480000000, 540000000, 480000000, 420000000, 540000000, 480000000, 600000000, 420000000],
     acv2025: [49396200, 99146399, 437196380, 163115720, 180073085, 169497149, 29836562, 274537035, 167413910, 244770614, 361433600, 483325750],
     cashIn2025: [0, 0, 24081550, 30579350, 131204585, 168881469, 71302062, 44909650, 102057050, 398148054, 216523865, 437298350],
-    acv2026: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0],
-    cashIn2026: [300544972, 283399800, 102205868, 268122736, 384872726, 295220915, 154484825, 342621000, 0, 0, 0, 0]
+    acv2026: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 291802260, 0, 0, 0],
+    cashIn2026: [300544972, 283399800, 102205868, 268122736, 384872726, 295220915, 154484825, 342621000, 291802260, 0, 0, 0]
   },
 
-  // Monthly breakdown per branch for 2026 (Jan-Ags)
+  // Monthly breakdown per branch for 2026 (Jan-Sep)
   sales2026: {
     cirebon: [6145526461, 4363163085, 5280323018, 5259388670, 6992017875, 5858981677, 5310823424, 5230402654, 4981176873, 0, 0, 0],
     bali: [6669186960, 3788194468, 5722558473, 3923308664, 4409772270, 4390443413, 4398635447, 4361314731, 3225275657, 0, 0, 0],
     ecommerce: [374357149, 584738503, 728202121, 628439040, 434439105, 604922791, 468423171, 403154180, 361226662, 0, 0, 0],
-    b2b: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0], // TODO: data B2B September belum tersedia
+    b2b: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 291802260, 0, 0, 0],
     medan: [197785628, 109918500, 111007116, 160267604, 153920116, 201251166, 218637868, 194596834, 157315000, 0, 0, 0],
     lounge: [87211500, 79750000, 102363900, 101189100, 113816500, 106529900, 118491500, 115363010, 110182700, 0, 0, 0],
     jakarta: [143684463, 133054375, 91292600, 111146300, 147861050, 87493650, 58676450, 134603200, 83887950, 0, 0, 0]
@@ -7069,14 +7069,15 @@ const b2bDatabase = {
   acv2025: [49396200, 99146399, 437196380, 163115720, 180073085, 169497149, 29836562, 274537035, 167413910, 244770614, 361433600, 483325750],
   // Cash In 2025 (Jan - Des)
   cashIn2025: [0, 0, 24081550, 30579350, 131204585, 168881469, 71302062, 44909650, 102057050, 398148054, 216523865, 437298350],
-  // ACV Aktual 2026 (Jan - Ags, YTD = Rp 2.885.932.921)
-  acv2026: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 0, 0, 0, 0],
-  // Cash In 2026 (Jan - Ags, YTD = Rp 2.131.472.842)
-  cashIn2026: [300544972, 283399800, 102205868, 268122736, 384872726, 295220915, 154484825, 342621000, 0, 0, 0, 0],
+  // ACV Aktual 2026 (Jan - Sep, YTD = Rp 3.177.735.181)
+  acv2026: [275430924, 167980600, 399331359, 543332850, 220628800, 260594428, 405962550, 612671410, 291802260, 0, 0, 0],
+  // Cash In 2026 (Jan - Sep, YTD = Rp 2.423.275.102)
+  cashIn2026: [300544972, 283399800, 102205868, 268122736, 384872726, 295220915, 154484825, 342621000, 291802260, 0, 0, 0],
   
   availableMonths: [
-    { key: 'all', label: 'Semua Periode YTD (Jan-Ags)', emoji: '📊' },
-    { key: '7', label: 'Agustus 2026 (Data Baru ✨)', emoji: '✨' },
+    { key: 'all', label: 'Semua Periode YTD (Jan-Sep)', emoji: '📊' },
+    { key: '8', label: 'September 2026 (Data Baru ✨)', emoji: '✨' },
+    { key: '7', label: 'Agustus 2026', emoji: '📜' },
     { key: '6', label: 'Juli 2026 (History 📜)', emoji: '📜' },
     { key: '5', label: 'Juni 2026', emoji: '📜' },
     { key: '4', label: 'Mei 2026', emoji: '📜' },
@@ -7225,15 +7226,15 @@ function renderB2BView() {
 function renderB2BAchievementView() {
   const selMonth = state.selectedSalesMonth || 'all';
   const isAll = selMonth === 'all';
-  const mIdx = isAll ? 7 : parseInt(selMonth, 10);
+  const mIdx = isAll ? 8 : parseInt(selMonth, 10);
 
-  // Totals for 2026 Jan - Ags
-  const totalTargetYTD = b2bDatabase.target2026.slice(0, 8).reduce((s, v) => s + v, 0); // Rp 3.960.000.000
-  const totalAcvYTD = b2bDatabase.acv2026.slice(0, 8).reduce((s, v) => s + v, 0);       // Rp 2.885.932.921
-  const totalCashYTD = b2bDatabase.cashIn2026.slice(0, 8).reduce((s, v) => s + v, 0);    // Rp 2.131.472.842
+  // Totals for 2026 Jan - Sep
+  const totalTargetYTD = b2bDatabase.target2026.slice(0, 9).reduce((s, v) => s + v, 0); // Rp 4.500.000.000
+  const totalAcvYTD = b2bDatabase.acv2026.slice(0, 9).reduce((s, v) => s + v, 0);       // Rp 3.177.735.181
+  const totalCashYTD = b2bDatabase.cashIn2026.slice(0, 9).reduce((s, v) => s + v, 0);    // Rp 2.423.275.102
   const totalTargetFY = b2bDatabase.target2026.reduce((s, v) => s + v, 0);               // Rp 6.000.000.000
   const totalAcvFY2025 = b2bDatabase.acv2025.reduce((s, v) => s + v, 0);                 // Rp 2.659.742.404
-  const totalAcv2025YTD = b2bDatabase.acv2025.slice(0, 8).reduce((s, v) => s + v, 0);   // Rp 1.402.798.530
+  const totalAcv2025YTD = b2bDatabase.acv2025.slice(0, 9).reduce((s, v) => s + v, 0);   // Rp 1.570.212.440
 
   // Key stats
   const ytdAchvPct = ((totalAcvYTD / totalTargetYTD) * 100).toFixed(1);
@@ -7387,9 +7388,10 @@ function renderB2BAchievementView() {
                 const cash = b2bDatabase.cashIn2026[idx];
                 const acv25 = b2bDatabase.acv2025[idx];
                 
+                const isSep = (idx === 8);
                 const isAug = (idx === 7);
                 const isJul = (idx === 6);
-                const isFuture = (idx >= 8);
+                const isFuture = (idx >= 9);
 
                 const achvAcv = acv > 0 ? ((acv / target) * 100).toFixed(1) + '%' : '-';
                 
@@ -7402,18 +7404,21 @@ function renderB2BAchievementView() {
                 }
 
                 let rowBg = '';
-                if (isAug) rowBg = 'background: rgba(16, 185, 129, 0.12); border-left: 4px solid #10B981; font-weight: 700;';
-                else if (isJul) rowBg = 'background: rgba(6, 182, 212, 0.12); border-left: 4px solid #06B6D4; font-weight: 600;';
+                if (isSep) rowBg = 'background: rgba(16, 185, 129, 0.16); border-left: 4px solid #10B981; font-weight: 700;';
+                else if (isAug) rowBg = 'background: rgba(16, 185, 129, 0.08); border-left: 4px solid #10B981; font-weight: 600;';
+                else if (isJul) rowBg = 'background: rgba(6, 182, 212, 0.08); border-left: 4px solid #06B6D4; font-weight: 600;';
                 else if (isFuture) rowBg = 'opacity: 0.55;';
 
                 return `
                   <tr style="${rowBg}">
                     <td>
-                      ${isAug 
-                        ? `<strong style="color:#10B981; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="sparkles" style="width:14px; height:14px; color:#10B981;"></i> AGUSTUS (Data Baru ✨)</strong>`
-                        : (isJul 
-                            ? `<strong style="color:#06B6D4; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="history" style="width:14px; height:14px; color:#06B6D4;"></i> JULI (History 📜)</strong>`
-                            : `<strong>${b2bMonthNames[idx].toUpperCase()}</strong>`)
+                      ${isSep
+                        ? `<strong style="color:#10B981; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="sparkles" style="width:14px; height:14px; color:#10B981;"></i> SEPTEMBER (Data Baru ✨)</strong>`
+                        : (isAug 
+                            ? `<strong style="color:#34D399; display:inline-flex; align-items:center; gap:6px;">AGUSTUS</strong>`
+                            : (isJul 
+                                ? `<strong style="color:#06B6D4; display:inline-flex; align-items:center; gap:6px;"><i data-lucide="history" style="width:14px; height:14px; color:#06B6D4;"></i> JULI (History 📜)</strong>`
+                                : `<strong>${b2bMonthNames[idx].toUpperCase()}</strong>`))
                       }
                     </td>
                     <td style="text-align:right; font-weight:600;">${formatRupiah(target)}</td>
@@ -7447,9 +7452,9 @@ function renderB2BAchievementView() {
                 `;
               }).join('')}
 
-              <!-- TOTAL YTD (JAN-AGS) ROW -->
+              <!-- TOTAL YTD (JAN-SEP) ROW -->
               <tr style="background:rgba(16, 185, 129, 0.15); font-weight:800; border-top:2px solid #10B981;">
-                <td style="color:#FFF;">TOTAL REALISASI YTD 2026 (JAN–AGS)</td>
+                <td style="color:#FFF;">TOTAL REALISASI YTD 2026 (JAN–SEP)</td>
                 <td style="text-align:right; color:#FFF;">${formatRupiah(totalTargetYTD)}</td>
                 <td style="text-align:right; color:#10B981; font-size:0.95rem;">${formatRupiah(totalAcvYTD)}</td>
                 <td style="text-align:right; color:#06B6D4; font-size:0.95rem;">${formatRupiah(totalCashYTD)}</td>
@@ -7487,18 +7492,18 @@ function renderB2BAchievementView() {
 // SUB-VIEW 2: PERBANDINGAN YOY (2025 vs 2026 ACV & CASH IN)
 // --------------------------------------------------------------------------
 function renderB2BComparisonView() {
-  const totalTargetYTD = b2bDatabase.target2026.slice(0, 8).reduce((s, v) => s + v, 0); // 3.960.000.000
-  const totalAcv26 = b2bDatabase.acv2026.slice(0, 8).reduce((s, v) => s + v, 0);       // 2.885.932.921
-  const totalCash26 = b2bDatabase.cashIn2026.slice(0, 8).reduce((s, v) => s + v, 0);    // 2.131.472.842
+  const totalTargetYTD = b2bDatabase.target2026.slice(0, 9).reduce((s, v) => s + v, 0); // 4.500.000.000
+  const totalAcv26 = b2bDatabase.acv2026.slice(0, 9).reduce((s, v) => s + v, 0);       // 3.177.735.181
+  const totalCash26 = b2bDatabase.cashIn2026.slice(0, 9).reduce((s, v) => s + v, 0);    // 2.423.275.102
   
-  const totalAcv25JanAgs = b2bDatabase.acv2025.slice(0, 8).reduce((s, v) => s + v, 0);   // 1.402.798.530
-  const totalCash25JanAgs = b2bDatabase.cashIn2025.slice(0, 8).reduce((s, v) => s + v, 0); // 470.958.666
+  const totalAcv25JanSep = b2bDatabase.acv2025.slice(0, 9).reduce((s, v) => s + v, 0);   // 1.570.212.440
+  const totalCash25JanSep = b2bDatabase.cashIn2025.slice(0, 9).reduce((s, v) => s + v, 0); // 573.015.716
   
   const totalAcv25Full = b2bDatabase.acv2025.reduce((s, v) => s + v, 0);                 // 2.659.742.404
   const totalCash25Full = b2bDatabase.cashIn2025.reduce((s, v) => s + v, 0);             // 1.624.985.985
 
-  const yoyGrowthAcv = (((totalAcv26 - totalAcv25JanAgs) / totalAcv25JanAgs) * 100).toFixed(2);
-  const yoyGrowthCash = (((totalCash26 - totalCash25JanAgs) / totalCash25JanAgs) * 100).toFixed(2);
+  const yoyGrowthAcv = (((totalAcv26 - totalAcv25JanSep) / totalAcv25JanSep) * 100).toFixed(2);
+  const yoyGrowthCash = (((totalCash26 - totalCash25JanSep) / totalCash25JanSep) * 100).toFixed(2);
   const exceedFY25Pct = (((totalAcv26 - totalAcv25Full) / totalAcv25Full) * 100).toFixed(1);
 
   return `
@@ -8457,7 +8462,7 @@ function initB2BAchievementCharts() {
     }
 
     const targetsInM = b2bDatabase.target2026.map(v => v / 1000000);
-    const acv26InM = b2bDatabase.acv2026.map((v, i) => i <= 7 ? (v / 1000000) : null);
+    const acv26InM = b2bDatabase.acv2026.map((v, i) => i <= 8 ? (v / 1000000) : null);
     const acv25InM = b2bDatabase.acv2025.map(v => v / 1000000);
 
     state.activeChartInstances.b2bAnnualAcv = new Chart(annualCtx, {
@@ -8469,8 +8474,8 @@ function initB2BAchievementCharts() {
             type: 'bar',
             label: 'Realisasi ACV 2026',
             data: acv26InM,
-            backgroundColor: months12.map((_, i) => i === 7 ? 'rgba(52, 211, 153, 0.95)' : 'rgba(16, 185, 129, 0.85)'),
-            borderColor: months12.map((_, i) => i === 7 ? '#34D399' : '#10B981'),
+            backgroundColor: months12.map((_, i) => i === 8 ? 'rgba(52, 211, 153, 0.95)' : 'rgba(16, 185, 129, 0.85)'),
+            borderColor: months12.map((_, i) => i === 8 ? '#34D399' : '#10B981'),
             borderWidth: 2,
             borderRadius: 6,
             order: 2
@@ -8573,10 +8578,10 @@ function initB2BAchievementCharts() {
       return cumTgt;
     });
 
-    // Cumulative Realisasi 2026 (Jan - Ags)
+    // Cumulative Realisasi 2026 (Jan - Sep)
     let cumAcv = 0;
     const cumAcvInM = b2bDatabase.acv2026.map((v, i) => {
-      if (i <= 7) {
+      if (i <= 8) {
         cumAcv += v / 1000000;
         return cumAcv;
       }
@@ -8679,7 +8684,7 @@ function initB2BAchievementCharts() {
 }
 
 function initB2BComparisonCharts() {
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags'];
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Ags', 'Sep'];
 
   // Chart 1: YoY ACV Sales Comparison
   const acvCtx = document.getElementById('b2bYoYAcvChart');
@@ -8688,8 +8693,8 @@ function initB2BComparisonCharts() {
       state.activeChartInstances.b2bYoYAcv.destroy();
     }
 
-    const acv25InM = b2bDatabase.acv2025.slice(0, 8).map(v => v / 1000000);
-    const acv26InM = b2bDatabase.acv2026.slice(0, 8).map(v => v / 1000000);
+    const acv25InM = b2bDatabase.acv2025.slice(0, 9).map(v => v / 1000000);
+    const acv26InM = b2bDatabase.acv2026.slice(0, 9).map(v => v / 1000000);
 
     state.activeChartInstances.b2bYoYAcv = new Chart(acvCtx, {
       type: 'bar',
@@ -8707,7 +8712,7 @@ function initB2BComparisonCharts() {
           {
             label: '2026 ACV Sales',
             data: acv26InM,
-            backgroundColor: months.map((_, i) => i === 7 ? 'rgba(16, 185, 129, 0.95)' : 'rgba(16, 185, 129, 0.75)'),
+            backgroundColor: months.map((_, i) => i === 8 ? 'rgba(52, 211, 153, 0.95)' : 'rgba(16, 185, 129, 0.75)'),
             borderColor: '#10B981',
             borderWidth: 1.5,
             borderRadius: 4
@@ -8749,8 +8754,8 @@ function initB2BComparisonCharts() {
       state.activeChartInstances.b2bYoYCash.destroy();
     }
 
-    const cash25InM = b2bDatabase.cashIn2025.slice(0, 8).map(v => v / 1000000);
-    const cash26InM = b2bDatabase.cashIn2026.slice(0, 8).map(v => v / 1000000);
+    const cash25InM = b2bDatabase.cashIn2025.slice(0, 9).map(v => v / 1000000);
+    const cash26InM = b2bDatabase.cashIn2026.slice(0, 9).map(v => v / 1000000);
 
     state.activeChartInstances.b2bYoYCash = new Chart(cashCtx, {
       type: 'bar',
@@ -8768,7 +8773,7 @@ function initB2BComparisonCharts() {
           {
             label: '2026 Cash In',
             data: cash26InM,
-            backgroundColor: months.map((_, i) => i === 7 ? 'rgba(6, 182, 212, 0.95)' : 'rgba(6, 182, 212, 0.75)'),
+            backgroundColor: months.map((_, i) => i === 8 ? 'rgba(6, 182, 212, 0.95)' : 'rgba(6, 182, 212, 0.75)'),
             borderColor: '#06B6D4',
             borderWidth: 1.5,
             borderRadius: 4

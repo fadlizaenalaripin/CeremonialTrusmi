@@ -4154,6 +4154,201 @@ const okrRealData = {
 // --------------------------------------------------------------------------
 const tkbOKRData = {
   monthsData: {
+    '8': {
+      monthName: 'September 2026',
+      projects: [
+        {
+          id: 'tkb',
+          name: 'The Keranjang Bali (TKB)',
+          objectives: [
+            {
+              id: 'TKB-1.0',
+              name: 'Goal 1: BRAND IDENTITY — Brand Positioning',
+              targetOutput: 'Re-positioning brand image TKB',
+              targetOutcome: 'Penyesuaian persepsi & kenaikan brand awareness',
+              budget: null,
+              penaltyClause: 'CCP: Late > Denda Rp200.000',
+              krs: [
+                { code: 'TKB-1.1', title: 'Brand Positioning concept', output: 'Disetujui', deadline: '7 Jun 2026', status: 'Selesai', isTKB: true, link: '📄 Concept Deck' },
+                { code: 'TKB-1.2', title: 'RAB Brand Positioning', output: 'RAB Final', actual: 'Selesai penyusunan RAB', deadline: '30 Jul 2026', status: 'Selesai', isTKB: true, link: '📄 RAB Final' },
+                { code: 'TKB-1.3', title: 'Skema kerjasama brand ambassador', output: 'Skema disetujui', deadline: '30 Jun 2026', status: 'Selesai', isTKB: true, link: '📄 Draft Skema BA' },
+                { 
+                  code: 'TKB-1.4', title: 'Dealing Brand Ambassador', output: 'Dealing BA', actual: 'Need Feedback Pak Ibnu; Evidence: 2026.09. W3 & W4 Eskalasi Dudi Raditya Dika', deadline: '30 Jul 2026', status: 'Progress Overdue', isTKB: true, link: '🔗 Ratecard Raditya Dika',
+                  penaltyAmount: 'Rp200.000',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Follow up skema BA', feedback: 'Need Feedback Pak Ibnu' },
+                    { week: 'W2', note: 'Negosiasi ratecard Raditya Dika', feedback: 'Need Feedback Pak Ibnu' },
+                    { week: 'W3', note: 'Eskalasi Dudi Raditya Dika', feedback: 'Need Feedback Pak Ibnu' },
+                    { week: 'W4', note: 'Eskalasi final SOW & Ratecard', feedback: 'Need Feedback Pak Ibnu' }
+                  ]
+                },
+                { code: 'TKB-1.5', title: 'Relaunching Store', output: 'Event Launching', deadline: '30 Okt 2026', status: 'Hold', isTKB: true, link: '📄 Deck Event' }
+              ]
+            },
+            {
+              id: 'TKB-2.0',
+              name: 'Goal 2: OPERASIONAL — Relayout Area Lantai 4',
+              targetOutput: 'Redesign & Relayout Lantai 4 (Segmentasi Family & Anak)',
+              targetOutcome: 'Peningkatan experience pengunjung keluarga & anak',
+              budget: null,
+              penaltyClause: 'CCP: Late > Denda Rp200.000',
+              krs: [
+                { code: 'TKB-2.1', title: 'Reconcept dan Design Lantai 4 - Segmentasi Family & Anak', output: 'Model Design L4 Selesai', deadline: '15 Jul 2026', status: 'Selesai', isTKB: true, link: '📄 Design L4 Figma' },
+                { 
+                  code: 'TKB-2.2', title: 'RAB Reconcept & Design Lantai 4', output: 'RAB L4 Final', actual: 'W3 Need Feedback Pak Ibnu; link figma detailing konsep', deadline: '30 Jun 2026', status: 'Progress Overdue', isTKB: true, link: '📄 RAB L4 Figma',
+                  penaltyAmount: 'Rp200.000',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Penyusunan RAB', feedback: 'In Progress' },
+                    { week: 'W2', note: 'Review detailing konsep', feedback: 'In Progress' },
+                    { week: 'W3', note: 'Submit final RAB L4 ke Pak Ibnu', feedback: 'Need Feedback Pak Ibnu' },
+                    { week: 'W4', note: 'Menunggu respon final Pak Ibnu', feedback: '🔴 Overdue (Denda Rp200rb)' }
+                  ]
+                },
+                { code: 'TKB-2.3', title: 'Approaching & Dealing Vendor Lantai 4', output: 'Dealing Vendor Selesai', deadline: '30 Jun 2026', status: 'Selesai', isTKB: true, link: '🔗 Contract Vendor' },
+                { code: 'TKB-2.4', title: 'Timeline Reconcept & Design Lantai 4', output: 'Timeline Final', deadline: '30 Jun 2026', status: 'Selesai', isTKB: true, link: '📄 Timeline L4' },
+                { code: 'TKB-2.5', title: 'Relayout floor Lantai 4', output: 'Konstruksi & Relayout L4', actual: 'Jadwal eksekusi November', deadline: '30 Nov 2026', status: 'Belum Mulai', isTKB: true, link: '📄 WO Floor L4' }
+              ]
+            },
+            {
+              id: 'TKB-3.0',
+              name: 'Goal 3: OPERASIONAL — Relayout Area Lantai 3',
+              targetOutput: 'Redesign & Relayout Lantai 3 (Segmentasi Premium dan Kolaborasi Brand)',
+              targetOutcome: 'Peningkatan experience pengunjung segmen premium',
+              budget: null,
+              penaltyClause: 'CCP: Late > Denda Rp200.000',
+              krs: [
+                { code: 'TKB-3.1', title: 'Reconcept dan Design Lantai 3 - Segmentasi Premium dan Kolaborasi Brand', output: 'Design Approved', deadline: '31 Jul 2026', status: 'Selesai', isTKB: true, link: '📄 Concept L3' },
+                { 
+                  code: 'TKB-3.2', title: 'RAB Reconcept & Design Lantai 3', output: 'RAB Approved', actual: 'W3 Need Feedback Pak Ibnu; link figma detailing konsep', deadline: '15 Jul 2026', status: 'Progress Overdue', isTKB: true, link: '📄 RAB L3 Figma',
+                  penaltyAmount: 'Rp200.000',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Review spec material premium L3', feedback: 'In Progress' },
+                    { week: 'W2', note: 'Penyesuaian alur booth kolaborasi', feedback: 'In Progress' },
+                    { week: 'W3', note: 'Submit RAB L3 ke Pak Ibnu', feedback: 'Need Feedback Pak Ibnu' },
+                    { week: 'W4', note: 'Menunggu konfirmasi final Pak Ibnu', feedback: '🔴 Overdue (Denda Rp200rb)' }
+                  ]
+                },
+                { code: 'TKB-3.3', title: 'Approaching & Dealing Vendor Lantai 3', output: 'Dealing Vendor Selesai', deadline: '30 Jun 2026', status: 'Selesai', isTKB: true, link: '🔗 Vendor List' },
+                { code: 'TKB-3.4', title: 'Timeline Reconcept & Design Lantai 3', output: 'Timeline Approved', deadline: '30 Jun 2026', status: 'Selesai', isTKB: true, link: '📄 Draft Schedule L3' },
+                { code: 'TKB-3.5', title: 'Relayout floor Lantai 3', output: 'Konstruksi & Relayout L3', actual: 'Jadwal eksekusi November', deadline: '30 Nov 2026', status: 'Belum Mulai', isTKB: true, link: '📄 WO Floor L3' }
+              ]
+            },
+            {
+              id: 'TKB-4.0',
+              name: 'Goal 4: WEEKLY — Revenue & Marketing',
+              targetOutput: 'Optimalisasi Omset, Basket Size, Deadstock & Traffic Rombongan',
+              targetOutcome: 'Pencapaian target penjualan & perputaran stok',
+              budget: null,
+              krs: [
+                { 
+                  code: 'TKB-4.1', title: 'Memisahkan target rombongan builder & penyumbang revenue', output: 'Pemisahan Target KPI', actual: 'Target rombongan builder & revenue actual sudah dipisahkan dalam KPI: Bobot Traffic Builder 30% & Revenue Builder 70%. Evidence: Export Sales & Marketing September 2026', deadline: '15 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Export Sales & Marketing',
+                  weeklyLogs: [
+                    { week: 'W2', note: 'Diskusi pemisahan target bersama Direktur', feedback: 'Approved Direktur' },
+                    { week: 'W3', note: 'Validasi data export sales', feedback: 'Need Feedback Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-4.2', title: 'Pareto Deadstock selling (Priority by stock & promo monitoring)', output: 'Sistem Priority Bestseller Aktif', actual: 'Update pada sistem: promo-crm/priority-bestseller', deadline: 'Weekly Sep 2026', status: 'Selesai', isTKB: true, link: '🔗 Sistem Priority Deadstock',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Monitoring summary promosi deadstock', feedback: 'Approved Pak Angga' },
+                    { week: 'W2', note: 'Penerapan kriteria priority by stock', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Evaluasi mingguan stok berlebih', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-4.3', title: 'Pemasaran voucher belanja untuk rombongan anak', output: 'Voucher Belanja Terjual', actual: 'Data sheet masing-masing DIC Channel; Dsport Sales & Marketing Sep 2026', deadline: '21 Sep 2026', status: 'On Progress', isTKB: true, link: '📄 Data DIC Channel',
+                  weeklyLogs: [
+                    { week: 'W3', note: 'Penjualan voucher grup anak', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-4.4', title: 'Penyesuaian lini produk sesuai profil rombongan pengunjung', output: 'Kesesuaian Produk & Konversi Naik', actual: 'TKB General Manager Dsport, Dsport Sales & Marketing Sep 2026', deadline: '21 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Report GM Dsport',
+                  weeklyLogs: [
+                    { week: 'W3', note: 'Penataan lini produk rombongan', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Konfirmasi hasil konversi produk', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-4.5', title: 'SEO Event & Rombongan', output: 'SOP Kerjasama Event Eksternal', actual: '2026.09. W4 Eskalasi SEO event (Buatisi & Kemenparekraf); Draft SOP Pemeriksaan Kerjasama Event Eksternal.docx', deadline: '21 Sep 2026', status: 'On Progress', isTKB: true, link: '📄 Draft SOP Event',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Penyusunan kerangka SEO Event', feedback: 'Need Feedback Pak Angga' },
+                    { week: 'W2', note: 'Koordinasi pihak eksternal', feedback: 'Need Feedback Pak Angga' },
+                    { week: 'W4', note: 'Eskalasi event Buatisi & Kemenparekraf', feedback: 'Approved Pak Angga' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'TKB-5.0',
+              name: 'Goal 5: WEEKLY — Operasional, Produksi & E-Commerce',
+              targetOutput: 'Performance Kasir, Retur Vendor & Magang E-Commerce',
+              targetOutcome: 'Efisiensi operasional toko & digital',
+              budget: null,
+              krs: [
+                { 
+                  code: 'TKB-5.1', title: 'Aktivasi briefing kasir (Late Kasir, Scale Up & Upselling)', output: 'Program Training PIC & Kasir', actual: 'Program Training & Development PIC & Kasir berjalan', deadline: '14 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Modul Training Kasir',
+                  weeklyLogs: [
+                    { week: 'W2', note: 'Briefing kasir harian', feedback: 'Approved Pak Angga' },
+                    { week: 'W3', note: 'Monitoring scale up & upselling kasir', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { code: 'TKB-5.2', title: 'Evaluasi hasil training kasir', output: 'Laporan Evaluasi Kasir', deadline: '30 Sep 2026', status: 'On Progress', isTKB: true, link: '📄 Log Evaluasi Kasir' },
+                { 
+                  code: 'TKB-5.3', title: 'Retur vendor & penanganan deadstock', output: 'Strategi Feedback Deadstock', actual: 'Strategi FEEDBACK DEAD STOCK - HPA & DEADSTOCK', deadline: 'Weekly Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Dokumen Retur Vendor',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'List retur vendor produk slow-moving', feedback: 'Approved Pak Angga' },
+                    { week: 'W2', note: 'Koordinasi vendor HPA', feedback: 'Approved Pak Angga' },
+                    { week: 'W3', note: 'Eksekusi retur deadstock', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Monitoring status feedback vendor', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-5.4', title: 'Rekrut magang operasional E-Commerce (admin live, packing, pemilahan)', output: 'Magang Onboard', actual: 'Peserta magang aktif per September', deadline: '07 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Surat Magang',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Seleksi & onboarding anak magang', feedback: 'Approved Pak Angga' }
+                  ]
+                }
+              ]
+            },
+            {
+              id: 'TKB-6.0',
+              name: 'Goal 6: WEEKLY — Marketing Communication & HR/SDM',
+              targetOutput: 'Awareness Komunitas, Kajian Cuci Gudang & Pemenuhan MDD',
+              targetOutcome: 'Brand affinity lokal Bali & kelengkapan struktur tim',
+              budget: null,
+              krs: [
+                { 
+                  code: 'TKB-6.1', title: 'Kerjasama komunitas lokal Bali (Bali Friendship)', output: 'Brand Awareness Aktif', actual: 'Instagram @forum.instagram collab; opsi liga kesenian Bali brainstorming', deadline: '21 Sep 2026', status: 'Selesai', isTKB: true, link: '🔗 Post IG Collab',
+                  weeklyLogs: [
+                    { week: 'W3', note: 'Aktivasi event Bali Friendship', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Brainstorming format liga kesenian Bali', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { code: 'TKB-6.2', title: 'Kajian opsi cuci gudang reguler vs T-shirt vs citra margin premium', output: 'Laporan Kajian Bisnis', deadline: '21 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 Dokumen Kajian' },
+                { 
+                  code: 'TKB-6.3', title: 'Rekrutmen MDD Sales & Marketing (Reach out, Interview, Offering, Join)', output: 'Kandidat MDD Selesai Join', actual: '06. DEDODT MD - TKB; Offering 15 Sep & Join 20 Sep 2026 Selesai', deadline: '20 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 File DEDODT MD',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Reach out kandidat MDD Sales & Marketing', feedback: 'Approved Pak Angga' },
+                    { week: 'W2', note: 'Approaching & interview', feedback: 'Approved Pak Angga' },
+                    { week: 'W3', note: 'Offering letter 15 Sep', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Kandidat resmi join 20 Sep', feedback: 'Approved Pak Angga' }
+                  ]
+                },
+                { 
+                  code: 'TKB-6.4', title: 'Rekrutmen MDD HQ (Reach out, Interview, Offering, Join)', output: 'Kandidat MDD HQ Selesai Join', actual: '06. DEDODT MD - TKB; Interview, Offering 15 Sep & Join 20 Sep 2026 Selesai', deadline: '20 Sep 2026', status: 'Selesai', isTKB: true, link: '📄 File DEDODT MD HQ',
+                  weeklyLogs: [
+                    { week: 'W1', note: 'Reach out & approaching', feedback: 'Approved Pak Angga' },
+                    { week: 'W2', note: 'Interview tahap 1', feedback: 'Approved Pak Angga' },
+                    { week: 'W3', note: 'Interview & offering 15 Sep', feedback: 'Approved Pak Angga' },
+                    { week: 'W4', note: 'Kandidat resmi join 20 Sep', feedback: 'Approved Pak Angga' }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
     '7': {
       monthName: 'Agustus 2026',
       projects: [
@@ -5330,10 +5525,10 @@ window.showKRDetailModal = function(code, title, project, objective, targetOutpu
 function renderTKBOKRView() {
   const selectedStat = state.okrStatusFilter || 'all';
 
-  const currentMonthKey = (state.selectedSalesMonth === '6') ? '6' : '7';
+  const currentMonthKey = ['6', '8'].includes(state.selectedSalesMonth) ? state.selectedSalesMonth : '7';
   const monthData = tkbOKRData.monthsData ? (tkbOKRData.monthsData[currentMonthKey] || tkbOKRData.monthsData['7']) : tkbOKRData;
   const proj = (monthData.projects && monthData.projects[0]) || tkbOKRData.projects[0];
-  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : 'Juli 2026');
+  const monthTitle = monthData.monthName || (currentMonthKey === '7' ? 'Agustus 2026' : (currentMonthKey === '8' ? 'September 2026' : 'Juli 2026'));
 
   let allKRs = [];
   proj.objectives.forEach(obj => {
@@ -5389,7 +5584,8 @@ function renderTKBOKRView() {
             <span style="font-size:0.8rem; color:var(--text-secondary); font-weight:700;">Bulan:</span>
             <select id="okrTkbMonthSelect" onchange="window.updateSalesMonthFilter(this.value)" 
                     style="background:var(--bg-card); border:1.5px solid var(--accent-gold); color:var(--text-primary); padding:6px 12px; border-radius:6px; font-size:0.82rem; font-weight:700; cursor:pointer;">
-              <option value="7" ${state.selectedSalesMonth === '7' ? 'selected' : ''}>Agustus 2026 (Data Baru ✨)</option>
+              <option value="8" ${currentMonthKey === '8' ? 'selected' : ''}>September 2026 (Data Baru ✨)</option>
+              <option value="7" ${currentMonthKey === '7' ? 'selected' : ''}>Agustus 2026 (History 📜)</option>
               <option value="6" ${state.selectedSalesMonth === '6' ? 'selected' : ''}>Juli 2026 (History 📜)</option>
             </select>
           </div>

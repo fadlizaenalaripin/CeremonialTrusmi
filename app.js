@@ -4929,9 +4929,9 @@ const produksiOKRData = {
               targetOutcome: 'Bisa menyelesaikan PO ontime 95%',
               deadline: '30 September 2026',
               krs: [
-                { code: 'BF-1.1.1', title: 'Menyusun Capacity Planning mingguan berdasarkan PO, forecast, manpower dan kapasitas mesin', output: 'Capacity Planning tersedia dan tervalidasi', deadline: '21 September 2026', status: 'On Progress', link: 'Fabrikasi | Kalender Produksi', actual: '-' },
-                { code: 'BF-1.1.2', title: 'Membuat Capacity Loading berdasarkan kapasitas Available, Booked dan Idle', output: 'Capacity Loading mingguan tersedia 100%', deadline: '26 September 2026', status: 'On Progress', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
-                { code: 'BF-1.1.3', title: 'Membuat dashboard monitoring Capacity Booking Rate', output: 'Dashboard Capacity aktif dan update 100% hari kerja', deadline: '30 September 2026', status: 'On Progress', link: 'Fabrikasi | Kalender Produksi', actual: 'Masih on progres develop/ perbaikan untuk kesesuaian data' }
+                { code: 'BF-1.1.1', title: 'Menyusun Capacity Planning mingguan berdasarkan PO, forecast, manpower dan kapasitas mesin', output: 'Capacity Planning tersedia dan tervalidasi', deadline: '21 September 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: '-' },
+                { code: 'BF-1.1.2', title: 'Membuat Capacity Loading berdasarkan kapasitas Available, Booked dan Idle', output: 'Capacity Loading mingguan tersedia 100%', deadline: '26 September 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
+                { code: 'BF-1.1.3', title: 'Membuat dashboard monitoring Capacity Booking Rate', output: 'Dashboard Capacity aktif dan update 100% hari kerja', deadline: '30 September 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Masih on progres develop/ perbaikan untuk kesesuaian data' }
               ]
             },
             {
@@ -4941,10 +4941,10 @@ const produksiOKRData = {
               targetOutcome: 'Bisa menyelesaikan PO ontime 95%',
               deadline: '30 September 2026',
               krs: [
-                { code: 'BF-1.2.1', title: 'Melakukan review kapasitas produksi dan forecast 4 minggu ke depan', output: 'Rolling Capacity Forecast tersedia', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-1.2.2', title: 'Menetapkan Production Priority berdasarkan due date, customer priority dan material readiness', output: '100% order critical memiliki priority plan', deadline: '15 September 2026', status: 'On Progress', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
-                { code: 'BF-1.2.3', title: 'Membuat Early Warning H-2 untuk order yang berisiko terlambat', output: '100% order H-2 termonitor', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-1.2.4', title: 'Membuat skema Fast Track Order untuk order critical', output: '100% order critical memiliki prioritas dan jalur eskalasi', deadline: '19 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' }
+                { code: 'BF-1.2.1', title: 'Melakukan review kapasitas produksi dan forecast 4 minggu ke depan', output: 'Rolling Capacity Forecast tersedia', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-1.2.2', title: 'Menetapkan Production Priority berdasarkan due date, customer priority dan material readiness', output: '100% order critical memiliki priority plan', deadline: '15 September 2026', status: 'Done', link: 'Fabrikasi | Kalender Produksi', actual: 'Sudah mulai peralihan planning produksi tersistem' },
+                { code: 'BF-1.2.3', title: 'Membuat Early Warning H-2 untuk order yang berisiko terlambat', output: '100% order H-2 termonitor', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-1.2.4', title: 'Membuat skema Fast Track Order untuk order critical', output: '100% order critical memiliki prioritas dan jalur eskalasi', deadline: '19 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' }
               ]
             },
             {
@@ -4954,17 +4954,17 @@ const produksiOKRData = {
               targetOutcome: '% Reject Critical menurun',
               deadline: '30 September 2026',
               krs: [
-                { code: 'BF-2.1.1', stage: 'Perbaikan proses pre-production', title: 'Membuat Pareto Top 3 defect produksi', output: 'Pareto Top 3 defect tersedia setiap minggu', deadline: '30 September 2026', status: 'On Progress', link: 'Detail Report Purchasing W3 September 2026.xlsx', actual: '-' },
-                { code: 'BF-2.1.2', stage: 'Perbaikan proses pre-production', title: 'Melakukan RCA (Root Cause Analysis) menggunakan 4M + 5 Why untuk defect dominan', output: '100% defect dominan memiliki RCA', deadline: '26 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW 2) Sheet RCA - Produk Reject', actual: '-' },
-                { code: 'BF-2.1.3', stage: 'Perbaikan proses pre-production', title: 'Menetapkan Critical Process Parameter (CPP) pada proses kritis', output: 'CPP tersedia untuk 100% proses kritis', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW) Sheet CCP', actual: '-' },
-                { code: 'BF-2.1.4', stage: 'Perbaikan proses produksi', title: 'Membuat Material Readiness Checklist sebelum proses produksi', output: '100% batch menggunakan checklist', deadline: '26 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-2.1.5', stage: 'Perbaikan proses produksi', title: 'Melakukan audit kepatuhan SOP dan CPP', output: 'Kepatuhan proses minimal 95%', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-2.1.6', stage: 'Perbaikan proses produksi', title: 'Melakukan corrective action terhadap defect dominan', output: '100% temuan memiliki corrective action', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-2.1.7', stage: 'Perbaikan proses produksi', title: 'Melakukan monitoring dan validasi hasil improvement', output: 'Rework turun minimal 30%', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-2.1.8', stage: 'Perbaikan proses produksi', title: 'Membuat analisa Cost of Poor Quality (COPQ)', output: 'Laporan COPQ tersedia 100% setiap minggu', deadline: '19 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW)', actual: '-' },
-                { code: 'BF-2.1.9', stage: 'Perbaikan post production', title: 'Menetapkan standard consumption kain, malam, dye dan chemical', output: 'Standard consumption tersedia untuk 100% proses utama', deadline: '19 September 2026', status: 'On Progress', link: 'Fabrikasi | Sampel Produksi', actual: '-' },
-                { code: 'BF-2.1.10', stage: 'Perbaikan post production', title: 'Menjalankan program Kaizen berdasarkan sumber waste terbesar', output: 'Minimal 2 program Kaizen', deadline: '30 September 2026', status: 'On Progress', link: 'Control Board Mini Factory (NEW) Sheet: Kaizen', actual: '-' },
-                { code: 'BF-2.1.11', stage: 'Perbaikan post production', title: 'Mengukur saving hasil improvement', output: 'Saving terdokumentasi dalam Rupiah', deadline: '30 September 2026', status: 'On Progress', link: 'NOMINAL PRODUK REJECT', actual: '-' }
+                { code: 'BF-2.1.1', stage: 'Perbaikan proses pre-production', title: 'Membuat Pareto Top 3 defect produksi', output: 'Pareto Top 3 defect tersedia setiap minggu', deadline: '30 September 2026', status: 'Done', link: 'Detail Report Purchasing W3 September 2026.xlsx', actual: '-' },
+                { code: 'BF-2.1.2', stage: 'Perbaikan proses pre-production', title: 'Melakukan RCA (Root Cause Analysis) menggunakan 4M + 5 Why untuk defect dominan', output: '100% defect dominan memiliki RCA', deadline: '26 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW 2) Sheet RCA - Produk Reject', actual: '-' },
+                { code: 'BF-2.1.3', stage: 'Perbaikan proses pre-production', title: 'Menetapkan Critical Process Parameter (CPP) pada proses kritis', output: 'CPP tersedia untuk 100% proses kritis', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW) Sheet CCP', actual: '-' },
+                { code: 'BF-2.1.4', stage: 'Perbaikan proses produksi', title: 'Membuat Material Readiness Checklist sebelum proses produksi', output: '100% batch menggunakan checklist', deadline: '26 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.5', stage: 'Perbaikan proses produksi', title: 'Melakukan audit kepatuhan SOP dan CPP', output: 'Kepatuhan proses minimal 95%', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.6', stage: 'Perbaikan proses produksi', title: 'Melakukan corrective action terhadap defect dominan', output: '100% temuan memiliki corrective action', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.7', stage: 'Perbaikan proses produksi', title: 'Melakukan monitoring dan validasi hasil improvement', output: 'Rework turun minimal 30%', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.8', stage: 'Perbaikan proses produksi', title: 'Membuat analisa Cost of Poor Quality (COPQ)', output: 'Laporan COPQ tersedia 100% setiap minggu', deadline: '19 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW)', actual: '-' },
+                { code: 'BF-2.1.9', stage: 'Perbaikan post production', title: 'Menetapkan standard consumption kain, malam, dye dan chemical', output: 'Standard consumption tersedia untuk 100% proses utama', deadline: '19 September 2026', status: 'Done', link: 'Fabrikasi | Sampel Produksi', actual: '-' },
+                { code: 'BF-2.1.10', stage: 'Perbaikan post production', title: 'Menjalankan program Kaizen berdasarkan sumber waste terbesar', output: 'Minimal 2 program Kaizen', deadline: '30 September 2026', status: 'Done', link: 'Control Board Mini Factory (NEW) Sheet: Kaizen', actual: '-' },
+                { code: 'BF-2.1.11', stage: 'Perbaikan post production', title: 'Mengukur saving hasil improvement', output: 'Saving terdokumentasi dalam Rupiah', deadline: '30 September 2026', status: 'Done', link: 'NOMINAL PRODUK REJECT', actual: '-' }
               ]
             }
           ]
@@ -4981,8 +4981,8 @@ const produksiOKRData = {
               krs: [
                 { code: 'HF-1.1.1', title: 'Melakukan penambahan & onboarding 1 PIC QC Handprint terampil', output: '1 PIC QC Aktif & Kompeten', deadline: '31 Aug 2026', status: 'Done', link: '-', actual: 'Sudah Join' },
                 { code: 'HF-1.1.2', title: 'Mempercepat rata-rata durasi pengecekan kain dari 24 jam menjadi max 6 jam per lot', output: 'SOP Inspection < 6 jam/lot', deadline: '15 Sep 2026', status: 'Done', link: '-', actual: 'Done' },
-                { code: 'HF-1.1.3', title: 'Mencapai ketepatan waktu inspeksi (QC On-Time Rate) sebesar 98% untuk seluruh PO Handprint', output: 'Laporan QC On-Time Rate 98%', deadline: '30 Sep 2026', status: 'On Progress', link: 'Dashboard QC', actual: '-' },
-                { code: 'HF-1.1.4', title: 'Menekan tingkat keterlambatan pengiriman (Late PO) akibat antrean QC hingga 0%', output: '0 Case Late PO (QC Cause)', deadline: '30 Sep 2026', status: 'On Progress', link: 'Dashboard QC', actual: '-' }
+                { code: 'HF-1.1.3', title: 'Mencapai ketepatan waktu inspeksi (QC On-Time Rate) sebesar 98% untuk seluruh PO Handprint', output: 'Laporan QC On-Time Rate 98%', deadline: '30 Sep 2026', status: 'Done', link: 'Dashboard QC', actual: '-' },
+                { code: 'HF-1.1.4', title: 'Menekan tingkat keterlambatan pengiriman (Late PO) akibat antrean QC hingga 0%', output: '0 Case Late PO (QC Cause)', deadline: '30 Sep 2026', status: 'Done', link: 'Dashboard QC', actual: '-' }
               ]
             },
             {
@@ -4992,8 +4992,8 @@ const produksiOKRData = {
               targetOutcome: 'Transparansi 100% posisi kain di setiap stasiun kerja & bottleneck terdeteksi dinamis',
               deadline: '30 September 2026',
               krs: [
-                { code: 'HF-2.1.1', title: 'Mengembangkan & merilis fitur Tracking WIP Real-Time per Lot Handprint di Sistem Dashboard', output: 'Sistem WIP Live & Functional', deadline: '15 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: 'Pengembangan UI/UX & Database' },
-                { code: 'HF-2.1.2', title: 'Mencapai 100% kepatuhan operator dalam melakukan scan/input status WIP di setiap stasiun', output: 'Kepatuhan Input Data 100%', deadline: '30 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: 'Training operator dijadwalkan' }
+                { code: 'HF-2.1.1', title: 'Mengembangkan & merilis fitur Tracking WIP Real-Time per Lot Handprint di Sistem Dashboard', output: 'Sistem WIP Live & Functional', deadline: '15 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Pengembangan UI/UX & Database' },
+                { code: 'HF-2.1.2', title: 'Mencapai 100% kepatuhan operator dalam melakukan scan/input status WIP di setiap stasiun', output: 'Kepatuhan Input Data 100%', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Training operator dijadwalkan' }
               ]
             },
             {
@@ -5003,8 +5003,8 @@ const produksiOKRData = {
               targetOutcome: 'Respon penanganan kendala produksi < 15 menit dari tim terdesain',
               deadline: '30 September 2026',
               krs: [
-                { code: 'HF-2.2.1', title: 'Membangun sistem notifikasi otomatis untuk kain siap QC, delay produksi, dan alert defect high-risk', output: 'Fitur Push Notification Active', deadline: '20 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: 'Integrasi API notifikasi' },
-                { code: 'HF-2.2.2', title: 'Menurunkan Response Time terhadap alert kemacetan produksi/defect menjadi di bawah 15 menit', output: 'Avg Response Time < 15 Min', deadline: '30 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: '-' }
+                { code: 'HF-2.2.1', title: 'Membangun sistem notifikasi otomatis untuk kain siap QC, delay produksi, dan alert defect high-risk', output: 'Fitur Push Notification Active', deadline: '20 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: 'Integrasi API notifikasi' },
+                { code: 'HF-2.2.2', title: 'Menurunkan Response Time terhadap alert kemacetan produksi/defect menjadi di bawah 15 menit', output: 'Avg Response Time < 15 Min', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' }
               ]
             },
             {
@@ -5014,8 +5014,8 @@ const produksiOKRData = {
               targetOutcome: 'Peningkatan produktivitas tim & tidak ada task/PO yang terlewat',
               deadline: '30 September 2026',
               krs: [
-                { code: 'HF-2.3.1', title: 'Merancang & mengimplementasikan modul Auto-Tasklist harian berdasarkan priority PO & due date', output: 'Module Tasklist Otomatis', deadline: '25 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: '-' },
-                { code: 'HF-2.3.2', title: 'Mencapai Task Completion Rate harian tim produksi sebesar minimum 95%', output: 'Task Completion Rate 95%', deadline: '30 Sep 2026', status: 'On Progress', link: 'Sistem Handprint', actual: '-' }
+                { code: 'HF-2.3.1', title: 'Merancang & mengimplementasikan modul Auto-Tasklist harian berdasarkan priority PO & due date', output: 'Module Tasklist Otomatis', deadline: '25 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' },
+                { code: 'HF-2.3.2', title: 'Mencapai Task Completion Rate harian tim produksi sebesar minimum 95%', output: 'Task Completion Rate 95%', deadline: '30 Sep 2026', status: 'Done', link: 'Sistem Handprint', actual: '-' }
               ]
             }
           ]

@@ -8877,10 +8877,67 @@ const retensiData = {
     },
     citySummary: {
       'Semua Kota': { totalCustomer: '105.599', baru: '44.786', retensi: '60.813', rate: '57.6%', belanja: '55.187.993.640' },
-      'Cirebon': { totalCustomer: '9.170', baru: '3.895', retensi: '5.275', rate: '57.5%', belanja: '4.782.115.000' },
-      'Majalengka': { totalCustomer: '702', baru: '298', retensi: '404', rate: '57.5%', belanja: '365.410.000' },
-      'Indramayu': { totalCustomer: '1.120', baru: '476', retensi: '644', rate: '57.5%', belanja: '585.120.000' },
-      'Kuningan': { totalCustomer: '560', baru: '238', retensi: '322', rate: '57.5%', belanja: '292.050.000' }
+      'Cirebon': { totalCustomer: '9.033', baru: '3.758', retensi: '5.275', rate: '58.4%', belanja: '4.782.115.000' },
+      'Majalengka': { totalCustomer: '1.023', baru: '619', retensi: '404', rate: '39.5%', belanja: '542.890.000' },
+      'Indramayu': { totalCustomer: '1.677', baru: '1.033', retensi: '644', rate: '38.4%', belanja: '891.240.000' },
+      'Kuningan': { totalCustomer: '824', baru: '502', retensi: '322', rate: '39.1%', belanja: '435.150.000' }
+    },
+    cityMonthly: {
+      'Semua Kota': [
+        { month: 'Jan', period: '2026-01', total: '13.473', baru: '6.138', retensi: '7.335', rate: '54.4%', belanja: '6.881.587.263', valRetensi: 7335, valBaru: 6138, numRate: 54.4 },
+        { month: 'Feb', period: '2026-02', total: '9.450', baru: '4.065', retensi: '5.385', rate: '57%', belanja: '4.974.820.584', valRetensi: 5385, valBaru: 4065, numRate: 57.0 },
+        { month: 'Mar', period: '2026-03', total: '10.736', baru: '4.685', retensi: '6.051', rate: '56.4%', belanja: '6.129.980.068', valRetensi: 6051, valBaru: 4685, numRate: 56.4 },
+        { month: 'Apr', period: '2026-04', total: '12.119', baru: '5.484', retensi: '6.635', rate: '54.7%', belanja: '5.828.493.242', valRetensi: 6635, valBaru: 5484, numRate: 54.7 },
+        { month: 'Mei', period: '2026-05', total: '14.501', baru: '6.533', retensi: '7.968', rate: '54.9%', belanja: '7.609.109.311', valRetensi: 7968, valBaru: 6533, numRate: 54.9 },
+        { month: 'Jun', period: '2026-06', total: '12.879', baru: '5.160', retensi: '7.719', rate: '59.9%', belanja: '6.637.655.070', valRetensi: 7719, valBaru: 5160, numRate: 59.9 },
+        { month: 'Jul', period: '2026-07', total: '10.630', baru: '4.291', retensi: '6.339', rate: '59.6%', belanja: '5.953.433.796', valRetensi: 6339, valBaru: 4291, numRate: 59.6 },
+        { month: 'Agu', period: '2026-08', total: '10.935', baru: '4.407', retensi: '6.528', rate: '59.7%', belanja: '5.811.176.889', valRetensi: 6528, valBaru: 4407, numRate: 59.7 },
+        { month: 'Sep', period: '2026-09', total: '10.876', baru: '4.023', retensi: '6.853', rate: '63%', belanja: '5.361.737.417', valRetensi: 6853, valBaru: 4023, numRate: 63.0 }
+      ],
+      'Cirebon': [
+        { month: 'Jan', period: '2026-01', total: '1.152', baru: '488', retensi: '664', rate: '57.6%', belanja: '610.150.000', valRetensi: 664, valBaru: 488, numRate: 57.6 },
+        { month: 'Feb', period: '2026-02', total: '808', baru: '348', retensi: '460', rate: '56.9%', belanja: '427.500.000', valRetensi: 460, valBaru: 348, numRate: 56.9 },
+        { month: 'Mar', period: '2026-03', total: '918', baru: '392', retensi: '526', rate: '57.3%', belanja: '486.200.000', valRetensi: 526, valBaru: 392, numRate: 57.3 },
+        { month: 'Apr', period: '2026-04', total: '1.036', baru: '436', retensi: '600', rate: '57.9%', belanja: '548.800.000', valRetensi: 600, valBaru: 436, numRate: 57.9 },
+        { month: 'Mei', period: '2026-05', total: '1.240', baru: '512', retensi: '728', rate: '58.7%', belanja: '656.700.000', valRetensi: 728, valBaru: 512, numRate: 58.7 },
+        { month: 'Jun', period: '2026-06', total: '1.101', baru: '448', retensi: '653', rate: '59.3%', belanja: '583.250.000', valRetensi: 653, valBaru: 448, numRate: 59.3 },
+        { month: 'Jul', period: '2026-07', total: '908', baru: '374', retensi: '534', rate: '58.8%', belanja: '481.300.000', valRetensi: 534, valBaru: 374, numRate: 58.8 },
+        { month: 'Agu', period: '2026-08', total: '935', baru: '385', retensi: '550', rate: '58.8%', belanja: '495.115.000', valRetensi: 550, valBaru: 385, numRate: 58.8 },
+        { month: 'Sep', period: '2026-09', total: '935', baru: '375', retensi: '560', rate: '59.9%', belanja: '493.100.000', valRetensi: 560, valBaru: 375, numRate: 59.9 }
+      ],
+      'Majalengka': [
+        { month: 'Jan', period: '2026-01', total: '131', baru: '80', retensi: '51', rate: '38.9%', belanja: '69.450.000', valRetensi: 51, valBaru: 80, numRate: 38.9 },
+        { month: 'Feb', period: '2026-02', total: '91', baru: '56', retensi: '35', rate: '38.5%', belanja: '48.290.000', valRetensi: 35, valBaru: 56, numRate: 38.5 },
+        { month: 'Mar', period: '2026-03', total: '104', baru: '64', retensi: '40', rate: '38.5%', belanja: '55.190.000', valRetensi: 40, valBaru: 64, numRate: 38.5 },
+        { month: 'Apr', period: '2026-04', total: '117', baru: '72', retensi: '45', rate: '38.5%', belanja: '62.090.000', valRetensi: 45, valBaru: 72, numRate: 38.5 },
+        { month: 'Mei', period: '2026-05', total: '140', baru: '85', retensi: '55', rate: '39.3%', belanja: '74.280.000', valRetensi: 55, valBaru: 85, numRate: 39.3 },
+        { month: 'Jun', period: '2026-06', total: '124', baru: '74', retensi: '50', rate: '40.3%', belanja: '65.810.000', valRetensi: 50, valBaru: 74, numRate: 40.3 },
+        { month: 'Jul', period: '2026-07', total: '103', baru: '62', retensi: '41', rate: '39.8%', belanja: '54.670.000', valRetensi: 41, valBaru: 62, numRate: 39.8 },
+        { month: 'Agu', period: '2026-08', total: '106', baru: '64', retensi: '42', rate: '39.6%', belanja: '56.270.000', valRetensi: 42, valBaru: 64, numRate: 39.6 },
+        { month: 'Sep', period: '2026-09', total: '107', baru: '62', retensi: '45', rate: '42.1%', belanja: '56.840.000', valRetensi: 45, valBaru: 62, numRate: 42.1 }
+      ],
+      'Indramayu': [
+        { month: 'Jan', period: '2026-01', total: '214', baru: '133', retensi: '81', rate: '37.9%', belanja: '113.800.000', valRetensi: 81, valBaru: 133, numRate: 37.9 },
+        { month: 'Feb', period: '2026-02', total: '150', baru: '94', retensi: '56', rate: '37.3%', belanja: '79.740.000', valRetensi: 56, valBaru: 94, numRate: 37.3 },
+        { month: 'Mar', period: '2026-03', total: '171', baru: '107', retensi: '64', rate: '37.4%', belanja: '90.900.000', valRetensi: 64, valBaru: 107, numRate: 37.4 },
+        { month: 'Apr', period: '2026-04', total: '193', baru: '121', retensi: '72', rate: '37.3%', belanja: '102.600.000', valRetensi: 72, valBaru: 121, numRate: 37.3 },
+        { month: 'Mei', period: '2026-05', total: '230', baru: '142', retensi: '88', rate: '38.3%', belanja: '122.250.000', valRetensi: 88, valBaru: 142, numRate: 38.3 },
+        { month: 'Jun', period: '2026-06', total: '204', baru: '124', retensi: '80', rate: '39.2%', belanja: '108.450.000', valRetensi: 80, valBaru: 124, numRate: 39.2 },
+        { month: 'Jul', period: '2026-07', total: '169', baru: '103', retensi: '66', rate: '39.1%', belanja: '89.850.000', valRetensi: 66, valBaru: 103, numRate: 39.1 },
+        { month: 'Agu', period: '2026-08', total: '174', baru: '106', retensi: '68', rate: '39.1%', belanja: '92.510.000', valRetensi: 68, valBaru: 106, numRate: 39.1 },
+        { month: 'Sep', period: '2026-09', total: '172', baru: '103', retensi: '69', rate: '40.1%', belanja: '91.140.000', valRetensi: 69, valBaru: 103, numRate: 40.1 }
+      ],
+      'Kuningan': [
+        { month: 'Jan', period: '2026-01', total: '105', baru: '65', retensi: '40', rate: '38.1%', belanja: '55.510.000', valRetensi: 40, valBaru: 65, numRate: 38.1 },
+        { month: 'Feb', period: '2026-02', total: '74', baru: '46', retensi: '28', rate: '37.8%', belanja: '39.100.000', valRetensi: 28, valBaru: 46, numRate: 37.8 },
+        { month: 'Mar', period: '2026-03', total: '84', baru: '52', retensi: '32', rate: '38.1%', belanja: '44.380.000', valRetensi: 32, valBaru: 52, numRate: 38.1 },
+        { month: 'Apr', period: '2026-04', total: '95', baru: '59', retensi: '36', rate: '37.9%', belanja: '50.190.000', valRetensi: 36, valBaru: 59, numRate: 37.9 },
+        { month: 'Mei', period: '2026-05', total: '113', baru: '69', retensi: '44', rate: '38.9%', belanja: '59.700.000', valRetensi: 44, valBaru: 69, numRate: 38.9 },
+        { month: 'Jun', period: '2026-06', total: '100', baru: '60', retensi: '40', rate: '40.0%', belanja: '52.840.000', valRetensi: 40, valBaru: 60, numRate: 40.0 },
+        { month: 'Jul', period: '2026-07', total: '83', baru: '50', retensi: '33', rate: '39.8%', belanja: '43.860.000', valRetensi: 33, valBaru: 50, numRate: 39.8 },
+        { month: 'Agu', period: '2026-08', total: '85', baru: '51', retensi: '34', rate: '40.0%', belanja: '44.920.000', valRetensi: 34, valBaru: 51, numRate: 40.0 },
+        { month: 'Sep', period: '2026-09', total: '85', baru: '50', retensi: '35', rate: '41.2%', belanja: '44.650.000', valRetensi: 35, valBaru: 50, numRate: 41.2 }
+      ]
     },
     monthly: [
       { month: 'Jan', period: '2026-01', total: '13.473', baru: '6.138', retensi: '7.335', rate: '54.4%', belanja: '6.881.587.263', valRetensi: 7335, valBaru: 6138, numRate: 54.4 },
@@ -9006,6 +9063,7 @@ function renderRetensiBTView() {
   const currentCity = state.selectedRetensiCity || 'Semua Kota';
   const data = retensiData.bt;
   const metrics = data.citySummary[currentCity] || data.summary;
+  const currentMonthly = (data.cityMonthly && data.cityMonthly[currentCity]) || data.monthly;
 
   const filterButtons = data.filters.map(city => `
     <button class="retensi-pill-btn ${city === currentCity ? 'active' : ''}" onclick="window.setRetensiCityFilter('${city}')">
@@ -9013,10 +9071,10 @@ function renderRetensiBTView() {
     </button>
   `).join('');
 
-  const monthlyRows = data.monthly.map(m => `
+  const monthlyRows = currentMonthly.map(m => `
     <tr>
       <td style="color: #CBD5E1;">${m.period}</td>
-      <td style="color: #CBD5E1;">${m.lokasi || currentCity}</td>
+      <td style="color: #CBD5E1;">${currentCity}</td>
       <td style="text-align: right; color: #CBD5E1;">${m.total}</td>
       <td style="text-align: right; color: #CBD5E1;">${m.baru}</td>
       <td style="text-align: right; font-weight: 700; color: #F97316;">${m.retensi}</td>
@@ -9035,17 +9093,19 @@ function renderRetensiBTView() {
       `;
     }
 
+    const isCurrent = currentCity === c.name;
     const barColor = c.isOrange ? '#F97316' : '#5A6E85';
     const isSub = c.isSubtotal;
     const marginTop = isSub ? 'margin-top: 14px;' : '';
+    const highlightBorder = isCurrent ? 'background: rgba(249, 115, 22, 0.12); border: 1px solid rgba(249, 115, 22, 0.4); border-radius: 6px; padding: 4px 8px;' : '';
 
     return `
-      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 9px; ${marginTop} font-size: 0.84rem;">
-        <div style="width: 120px; flex-shrink: 0; font-weight: ${isSub ? '800' : '600'}; color: ${isSub ? '#FFF' : '#CBD5E1'};">${c.name}</div>
+      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 9px; ${marginTop} ${highlightBorder} font-size: 0.84rem;">
+        <div style="width: 120px; flex-shrink: 0; font-weight: ${isSub || isCurrent ? '800' : '600'}; color: ${isSub || isCurrent ? '#FFF' : '#CBD5E1'};">${c.name}</div>
         <div style="flex: 1; height: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; overflow: hidden;">
           <div style="height: 100%; width: ${c.pct}%; background: ${barColor}; border-radius: 6px; transition: width 0.4s ease;"></div>
         </div>
-        <div style="width: 140px; flex-shrink: 0; text-align: right; font-weight: ${isSub ? '800' : '600'}; color: ${isSub ? '#FFF' : '#CBD5E1'};">${c.retensi}</div>
+        <div style="width: 140px; flex-shrink: 0; text-align: right; font-weight: ${isSub || isCurrent ? '800' : '600'}; color: ${isSub || isCurrent ? '#FFF' : '#E2E8F0'};">${c.retensi}</div>
       </div>
     `;
   }).join('');
@@ -9327,10 +9387,18 @@ function initRetensiBTChart() {
     state.activeChartInstances.retensiBT.destroy();
   }
 
+  const currentCity = state.selectedRetensiCity || 'Semua Kota';
+  const data = retensiData.bt;
+  const currentMonthly = (data.cityMonthly && data.cityMonthly[currentCity]) || data.monthly;
+
   const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep'];
-  const retensiValues = retensiData.bt.monthly.map(m => m.valRetensi);
-  const baruValues = retensiData.bt.monthly.map(m => m.valBaru);
-  const rateValues = retensiData.bt.monthly.map(m => m.numRate);
+  const retensiValues = currentMonthly.map(m => m.valRetensi);
+  const baruValues = currentMonthly.map(m => m.valBaru);
+  const rateValues = currentMonthly.map(m => m.numRate);
+
+  const maxVal = Math.max(...currentMonthly.map(m => (m.valRetensi || 0) + (m.valBaru || 0)));
+  const yCountMax = currentCity === 'Semua Kota' ? 16000 : Math.ceil((maxVal * 1.25) / 100) * 100;
+  const yStep = currentCity === 'Semua Kota' ? 2000 : Math.ceil(yCountMax / 8 / 25) * 25;
 
   state.activeChartInstances.retensiBT = new Chart(chartCanvas, {
     data: {
@@ -9412,10 +9480,10 @@ function initRetensiBTChart() {
           position: 'left',
           stacked: true,
           beginAtZero: true,
-          max: 16000,
+          max: yCountMax,
           ticks: {
             color: '#64748B',
-            stepSize: 2000,
+            stepSize: yStep,
             callback: function(v) {
               return v.toLocaleString('en-US');
             }

@@ -8922,9 +8922,8 @@ const retensiData = {
     period: 'Retensi B2B September 2026',
     subtitle: 'Customer yang closing kembali (ditandai ungu), dari nama customer sampai sales',
     summary: {
-      customerUnik: '18',
-      entriRetensi: '23',
-      totalSalesRetensi: 'Rp174.674.160',
+      transaksi: '43',
+      retensi: '23',
       totalSalesSep: 'Rp291.802.260',
       rateSep: '59,9%'
     },
@@ -9220,21 +9219,16 @@ function renderRetensiB2BView() {
         <div style="font-size: 0.85rem; color: #94A3B8;">${data.subtitle}</div>
       </div>
 
-      <!-- 4 Metric Cards (Purple theme) -->
-      <div class="retensi-metric-grid-4">
+      <!-- 3 Metric Cards (Purple theme) -->
+      <div class="retensi-metric-grid-3">
         <div class="retensi-card">
-          <div style="font-size: 2.2rem; font-weight: 800; color: #A855F7; letter-spacing: -0.5px;">${data.summary.customerUnik}</div>
-          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-top: 4px;">customer unik retensi</div>
-        </div>
-
-        <div class="retensi-card">
-          <div style="font-size: 2.2rem; font-weight: 800; color: #C084FC; letter-spacing: -0.5px;">${data.summary.entriRetensi}</div>
-          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-top: 4px;">entri retensi (order ungu)</div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #A855F7; letter-spacing: -0.5px;">${data.summary.transaksi}</div>
+          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-top: 4px;">Transaksi</div>
         </div>
 
         <div class="retensi-card retensi-card-purple">
-          <div style="font-size: 1.7rem; font-weight: 800; color: #C084FC; letter-spacing: -0.5px;">${data.summary.totalSalesRetensi}</div>
-          <div style="font-size: 0.8rem; color: #E9D5FF; font-weight: 600; margin-top: 4px;">total sales retensi</div>
+          <div style="font-size: 2.2rem; font-weight: 800; color: #C084FC; letter-spacing: -0.5px;">${data.summary.retensi}</div>
+          <div style="font-size: 0.8rem; color: #E9D5FF; font-weight: 600; margin-top: 4px;">retensi</div>
         </div>
 
         <div class="retensi-card">

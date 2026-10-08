@@ -505,7 +505,7 @@ const mockData = {
           monthName: 'Agustus 2026',
           overallScore: 82.0,
           scorecard: [
-            { id: 'dept-sales', name: 'Sales / Ops Store', score: 83.0, color: '#F59E0B', badgeClass: 'status-on-track', level: 'medium' },
+            { id: 'dept-sales', name: 'Sales / Ops Store', score: 85.0, color: '#10B981', badgeClass: 'status-achieved', level: 'high' },
             { id: 'dept-operational', name: 'Operational', score: 100.0, color: '#10B981', badgeClass: 'status-achieved', level: 'high' },
             { id: 'dept-marketing', name: 'Marketing', score: 42.0, color: '#EF4444', badgeClass: 'status-at-risk', level: 'low' },
             { id: 'dept-b2b', name: 'B2B', score: 95.0, color: '#10B981', badgeClass: 'status-achieved', level: 'high' },
@@ -517,8 +517,8 @@ const mockData = {
             {
               id: 'dept-sales',
               name: '1. SALES / OPS STORE',
-              score: 83.0,
-              statusClass: 'status-on-track',
+              score: 85.0,
+              statusClass: 'status-achieved',
               perspectives: [
                 {
                   name: 'Sales Store Performance',
@@ -528,7 +528,7 @@ const mockData = {
                     { name: 'Basket Size', bobot: '10%', target: 'Rp500.000', actual: 'Rp455.114', acv: 91, kpi: '9%', footnote: 'Rata-rata Nilai per Transaksi Pelanggan' },
                     { name: 'Transaksi', bobot: '10%', target: '15.827', actual: '11.492', acv: 73, kpi: '7%', footnote: 'Jumlah Transaksi Pelanggan' },
                     { name: 'Hitrate', bobot: '10%', target: '27%', actual: '28%', acv: 100, kpi: '10%', footnote: '% Keberhasilan Transaksi' },
-                    { name: 'Retensi Cirebon', bobot: '20%', target: '475', actual: '309', acv: 65, kpi: '13%', footnote: 'Jumlah pelanggan melakukan retensi dari area Cirebon' },
+                    { name: 'Retensi Cirebon', bobot: '20%', target: '475', actual: '367', acv: 77, kpi: '15%', footnote: 'Jumlah pelanggan melakukan retensi dari area Cirebon' },
                     { name: 'Retensi Global', bobot: '15%', target: '10%', actual: '18,44%', acv: 100, kpi: '15%', footnote: 'Jumlah Kontribusi Sales Retensi dari Sales Global' },
                     { name: 'Penjualan Deadstock', bobot: '5%', target: 'Rp523.040.265', actual: 'Rp532.875.273', acv: 100, kpi: '5%', footnote: 'Penjualan produk deadstock 10% dari target global' }
                   ]
@@ -806,8 +806,7 @@ const mockData = {
             { deptId: 'dept-produksi', dept: 'Produksi — Handprint', objective: 'PO Masuk', target: '80%', actual: '42,2%', acv: 53, detail: 'Serapan PO masuk pabrik handprint 53%' },
             { deptId: 'dept-ecommerce', dept: 'E-Commerce — Sales', objective: 'Retensi', target: '480', actual: '298', acv: 62, detail: 'Retensi pembeli e-commerce 62%' },
             { deptId: 'dept-ecommerce', dept: 'E-Commerce — Sales', objective: 'Achievement Sales', target: 'Rp640.000.000', actual: 'Rp403.154.180', acv: 63, detail: 'Pencapaian omset E-Commerce 63%' },
-            { deptId: 'dept-produksi', dept: 'Produksi — Batik Cap', objective: 'Kualitas Produk (FPY)', target: '95%', actual: '60,0%', acv: 63, detail: 'Kualitas hasil pertama batik cap 63%' },
-            { deptId: 'dept-sales', dept: 'Sales — Retensi', objective: 'Retensi Cirebon', target: '475', actual: '309', acv: 65, detail: 'Jumlah pelanggan retensi area Cirebon di bawah target' }
+            { deptId: 'dept-produksi', dept: 'Produksi — Batik Cap', objective: 'Kualitas Produk (FPY)', target: '95%', actual: '60,0%', acv: 63, detail: 'Kualitas hasil pertama batik cap 63%' }
           ],
           violations: [
             { deptId: 'dept-marketing', dept: 'Marketing', indicator: 'Traffic Organik & Rombongan', pelanggaran: 'Tidak menunjukkan sikap proaktif dalam menjalankan kegiatan', sanksi: 'Evaluasi Kontrak Kerja SPV' },
@@ -8874,34 +8873,48 @@ const retensiData = {
       baru: '44.786',
       retensi: '60.813',
       rate: '57.6%',
-      belanja: 'Rp 55,19 M'
+      belanja: '55.187.993.640'
     },
     citySummary: {
-      'Semua Kota': { totalCustomer: '105.599', baru: '44.786', retensi: '60.813', rate: '57.6%', belanja: 'Rp 55,19 M' },
-      'Cirebon': { totalCustomer: '9.170', baru: '3.895', retensi: '5.275', rate: '57.5%', belanja: 'Rp 4,78 M' },
-      'Majalengka': { totalCustomer: '702', baru: '298', retensi: '404', rate: '57.5%', belanja: 'Rp 365 Jt' },
-      'Indramayu': { totalCustomer: '1.120', baru: '476', retensi: '644', rate: '57.5%', belanja: 'Rp 585 Jt' },
-      'Kuningan': { totalCustomer: '560', baru: '238', retensi: '322', rate: '57.5%', belanja: 'Rp 292 Jt' }
+      'Semua Kota': { totalCustomer: '105.599', baru: '44.786', retensi: '60.813', rate: '57.6%', belanja: '55.187.993.640' },
+      'Cirebon': { totalCustomer: '9.170', baru: '3.895', retensi: '5.275', rate: '57.5%', belanja: '4.782.115.000' },
+      'Majalengka': { totalCustomer: '702', baru: '298', retensi: '404', rate: '57.5%', belanja: '365.410.000' },
+      'Indramayu': { totalCustomer: '1.120', baru: '476', retensi: '644', rate: '57.5%', belanja: '585.120.000' },
+      'Kuningan': { totalCustomer: '560', baru: '238', retensi: '322', rate: '57.5%', belanja: '292.050.000' }
     },
     monthly: [
-      { month: 'Jan', total: '13.473', baru: '6.138', retensi: '7.335', rate: '54.4%', belanja: 'Rp 6,88 M', valRetensi: 7335, valBaru: 6138, numRate: 54.4 },
-      { month: 'Feb', total: '9.450', baru: '4.065', retensi: '5.385', rate: '57%', belanja: 'Rp 4,97 M', valRetensi: 5385, valBaru: 4065, numRate: 57.0 },
-      { month: 'Mar', total: '10.736', baru: '4.685', retensi: '6.051', rate: '56.4%', belanja: 'Rp 6,13 M', valRetensi: 6051, valBaru: 4685, numRate: 56.4 },
-      { month: 'Apr', total: '12.119', baru: '5.484', retensi: '6.635', rate: '54.7%', belanja: 'Rp 5,83 M', valRetensi: 6635, valBaru: 5484, numRate: 54.7 },
-      { month: 'Mei', total: '14.501', baru: '6.533', retensi: '7.968', rate: '54.9%', belanja: 'Rp 7,61 M', valRetensi: 7968, valBaru: 6533, numRate: 54.9 },
-      { month: 'Jun', total: '12.879', baru: '5.160', retensi: '7.719', rate: '59.9%', belanja: 'Rp 6,64 M', valRetensi: 7719, valBaru: 5160, numRate: 59.9 },
-      { month: 'Jul', total: '10.630', baru: '4.291', retensi: '6.339', rate: '59.6%', belanja: 'Rp 5,95 M', valRetensi: 6339, valBaru: 4291, numRate: 59.6 },
-      { month: 'Agu', total: '10.935', baru: '4.407', retensi: '6.528', rate: '59.7%', belanja: 'Rp 5,81 M', valRetensi: 6528, valBaru: 4407, numRate: 59.7 },
-      { month: 'Sep', total: '10.876', baru: '4.023', retensi: '6.853', rate: '63%', belanja: 'Rp 5,36 M', valRetensi: 6853, valBaru: 4023, numRate: 63.0 }
+      { month: 'Jan', period: '2026-01', total: '13.473', baru: '6.138', retensi: '7.335', rate: '54.4%', belanja: '6.881.587.263', valRetensi: 7335, valBaru: 6138, numRate: 54.4 },
+      { month: 'Feb', period: '2026-02', total: '9.450', baru: '4.065', retensi: '5.385', rate: '57%', belanja: '4.974.820.584', valRetensi: 5385, valBaru: 4065, numRate: 57.0 },
+      { month: 'Mar', period: '2026-03', total: '10.736', baru: '4.685', retensi: '6.051', rate: '56.4%', belanja: '6.129.980.068', valRetensi: 6051, valBaru: 4685, numRate: 56.4 },
+      { month: 'Apr', period: '2026-04', total: '12.119', baru: '5.484', retensi: '6.635', rate: '54.7%', belanja: '5.828.493.242', valRetensi: 6635, valBaru: 5484, numRate: 54.7 },
+      { month: 'Mei', period: '2026-05', total: '14.501', baru: '6.533', retensi: '7.968', rate: '54.9%', belanja: '7.609.109.311', valRetensi: 7968, valBaru: 6533, numRate: 54.9 },
+      { month: 'Jun', period: '2026-06', total: '12.879', baru: '5.160', retensi: '7.719', rate: '59.9%', belanja: '6.637.655.070', valRetensi: 7719, valBaru: 5160, numRate: 59.9 },
+      { month: 'Jul', period: '2026-07', total: '10.630', baru: '4.291', retensi: '6.339', rate: '59.6%', belanja: '5.953.433.796', valRetensi: 6339, valBaru: 4291, numRate: 59.6 },
+      { month: 'Agu', period: '2026-08', total: '10.935', baru: '4.407', retensi: '6.528', rate: '59.7%', belanja: '5.811.176.889', valRetensi: 6528, valBaru: 4407, numRate: 59.7 },
+      { month: 'Sep', period: '2026-09', total: '10.876', baru: '4.023', retensi: '6.853', rate: '63%', belanja: '5.361.737.417', valRetensi: 6853, valBaru: 4023, numRate: 63.0 }
     ],
     cities: [
-      { name: 'Semua Kota', retensi: '60.813 (100%)', pct: 100, isTotal: true },
-      { name: 'Cirebon', retensi: '5.275 · 8,67%', pct: 8.67, isFocus: true },
-      { name: 'Majalengka', retensi: '404 · 0,66%', pct: 0.66, isFocus: true },
-      { name: 'Indramayu', retensi: '644 · 1,06%', pct: 1.06, isFocus: true },
-      { name: 'Kuningan', retensi: '322 · 0,53%', pct: 0.53, isFocus: true },
-      { name: 'Total 4 Kota', retensi: '6.645 · 10,93%', pct: 10.93, isSubtotal: true },
-      { name: 'Kota lainnya', retensi: '54.168 · 89,07%', pct: 89.07, isOther: true }
+      { name: 'Semua Kota', retensi: '60.813 (100%)', pct: 0, isTotalHeader: true },
+      { name: 'Cirebon', retensi: '5.275 · 8,67%', pct: 8.67, isOrange: true },
+      { name: 'Majalengka', retensi: '404 · 0,66%', pct: 0.66, isOrange: true },
+      { name: 'Indramayu', retensi: '644 · 1,06%', pct: 1.06, isOrange: true },
+      { name: 'Kuningan', retensi: '322 · 0,53%', pct: 0.53, isOrange: true },
+      { name: 'Total 4 Kota', retensi: '6.645 · 10,93%', pct: 10.93, isOrange: true, isSubtotal: true },
+      { name: 'Tanpa Kota', retensi: '48.621 · 79,95%', pct: 79.95, isOrange: false },
+      { name: 'Kota lainnya', retensi: '5.547 · 9,12%', pct: 9.12, isOrange: false }
+    ],
+    top10Cities: [
+      { name: 'Ciayumajakuning', count: '6.645', pct: 100, isOrange: true, isGroup: true },
+      { name: '1. Cirebon', count: '5.275', pct: 79.38, isOrange: true },
+      { name: '2. Bandung', count: '1.188', pct: 17.88, isOrange: false },
+      { name: '3. Indramayu', count: '644', pct: 9.69, isOrange: true },
+      { name: '4. Bekasi', count: '501', pct: 7.54, isOrange: false },
+      { name: '5. Tangerang', count: '414', pct: 6.23, isOrange: false },
+      { name: '6. Majalengka', count: '404', pct: 6.08, isOrange: true },
+      { name: '7. Jakarta Barat', count: '384', pct: 5.78, isOrange: false },
+      { name: '8. Jakarta Selatan', count: '337', pct: 5.07, isOrange: false },
+      { name: '9. Kuningan', count: '322', pct: 4.85, isOrange: true },
+      { name: '10. Bogor', count: '304', pct: 4.57, isOrange: false }
     ],
     note: 'Catatan: Total Customer = Customer Baru + Customer Retensi. Laporan sumber hanya berisi data agregat per bulan dan kota, jadi nama customer serta urutan repeat belum bisa ditampilkan. Kolom Retensi disorot sebagai fokus. Total Belanja mencakup customer baru dan retensi.'
   },
@@ -9003,117 +9016,137 @@ function renderRetensiBTView() {
 
   const monthlyRows = data.monthly.map(m => `
     <tr>
-      <td style="font-weight: 700; color: #FFF;">${m.month}</td>
-      <td style="color: #CBD5E1;">${m.total}</td>
-      <td style="color: #94A3B8;">${m.baru}</td>
-      <td style="font-weight: 700; color: #F97316;">${m.retensi}</td>
-      <td style="font-weight: 700; color: #F97316;">${m.rate}</td>
-      <td style="font-weight: 700; color: #E2E8F0;">${m.belanja}</td>
+      <td style="color: #CBD5E1;">${m.period}</td>
+      <td style="color: #CBD5E1;">${m.lokasi || currentCity}</td>
+      <td style="text-align: right; color: #CBD5E1;">${m.total}</td>
+      <td style="text-align: right; color: #CBD5E1;">${m.baru}</td>
+      <td style="text-align: right; font-weight: 700; color: #F97316;">${m.retensi}</td>
+      <td style="text-align: right; color: #CBD5E1;">${m.belanja}</td>
+      <td style="text-align: right; font-weight: 700; color: #F97316;">${m.rate}</td>
     </tr>
   `).join('');
 
   const cityProgressBars = data.cities.map(c => {
-    let barColor = '#475569';
-    let isHighlighted = false;
-    if (c.isTotal || c.isSubtotal) {
-      barColor = '#F97316';
-    } else if (c.isFocus) {
-      barColor = '#F97316';
-      if (currentCity === c.name) isHighlighted = true;
+    if (c.isTotalHeader) {
+      return `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 0.86rem; font-weight: 800;">
+          <span style="color: #FFF;">${c.name}</span>
+          <span style="color: #FFF;">${c.retensi}</span>
+        </div>
+      `;
     }
 
+    const barColor = c.isOrange ? '#F97316' : '#5A6E85';
+    const isSub = c.isSubtotal;
+    const marginTop = isSub ? 'margin-top: 14px;' : '';
+
     return `
-      <div style="margin-bottom: 12px; ${isHighlighted ? 'background: rgba(249, 115, 22, 0.08); padding: 8px 12px; border-radius: 6px; border: 1px solid rgba(249, 115, 22, 0.3);' : ''}">
-        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; margin-bottom: 5px;">
-          <span style="font-weight: ${c.isTotal || c.isSubtotal ? '800' : '600'}; color: ${c.isTotal || c.isSubtotal ? '#FFF' : '#CBD5E1'};">${c.name}</span>
-          <span style="font-weight: 700; color: ${barColor === '#F97316' ? '#F97316' : '#94A3B8'};">${c.retensi}</span>
+      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 9px; ${marginTop} font-size: 0.84rem;">
+        <div style="width: 120px; flex-shrink: 0; font-weight: ${isSub ? '800' : '600'}; color: ${isSub ? '#FFF' : '#CBD5E1'};">${c.name}</div>
+        <div style="flex: 1; height: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; overflow: hidden;">
+          <div style="height: 100%; width: ${c.pct}%; background: ${barColor}; border-radius: 6px; transition: width 0.4s ease;"></div>
         </div>
-        <div style="height: 10px; width: 100%; background: rgba(255, 255, 255, 0.06); border-radius: 10px; overflow: hidden;">
-          <div style="height: 10px; width: ${Math.min(c.pct, 100)}%; background: ${barColor}; border-radius: 10px; transition: width 0.4s ease;"></div>
+        <div style="width: 140px; flex-shrink: 0; text-align: right; font-weight: ${isSub ? '800' : '600'}; color: ${isSub ? '#FFF' : '#CBD5E1'};">${c.retensi}</div>
+      </div>
+    `;
+  }).join('');
+
+  const top10Bars = data.top10Cities.map(t => {
+    const barColor = t.isOrange ? '#F97316' : '#5A6E85';
+    const isGroup = t.isGroup;
+    return `
+      <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 9px; font-size: 0.84rem;">
+        <div style="width: 130px; flex-shrink: 0; font-weight: ${isGroup ? '800' : '600'}; color: ${isGroup ? '#FFF' : '#CBD5E1'};">${t.name}</div>
+        <div style="flex: 1; height: 12px; background: rgba(255, 255, 255, 0.05); border-radius: 6px; overflow: hidden;">
+          <div style="height: 100%; width: ${t.pct}%; background: ${barColor}; border-radius: 6px; transition: width 0.4s ease;"></div>
         </div>
+        <div style="width: 70px; flex-shrink: 0; text-align: right; font-weight: 700; color: ${isGroup ? '#FFF' : '#E2E8F0'};">${t.count}</div>
       </div>
     `;
   }).join('');
 
   return `
     <div style="display: flex; flex-direction: column; gap: 20px;">
+      <!-- Title & Subtitle -->
+      <div>
+        <h2 style="font-size: 1.35rem; font-weight: 800; color: #FFF; margin: 0 0 6px 0;">Dashboard Retensi BT Batik Trusmi</h2>
+        <div style="font-size: 0.84rem; color: #94A3B8;">Januari – September 2026 · sumber: Rincian Data Transaksi Retensi</div>
+      </div>
+
       <!-- City Filter Tabs -->
-      <div class="retensi-pills-row">
+      <div class="retensi-pills-row" style="margin-bottom: 0;">
         ${filterButtons}
       </div>
 
       <!-- Top Summary 5 Cards -->
       <div class="retensi-metric-grid-5">
         <div class="retensi-card">
-          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-bottom: 8px;">Total Customer (Baru + Retensi)</div>
+          <div style="font-size: 0.78rem; color: #94A3B8; font-weight: 600; margin-bottom: 12px;">Total Customer (Baru + Retensi)</div>
           <div style="font-size: 1.85rem; font-weight: 800; color: #FFF; letter-spacing: -0.5px;">${metrics.totalCustomer}</div>
-          <div style="font-size: 0.72rem; color: #64748B; margin-top: 6px;">Akumulasi Jan–Sep 2026</div>
         </div>
 
         <div class="retensi-card">
-          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-bottom: 8px;">Customer Baru</div>
-          <div style="font-size: 1.85rem; font-weight: 800; color: #CBD5E1; letter-spacing: -0.5px;">${metrics.baru}</div>
-          <div style="font-size: 0.72rem; color: #64748B; margin-top: 6px;">Pelanggan pertama kali</div>
+          <div style="font-size: 0.78rem; color: #94A3B8; font-weight: 600; margin-bottom: 12px;">Cust. Baru</div>
+          <div style="font-size: 1.85rem; font-weight: 800; color: #FFF; letter-spacing: -0.5px;">${metrics.baru}</div>
         </div>
 
         <div class="retensi-card retensi-card-orange">
-          <div style="font-size: 0.8rem; color: #FDBA74; font-weight: 700; margin-bottom: 8px;">Customer Retensi</div>
+          <div style="font-size: 0.78rem; color: #FDBA74; font-weight: 600; margin-bottom: 12px;">Cust. Retensi</div>
           <div style="font-size: 1.85rem; font-weight: 800; color: #F97316; letter-spacing: -0.5px;">${metrics.retensi}</div>
-          <div style="font-size: 0.72rem; color: #FDBA74; margin-top: 6px;">Fokus utama performa</div>
         </div>
 
         <div class="retensi-card retensi-card-orange">
-          <div style="font-size: 0.8rem; color: #FDBA74; font-weight: 700; margin-bottom: 8px;">Tingkat Retensi</div>
+          <div style="font-size: 0.78rem; color: #FDBA74; font-weight: 600; margin-bottom: 12px;">Tingkat Retensi</div>
           <div style="font-size: 1.85rem; font-weight: 800; color: #F97316; letter-spacing: -0.5px;">${metrics.rate}</div>
-          <div style="font-size: 0.72rem; color: #FDBA74; margin-top: 6px;">Rata-rata 9 bulan</div>
         </div>
 
         <div class="retensi-card">
-          <div style="font-size: 0.8rem; color: #94A3B8; font-weight: 600; margin-bottom: 8px;">Total Belanja</div>
-          <div style="font-size: 1.85rem; font-weight: 800; color: #FFF; letter-spacing: -0.5px;">${metrics.belanja}</div>
-          <div style="font-size: 0.72rem; color: #64748B; margin-top: 6px;">Baru + Retensi</div>
+          <div style="font-size: 0.78rem; color: #94A3B8; font-weight: 600; margin-bottom: 12px;">Total Belanja (Rp)</div>
+          <div style="font-size: 1.65rem; font-weight: 800; color: #FFF; letter-spacing: -0.5px;">${metrics.belanja}</div>
         </div>
       </div>
 
       <!-- Chart: Customer Baru vs Retensi per Bulan -->
       <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 22px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px;">
-          <h3 style="font-size: 1rem; font-weight: 800; color: #FFF; margin: 0;">Customer Baru vs Retensi per Bulan (garis = tingkat retensi)</h3>
+          <h3 style="font-size: 0.98rem; font-weight: 800; color: #FFF; margin: 0;">Customer Baru vs Retensi per Bulan (garis = tingkat retensi)</h3>
           <div style="display: flex; align-items: center; gap: 16px; font-size: 0.78rem; font-weight: 600;">
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; background: #F97316; border-radius: 3px; display: inline-block;"></span> <span style="color: #CBD5E1;">Retensi</span></div>
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 12px; height: 12px; background: #475569; border-radius: 3px; display: inline-block;"></span> <span style="color: #CBD5E1;">Baru</span></div>
-            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 3px; background: #FFF; display: inline-block;"></span> <span style="color: #FFF;">Tingkat retensi (%)</span></div>
+            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 10px; background: #F97316; border-radius: 2px; display: inline-block;"></span> <span style="color: #CBD5E1;">Cust. Retensi</span></div>
+            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 14px; height: 10px; background: #5A6E85; border-radius: 2px; display: inline-block;"></span> <span style="color: #CBD5E1;">Cust. Baru</span></div>
+            <div style="display: flex; align-items: center; gap: 6px;"><span style="width: 16px; height: 3px; background: #FFF; display: inline-block;"></span> <span style="color: #FFF;">Tingkat retensi (%)</span></div>
           </div>
         </div>
-        <div style="height: 300px; position: relative;">
+        <div style="height: 320px; position: relative;">
           <canvas id="retensiBTChart"></canvas>
         </div>
       </div>
 
-      <!-- Table: Rincian per Bulan -->
+      <!-- Table: Rincian Data Transaksi Retensi (format laporan Excel) -->
       <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
-        <h3 style="font-size: 1rem; font-weight: 800; color: #FFF; margin-bottom: 16px;">Rincian per Bulan</h3>
+        <h3 style="font-size: 0.98rem; font-weight: 800; color: #FFF; margin: 0 0 16px 0;">Rincian Data Transaksi Retensi (format laporan Excel)</h3>
         <div style="overflow-x: auto;">
           <table class="retensi-table">
             <thead>
               <tr>
-                <th>Bulan</th>
-                <th>Total Customer</th>
-                <th>Baru</th>
-                <th style="color: #F97316;">Retensi</th>
-                <th style="color: #F97316;">% Retensi</th>
-                <th>Total Belanja</th>
+                <th style="color: #94A3B8;">Bulan / Tgl</th>
+                <th style="color: #94A3B8;">Lokasi</th>
+                <th style="text-align: right; color: #94A3B8;">Jml Transaksi</th>
+                <th style="text-align: right; color: #94A3B8;">Cust. Baru</th>
+                <th style="text-align: right; color: #F97316;">Cust. Retensi</th>
+                <th style="text-align: right; color: #94A3B8;">Total Belanja (Rp)</th>
+                <th style="text-align: right; color: #F97316;">Tingkat Retensi</th>
               </tr>
             </thead>
             <tbody>
               ${monthlyRows}
               <tr style="background: rgba(249, 115, 22, 0.08); border-top: 2px solid rgba(249, 115, 22, 0.35); font-weight: 800;">
-                <td style="color: #FFF;">Total</td>
-                <td style="color: #FFF;">${data.summary.totalCustomer}</td>
-                <td style="color: #CBD5E1;">${data.summary.baru}</td>
-                <td style="color: #F97316; font-size: 0.95rem;">${data.summary.retensi}</td>
-                <td style="color: #F97316; font-size: 0.95rem;">${data.summary.rate}</td>
-                <td style="color: #FFF; font-size: 0.95rem;">${data.summary.belanja}</td>
+                <td style="color: #FFF; font-weight: 800;">Total</td>
+                <td style="color: #FFF; font-weight: 800;">${currentCity}</td>
+                <td style="text-align: right; color: #FFF; font-weight: 800;">${currentCity === 'Semua Kota' ? '105.599' : metrics.totalCustomer}</td>
+                <td style="text-align: right; color: #FFF; font-weight: 800;">${metrics.baru}</td>
+                <td style="text-align: right; color: #F97316; font-weight: 800;">${metrics.retensi}</td>
+                <td style="text-align: right; color: #FFF; font-weight: 800;">${metrics.belanja}</td>
+                <td style="text-align: right; color: #F97316; font-weight: 800;">${metrics.rate}</td>
               </tr>
             </tbody>
           </table>
@@ -9122,15 +9155,21 @@ function renderRetensiBTView() {
 
       <!-- Kontribusi Customer Retensi per Kota -->
       <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
-        <h3 style="font-size: 1rem; font-weight: 800; color: #FFF; margin-bottom: 18px;">Kontribusi Customer Retensi per Kota (dari total retensi semua kota)</h3>
+        <h3 style="font-size: 0.98rem; font-weight: 800; color: #FFF; margin: 0 0 18px 0;">Kontribusi Customer Retensi per Kota (dari total retensi semua kota)</h3>
         <div>
           ${cityProgressBars}
         </div>
       </div>
 
-      <!-- Catatan Box -->
-      <div class="retensi-note-box">
-        ${data.note}
+      <!-- Top 10 Kota dengan Customer Retensi Terbanyak -->
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px;">
+        <h3 style="font-size: 0.98rem; font-weight: 800; color: #FFF; margin: 0 0 18px 0;">Top 10 Kota dengan Customer Retensi Terbanyak</h3>
+        <div>
+          ${top10Bars}
+        </div>
+        <div style="font-size: 0.76rem; color: #94A3B8; margin-top: 14px;">
+          Warna oranye = Cirebon, Majalengka, Indramayu, Kuningan. Data tanpa kota tercatat tidak dimasukkan.
+        </div>
       </div>
     </div>
   `;
@@ -9310,29 +9349,31 @@ function initRetensiBTChart() {
           borderColor: '#FFFFFF',
           backgroundColor: '#FFFFFF',
           borderWidth: 2.5,
-          pointRadius: 4,
+          pointRadius: 3.5,
           pointBackgroundColor: '#FFFFFF',
-          pointHoverRadius: 6,
-          tension: 0.25,
+          pointHoverRadius: 5.5,
+          tension: 0.15,
           yAxisID: 'yRate'
         },
         {
           type: 'bar',
-          label: 'Retensi',
+          label: 'Cust. Retensi',
           data: retensiValues,
           backgroundColor: '#F97316',
-          borderRadius: 4,
+          borderRadius: 0,
+          stack: 'customerStack',
           yAxisID: 'yCount',
-          barPercentage: 0.65
+          barPercentage: 0.55
         },
         {
           type: 'bar',
-          label: 'Baru',
+          label: 'Cust. Baru',
           data: baruValues,
-          backgroundColor: '#475569',
-          borderRadius: 4,
+          backgroundColor: '#5A6E85',
+          borderRadius: 0,
+          stack: 'customerStack',
           yAxisID: 'yCount',
-          barPercentage: 0.65
+          barPercentage: 0.55
         }
       ]
     },
@@ -9355,7 +9396,7 @@ function initRetensiBTChart() {
               if (ctx.dataset.type === 'line') {
                 return ` Tingkat Retensi: ${ctx.parsed.y}%`;
               } else {
-                return ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('id-ID')} Customer`;
+                return ` ${ctx.dataset.label}: ${ctx.parsed.y.toLocaleString('id-ID')}`;
               }
             }
           }
@@ -9363,6 +9404,7 @@ function initRetensiBTChart() {
       },
       scales: {
         x: {
+          stacked: true,
           grid: {
             display: false
           },
@@ -9374,13 +9416,14 @@ function initRetensiBTChart() {
         yCount: {
           type: 'linear',
           position: 'left',
+          stacked: true,
           beginAtZero: true,
           max: 16000,
           ticks: {
             color: '#64748B',
             stepSize: 2000,
             callback: function(v) {
-              return v.toLocaleString('id-ID');
+              return v.toLocaleString('en-US');
             }
           },
           grid: {
